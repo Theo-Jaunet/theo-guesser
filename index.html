@@ -44,16 +44,16 @@
 
     <div class="row">
         <div class="twelve column" style="margin-top: 10%">
-            <h4 style="text-align: left"> Intro </h4>
+            <h4 style="text-align: left"> Introduction </h4>
             <p>
-                Of the Beginning of Days It is told among the wise that the First War began before Arda was full-shaped,
-                and ere yet there was any thing that grew or walked upon earth; and for long Melkor had the upper hand.
-                But in the midst of the war a spirit of great strength and hardihood came to the aid of the Valar,
-                hearing in the far heaven that there was battle in the Little Kingdom; and Arda was filled with the
-                sound of his laughter. So came Tulkas the Strong, whose anger passes like a mighty wind, scattering
-                cloud and darkness before it; and Melkor fled before his wrath and his laughter, and forsook Arda, and
-                there was peace for a long age. And Tulkas remained and became one of the Valar of the Kingdom of Arda;
-                but Melkor brooded in the outer darkness, and his hate was given to Tulkas for ever after.
+                The last years have witnessed the soaring of Machine Learning, which has provided disruptive performance
+                gains in several fields. Apart from undeniable advances in methodology, these gains are often attributed
+                to massive amounts of training data and computing power, which led to breakthroughs in speech
+                recognition, computer vision and language processing. Extending these advances to robotics, planning and
+                control has proven to be difficult, as these applications often require learning from interactions
+                instead of static data. They also currently suffer from low sample efficiency, often requiring billions
+                of interactions [1], which makes learning in real-time from physical interactions with real robots
+                intractable.
             </p>
         </div>
 
@@ -93,11 +93,14 @@
 
 <script>
     const data = fakedata(200);
+    let dato
+
 
     let idSel = [];
 
 
     const proj = d3.select("#proj");
+    const loc = d3.select("#loc");
 
     const cirhov = proj.append("circle")
         .attr("id", "projHov")
@@ -105,11 +108,48 @@
         .attr("stroke-width", "1")
         .attr("fill", "none")
         .attr("r", "24");
-    drawPoints(data, proj);
-    drawElements(data, d3.select("#loc"));
+
+
+    /*    getData("data.json").then(function () {
+            console.log(dato);
+            drawPoints(dato["umap"], proj);
+            drawElements(dato, d3.select("#loc"));
+            loadmap(loc, 'assets/images/map.jpg');
+
+        });*/
+
+    debugInit();
+
+
+    function debugInit() {
+        loadmap(loc, 'assets/images/map.jpg');
+        drawPoints(data, proj);
+
+        drawElements(data, d3.select("#loc"));
+
+    }
+
+    async function getData(url) {
+        dato = await d3.json(url).then(d => {
+            return JSON.parse(d.replace(/'/g, '"'))
+        });
+
+    }
+
+
+    function loadmap(svg, map) {
+
+
+        svg.append('image')
+            .attr('xlink:href', map)
+            .attr('x', -40)
+            .attr('y', -15)
+            .style('width', '110%')
+    }
 
 
     let elements = proj.selectAll(".projDot");
+    let elements2 = loc.selectAll(".locDot");
 
     proj.on('mousemove', function () {
         const coords = d3.mouse(proj.node());
@@ -122,6 +162,21 @@
 
         inside.transition().duration(5).attr("fill", "red");
 
+
+        // elements2.transition().duration(5).attr("fill", "black");
+
+        let inside2 = elements2.filter(d => {
+            return euclidian_dist([proj_xscacle(d.px1), proj_yscacle(d.py1)], coords) < 25
+        });
+
+        // console.log(elements2);
+        inside2.transition().duration(5).attr("fill", "red");
+
+        elements2.filter(d => {
+            return euclidian_dist([proj_xscacle(d.px1), proj_yscacle(d.py1)], coords) > 24
+        }).transition().duration(5).attr("fill", "black");
+
+
         elements.filter(d => {
             return euclidian_dist([proj_xscacle(d.px1), proj_yscacle(d.py1)], coords) > 24
         }).transition().duration(5).attr("fill", "black");
@@ -129,54 +184,81 @@
 
         elements.each((d) => {
 
-                // console.log(d);
-                if (euclidian_dist([proj_xscacle(d.px1), proj_yscacle(d.py1)], coords) < 25) {
+            // console.log(d);
+            if (euclidian_dist([proj_xscacle(d.px1), proj_yscacle(d.py1)], coords) < 25) {
 
-                    if (!idSel.includes(d.id)) {
-                        const orr = -90 + (Math.atan2(proj_yscacle(d.py1) - proj_yscacle(d.py2), proj_xscacle(d.px1) - proj_xscacle(d.px2)) * (180 / Math.PI));
+                if (!idSel.includes(d.id)) {
+                    const orr = -90 + (Math.atan2(proj_yscacle(d.py1) - proj_yscacle(d.py2), proj_xscacle(d.px1) - proj_xscacle(d.px2)) * (180 / Math.PI));
+                    const orr2 = -90 + (Math.atan2(proj_yscacle(d.ly1) - proj_yscacle(d.ly2), proj_xscacle(d.lx1) - proj_xscacle(d.lx2)) * (180 / Math.PI));
 
-                        proj.append("path")
-                            .attr("class", "tbrm")
-                            // .style("transform-origin", "50% 50%")
-                            .attr("num", d.id)
-                            .attr("fill", "steelblue")
-                            .attr("d", "m 20 20 a -6 6 7 0 1 14 0 l -7 23 l -7 -23")
-                            .attr("transform", "rotate(" + (orr) + " "+(proj_xscacle(d.px2)-2)+" "+(proj_yscacle(d.py2)-2)+") translate(" + (proj_xscacle(d.px2)-16) + "," + (proj_yscacle(d.py2)-16) + ")  scale(0.5) ")
-                            // .attr("transform", "rotate(180 64 62) translate(50 50) scale(0.5)")
+                    proj.append("path")
+                        .attr("class", "tbrm")
+                        // .style("transform-origin", "50% 50%")
+                        .attr("num", d.id)
+                        .attr("fill", "steelblue")
+                        .attr("d", "m 20 20 a -6 6 7 0 1 14 0 l -7 23 l -7 -23")
+                        .attr("transform", "rotate(" + (orr) + " " + (proj_xscacle(d.px2) - 2) + " " + (proj_yscacle(d.py2) - 2) + ") translate(" + (proj_xscacle(d.px2) - 16) + "," + (proj_yscacle(d.py2) - 16) + ")  scale(0.5) ")
 
-                        idSel.push(d.id)
+                    loc.append("path")
+                        .attr("class", "tbrm")
+                        .attr("num", d.id)
+                        .attr("fill", "steelblue")
+                        .attr("d", "m 20 20 a -6 6 7 0 1 14 0 l -7 23 l -7 -23")
+                        .attr("transform", "rotate(" + (orr2) + " " + (loc_xscacle(d.lx2) - 2) + " " + (loc_yscacle(d.ly2) - 2) + ") translate(" + (loc_xscacle(d.lx2) - 16) + "," + (loc_yscacle(d.ly2) - 16) + ")  scale(0.5) ")
+                    // .attr("transform", "rotate(180 64 62) translate(50 50) scale(0.5)")
 
-                        let tpath = proj.append("line")
-                            .attr("class", "tbrm")
-                            .attr("num", d.id)
-                            .attr("x1", proj_xscacle(d.px1))
-                            .attr("y1", proj_yscacle(d.py1))
-                            .attr("x2", proj_xscacle(d.px2))
-                            .attr("y2", proj_yscacle(d.py2))
-                            .attr('stroke', 'steelblue')
-                            .style('stroke-width', '3px')
+                    idSel.push(d.id)
 
-                        let totalLength = tpath.node().getTotalLength();
+                    let tpath = proj.append("line")
+                        .attr("class", "tbrm")
+                        .attr("num", d.id)
+                        .attr("x1", proj_xscacle(d.px1))
+                        .attr("y1", proj_yscacle(d.py1))
+                        .attr("x2", proj_xscacle(d.px2))
+                        .attr("y2", proj_yscacle(d.py2))
+                        .attr('stroke', 'steelblue')
+                        .style('stroke-width', '3px')
 
-                        tpath.attr("stroke-dasharray", totalLength + " " + totalLength)
-                            .attr("stroke-dashoffset", totalLength)
-                            .transition()
-                            .duration(500)
-                            .attr("stroke-dashoffset", 0)
+                    let totalLength = tpath.node().getTotalLength();
 
-                    }
+                    tpath.attr("stroke-dasharray", totalLength + " " + totalLength)
+                        .attr("stroke-dashoffset", totalLength)
+                        .transition()
+                        .duration(250)
+                        .attr("stroke-dashoffset", 0)
 
-                } else {
-                    let tid = idSel.indexOf(d.id);
-                    if (tid) {
-                        idSel.splice(tid)
-                        d3.selectAll('.tbrm[num="' + d.id + '"]').remove()
 
-                    }
+                    let tpath2 = loc.append("line")
+                        .attr("class", "tbrm")
+                        .attr("num", d.id)
+                        .attr("x1", loc_xscacle(d.lx1))
+                        .attr("y1", loc_yscacle(d.ly1))
+                        .attr("x2", loc_xscacle(d.lx2))
+                        .attr("y2", loc_yscacle(d.ly2))
+                        .attr('stroke', 'steelblue')
+                        .style('stroke-width', '3px')
+
+                    let totalLength2 = tpath2.node().getTotalLength();
+
+                    tpath2.attr("stroke-dasharray", totalLength2 + " " + totalLength2)
+                        .attr("stroke-dashoffset", totalLength2)
+                        .transition()
+                        .duration(250)
+                        .attr("stroke-dashoffset", 0)
 
                 }
+            } else {
+                let tid = idSel.indexOf(d.id);
+                if (tid) {
+                    idSel.splice(tid)
+                    d3.selectAll('.tbrm[num="' + d.id + '"]').remove()
+
+                }
+
             }
-        )
+        })
+
+
     });
 
 
@@ -192,7 +274,6 @@
 
 
 </script>
-
 
 
 </body>
