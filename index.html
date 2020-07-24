@@ -29,6 +29,13 @@
             integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
     <script src="assets/js/projector.js"></script>
     <script src="assets/js/local.js"></script>
+    <style>
+        path {
+
+            opacity: 0.8;
+        }
+
+    </style>
 </head>
 <body>
 
@@ -59,12 +66,25 @@
 
     </div>
 
+    <div class="row">
+        <div class="twelve columns" style="margin-top: 8%;position: relative;height: 130px">
+            <img src="" height="128" width="128" id="imgr" style="position: absolute">
+            <img src="" height="128" width="128" id="depthr" style="position: absolute;left:130px; ">
+            <img src="" height="128" width="128" id="imgb" style="position: absolute;right: 0">
+            <img src="" height="128" width="128" id="depthb" style="position: absolute;right: 130px">
+            <input id="timeline" type="range" min="0" max="59" step="1" value="0"
+                   style="position: absolute;left: 300px;top:52px;width: 450px">
+            <p id="timelineTxt" style="position: absolute;left: 758px;top:47px"> 0 </p>
+        </div>
+
+    </div>
+
 
     <div class="row">
-        <div class="six columns" style="margin-top: 10%">
+        <div class="six columns" style="margin-top: 1%">
             <svg id="proj" style="width: 100%;height: 530px;border: #555555 solid 1px"></svg>
         </div>
-        <div class="six columns" style="margin-top: 10%">
+        <div class="six columns" style="margin-top: 1%">
             <svg id="loc" style="width: 100%;height: 530px;border: #555555 solid 1px"></svg>
         </div>
     </div>
@@ -92,15 +112,29 @@
 </div>
 
 <script>
-    const data = fakedata(200);
-    let dato
-
-
+    // const data = fakedata(200);
+    let dato;
     let idSel = [];
+    let elements
+    let elements2
 
 
     const proj = d3.select("#proj");
     const loc = d3.select("#loc");
+
+    $("#timeline").on("input", function () {
+
+        let step = $(this).val();
+        $("#imgr").attr("src", 'data:image/jpeg;base64,' + dato[step].imgR)
+        $("#depthr").attr("src", 'data:image/jpeg;base64,' + dato[step].depthR)
+
+        $("#imgb").attr("src", 'data:image/jpeg;base64,' + dato[step].imgB)
+        $("#depthb").attr("src", 'data:image/jpeg;base64,' + dato[step].depthB)
+
+        $("#timelineTxt").html(step)
+
+    });
+
 
     const cirhov = proj.append("circle")
         .attr("id", "projHov")
@@ -109,49 +143,74 @@
         .attr("fill", "none")
         .attr("r", "24");
 
+    const cirhov2 = loc.append("circle")
+        .attr("id", "locHov")
+        .attr("stroke", "#333333")
+        .attr("stroke-width", "1")
+        .attr("fill", "none")
+        .attr("r", "24");
 
-    /*    getData("data.json").then(function () {
-            console.log(dato);
-            drawPoints(dato["umap"], proj);
-            drawElements(dato, d3.select("#loc"));
-            loadmap(loc, 'assets/images/map.jpg');
 
-        });*/
+    getData("data.json").then(function () {
+        dato.sort((a, b) => {
 
-    debugInit();
+            if (a.id > b.id) {
+                return 1
+            } else {
+                return -1
+            }
+
+        });
+        console.log(dato);
+
+        let elem = dato.filter(d => d.id === 0)[0];
+
+        console.log(elem);
+
+        $("#imgr").attr("src", 'data:image/jpeg;base64,' + elem.imgR)
+        $("#depthr").attr("src", 'data:image/jpeg;base64,' + elem.depthR)
+
+        $("#imgb").attr("src", 'data:image/jpeg;base64,' + elem.imgB)
+        $("#depthb").attr("src", 'data:image/jpeg;base64,' + elem.depthB)
+
+
+        drawPoints(dato, proj);
+        drawElements(dato, d3.select("#loc"));
+
+        elements = proj.selectAll(".projDot");
+        elements2 = loc.selectAll(".locDot");
+
+
+    });
+
+    // debugInit();
 
 
     function debugInit() {
         loadmap(loc, 'assets/images/map.jpg');
         drawPoints(data, proj);
-
         drawElements(data, d3.select("#loc"));
-
     }
 
     async function getData(url) {
         dato = await d3.json(url).then(d => {
             return JSON.parse(d.replace(/'/g, '"'))
         });
-
     }
 
 
     function loadmap(svg, map) {
 
-
         svg.append('image')
             .attr('xlink:href', map)
             .attr('x', -40)
             .attr('y', -15)
-            .style('width', '110%')
+            .style('width', '110%').moveToBack()
     }
 
 
-    let elements = proj.selectAll(".projDot");
-    let elements2 = loc.selectAll(".locDot");
-
     proj.on('mousemove', function () {
+
         const coords = d3.mouse(proj.node());
         cirhov.transition().duration(25).attr("transform", "translate(" + coords[0] + ", " + coords[1] + ")")
 
@@ -160,10 +219,13 @@
             return euclidian_dist([proj_xscacle(d.px1), proj_yscacle(d.py1)], coords) < 25
         });
 
+
+        // console.log(idSel);
+
         inside.transition().duration(5).attr("fill", "red");
 
+        // console.log(inside);
 
-        // elements2.transition().duration(5).attr("fill", "black");
 
         let inside2 = elements2.filter(d => {
             return euclidian_dist([proj_xscacle(d.px1), proj_yscacle(d.py1)], coords) < 25
@@ -189,7 +251,7 @@
 
                 if (!idSel.includes(d.id)) {
                     const orr = -90 + (Math.atan2(proj_yscacle(d.py1) - proj_yscacle(d.py2), proj_xscacle(d.px1) - proj_xscacle(d.px2)) * (180 / Math.PI));
-                    const orr2 = -90 + (Math.atan2(proj_yscacle(d.ly1) - proj_yscacle(d.ly2), proj_xscacle(d.lx1) - proj_xscacle(d.lx2)) * (180 / Math.PI));
+                    const orr2 = -90 + (Math.atan2(loc_yscacle(d.ly1) - loc_yscacle(d.ly2), loc_xscacle(d.lx1) - loc_xscacle(d.lx2)) * (180 / Math.PI));
 
                     proj.append("path")
                         .attr("class", "tbrm")
@@ -225,7 +287,119 @@
                         .attr("stroke-dashoffset", totalLength)
                         .transition()
                         .duration(250)
+                        .attr("stroke-dashoffset", 0);
+
+
+                    let tpath2 = loc.append("line")
+                        .attr("class", "tbrm")
+                        .attr("num", d.id)
+                        .attr("x1", loc_xscacle(d.lx1))
+                        .attr("y1", loc_yscacle(d.ly1))
+                        .attr("x2", loc_xscacle(d.lx2))
+                        .attr("y2", loc_yscacle(d.ly2))
+                        .attr('stroke', 'steelblue')
+                        .style('stroke-width', '3px')
+
+                    let totalLength2 = tpath2.node().getTotalLength();
+
+                    tpath2.attr("stroke-dasharray", totalLength2 + " " + totalLength2)
+                        .attr("stroke-dashoffset", totalLength2)
+                        .transition()
+                        .duration(250)
                         .attr("stroke-dashoffset", 0)
+
+                }
+            } else {
+                let tid = idSel.indexOf(d.id);
+                if (tid) {
+                    idSel.splice(tid)
+                    d3.selectAll('.tbrm[num="' + d.id + '"]').remove()
+
+                }
+
+            }
+        })
+
+
+    });
+
+
+    loc.on('mousemove', function () {
+
+        const coords = d3.mouse(loc.node());
+        cirhov2.transition().duration(25).attr("transform", "translate(" + coords[0] + ", " + coords[1] + ")")
+
+
+        let inside = elements2.filter(d => {
+            return euclidian_dist([loc_xscacle(d.lx1), loc_yscacle(d.ly1)], coords) < 25
+        });
+
+        inside.transition().duration(5).attr("fill", "red");
+
+        // console.log(inside);
+
+
+        let inside2 = elements.filter(d => {
+            return euclidian_dist([loc_xscacle(d.lx1), loc_yscacle(d.ly1)], coords) < 25
+        });
+
+        // console.log(elements2);
+        inside2.transition().duration(5).attr("fill", "red");
+
+        elements2.filter(d => {
+            return euclidian_dist([loc_xscacle(d.lx1), loc_yscacle(d.ly1)], coords) > 24
+        }).transition().duration(5).attr("fill", "black");
+
+
+        elements.filter(d => {
+            return euclidian_dist([loc_xscacle(d.px1), loc_yscacle(d.py1)], coords) > 24
+        }).transition().duration(5).attr("fill", "black");
+
+
+        elements.each((d) => {
+
+            // console.log(d);
+            if (euclidian_dist([loc_xscacle(d.lx1), loc_yscacle(d.ly1)], coords) < 25) {
+
+                if (!idSel.includes(d.id)) {
+                    const orr = -90 + (Math.atan2(proj_yscacle(d.py1) - proj_yscacle(d.py2), proj_xscacle(d.px1) - proj_xscacle(d.px2)) * (180 / Math.PI));
+                    const orr2 = -90 + (Math.atan2(loc_yscacle(d.ly1) - loc_yscacle(d.ly2), loc_xscacle(d.lx1) - loc_xscacle(d.lx2)) * (180 / Math.PI));
+
+                    proj.append("path")
+                        .attr("class", "tbrm")
+                        // .style("transform-origin", "50% 50%")
+                        .attr("num", d.id)
+                        .attr("fill", "steelblue")
+                        .attr("d", "m 20 20 a -6 6 7 0 1 14 0 l -7 23 l -7 -23")
+                        .attr("transform", "rotate(" + (orr) + " " + (proj_xscacle(d.px2) - 2) + " " + (proj_yscacle(d.py2) - 2) + ") translate(" + (proj_xscacle(d.px2) - 16) + "," + (proj_yscacle(d.py2) - 16) + ")  scale(0.5) ")
+
+                    loc.append("path")
+                        .attr("class", "tbrm")
+                        .attr("num", d.id)
+                        .attr("fill", "steelblue")
+                        .attr("d", "m 20 20 a -6 6 7 0 1 14 0 l -7 23 l -7 -23")
+                        .attr("transform", "rotate(" + (orr2) + " " + (loc_xscacle(d.lx2) - 2) + " " + (loc_yscacle(d.ly2) - 2) + ") translate(" + (loc_xscacle(d.lx2) - 16) + "," + (loc_yscacle(d.ly2) - 16) + ")  scale(0.5) ")
+                    // .attr("transform", "rotate(180 64 62) translate(50 50) scale(0.5)")
+
+                    idSel.push(d.id)
+
+                    let tpath = proj.append("line")
+                        .attr("class", "tbrm")
+                        .attr("num", d.id)
+                        .attr("x1", proj_xscacle(d.px1))
+                        .attr("y1", proj_yscacle(d.py1))
+                        .attr("x2", proj_xscacle(d.px2))
+                        .attr("y2", proj_yscacle(d.py2))
+                        .attr('stroke', 'steelblue')
+                        .style('stroke-width', '3px')
+
+                    let totalLength = tpath.node().getTotalLength();
+
+                    tpath.attr("stroke-dasharray", totalLength + " " + totalLength)
+                        .attr("stroke-dashoffset", totalLength)
+                        .transition()
+                        .duration(250)
+                        .attr("stroke-dashoffset", 0);
 
 
                     let tpath2 = loc.append("line")
