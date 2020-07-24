@@ -35,6 +35,80 @@
             opacity: 0.8;
         }
 
+        .play:hover {
+
+            cursor: pointer;
+            transform: scale(1.1);
+        }
+
+
+        input::-moz-focus-inner {
+            border: 0;
+        }
+
+        input[type=range]::-moz-focus-outer {
+            border: 0;
+        }
+
+        input[type="range"] {
+            -webkit-appearance: none;
+            -moz-apperance: none;
+            border-radius: 6px;
+            height: 6px;
+            user-select: none;
+            outline: none;
+            width: 100%;
+            border: 0;
+            background-image: -webkit-gradient(
+                    linear,
+                    left top,
+                    right top,
+                    color-stop(0, #233E34),
+                    color-stop(0, #C5C5C5)
+            );
+            -webkit-touch-callout: none; /* iOS Safari */
+            -webkit-user-select: none; /* Safari */
+            -khtml-user-select: none; /* Konqueror HTML */
+            -moz-user-select: none; /* Firefox */
+            -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none;
+            user-focus: none;
+            /* Non-prefixed version, currently
+                                             supported by Chrome and Opera */
+        }
+
+        input[type='range']::-webkit-slider-thumb {
+            -webkit-appearance: none !important;
+            background-color: #183d4e;
+            border: 1px solid #183d4e;
+            height: 20px;
+            width: 20px;
+            border-radius: 50%;
+            -webkit-touch-callout: none; /* iOS Safari */
+            -webkit-user-select: none; /* Safari */
+            -khtml-user-select: none; /* Konqueror HTML */
+            -moz-user-select: none; /* Firefox */
+            -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none;
+            cursor: pointer;
+        }
+
+        input[type='range']::-moz-range-thumb {
+            -webkit-appearance: none !important;
+            background-color: #183d4e;
+            border: 1px solid #183d4e;
+            height: 18px;
+            width: 18px;
+            opacity: 1;
+            border-radius: 50%;
+            -webkit-touch-callout: none; /* iOS Safari */
+            -webkit-user-select: none; /* Safari */
+            -khtml-user-select: none; /* Konqueror HTML */
+            -moz-user-select: none; /* Firefox */
+            -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -72,9 +146,38 @@
             <img src="" height="128" width="128" id="depthr" style="position: absolute;left:130px; ">
             <img src="" height="128" width="128" id="imgb" style="position: absolute;right: 0">
             <img src="" height="128" width="128" id="depthb" style="position: absolute;right: 130px">
-            <input id="timeline" type="range" min="0" max="59" step="1" value="0"
-                   style="position: absolute;left: 300px;top:52px;width: 450px">
-            <p id="timelineTxt" style="position: absolute;left: 758px;top:47px"> 0 </p>
+
+
+            <div style="position: absolute;left:470px; top: 65px">
+                <label for="trajsel">Trajectory</label>
+                <select class="" id="trajsel">
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                </select>
+            </div>
+
+            <div style="position: absolute;left:570px; top: 65px">
+                <label for="noisel">Noise</label>
+                <select class="" id="noisel">
+                    <option value="gaussian">Gaussian</option>
+                    <option value="edge">Edge-Enhancing</option>
+                    <option value="brightness">Brightness</option>
+                    <option value="pepper">Pepper</option>
+                    <option value="sharpen">Sharpen</option>
+                    <option value="trans">Transforms</option>
+                    <option value="white">White balance</option>
+
+                </select>
+            </div>
+
+
+            <img class="play" style="width: 29px;position: absolute;left: 290px;top:40px" src="assets/play-sign.svg">
+            <input id="timeline" type="range" min="0" max="58" step="1" value="0"
+                   style="position: absolute;left: 335px;top:52px;width: 450px">
+            <p id="timelineTxt" style="position: absolute;left: 793px;top:43px"> 0 </p>
         </div>
 
     </div>
@@ -87,6 +190,7 @@
         <div class="six columns" style="margin-top: 1%">
             <svg id="loc" style="width: 100%;height: 530px;border: #555555 solid 1px"></svg>
         </div>
+        <div class="twelve columns" style="height: 140px" id="imband"></div>
     </div>
 
 
@@ -118,9 +222,19 @@
     let elements
     let elements2
 
+    let curStep = 0;
+    let curTraj = "0";
+    let curNoise = "gaussian";
+
+    let pl = false;
+    let timer = null;
 
     const proj = d3.select("#proj");
     const loc = d3.select("#loc");
+
+
+    let colscale = d3.scaleLinear().domain([0, 20]).range(['green', 'red'])
+
 
     $("#timeline").on("input", function () {
 
@@ -129,6 +243,7 @@
 
         let ell = dato[step]
 
+        curStep = parseInt(step);
 
 
         $("#imgr").attr("src", 'data:image/jpeg;base64,' + ell.imgR)
@@ -139,7 +254,71 @@
 
         $("#timelineTxt").html(step)
 
+        update_time()
+
     });
+
+
+    $('.play').on('click', function () {
+
+
+        pl = !pl;
+        if (pl) {
+            $(this).attr('src', 'assets/round-pause-button.svg');
+
+            timer = setInterval(step, 115);
+            step()
+        } else {
+            $(this).attr('src', 'assets/play-sign.svg');
+            clearInterval(timer);
+            timer = null
+        }
+    });
+
+
+    function update_time() {
+
+        let tbar = $('#timeline');
+
+        let val = (tbar.val() - tbar.attr('min')) / (tbar.attr('max') - tbar.attr('min'));
+
+        tbar.css('background-image',
+            '-webkit-gradient(linear, left top, right top, '
+            + 'color-stop(' + val + ', #233E34), '
+            + 'color-stop(' + val + ', #C5C5C5)'
+            + ')'
+        );
+    }
+
+    function step() {
+
+        curStep += 1;
+        let ell = dato[curStep];
+
+
+        if (ell) {
+            $("#imgr").attr("src", 'data:image/jpeg;base64,' + ell.imgR)
+            $("#depthr").attr("src", 'data:image/jpeg;base64,' + ell.depthR)
+
+            $("#imgb").attr("src", 'data:image/jpeg;base64,' + ell.imgB)
+            $("#depthb").attr("src", 'data:image/jpeg;base64,' + ell.depthB)
+
+            $("#timelineTxt").html(curStep)
+
+            $("#timeline").val(curStep);
+
+            update_time()
+
+
+        } else {
+            pl = false;
+            $('.play ').attr('src', 'assets/play-sign.svg');
+            curStep = 0;
+            clearInterval(timer);
+            timer = null
+        }
+
+    }
 
 
     const cirhov = proj.append("circle")
@@ -157,9 +336,108 @@
         .attr("r", "24");
 
 
-    getData("data.json").then(function () {
+    $("#trajsel").on("change", function () {
+
+        console.log($("#trajsel").val());
+
+        curTraj = $("#trajsel").val();
+
+        getData("datasets/traj" + curTraj + "/" + curTraj + "_" + curNoise + ".json").then(function () {
+
+            proj.selectAll("path").remove();
+            proj.selectAll("line").remove();
+            loc.selectAll("path").remove();
+            loc.selectAll("line").remove();
+
+            dato.sort((a, b) => {
+
+                if (a.id > b.id) {
+                    return 1
+                } else {
+                    return -1
+                }
+
+            });
+            console.log(dato);
+
+            let elem = dato.filter(d => d.id === 0)[0];
+
+            console.log(elem);
+
+            $("#imgr").attr("src", 'data:image/jpeg;base64,' + elem.imgR)
+            $("#depthr").attr("src", 'data:image/jpeg;base64,' + elem.depthR)
+
+            $("#imgb").attr("src", 'data:image/jpeg;base64,' + elem.imgB)
+            $("#depthb").attr("src", 'data:image/jpeg;base64,' + elem.depthB)
 
 
+            drawPoints(dato, proj);
+            drawElements(dato, d3.select("#loc"));
+
+            elements = proj.selectAll(".projDot");
+            elements2 = loc.selectAll(".locDot");
+
+            $("#timeline").attr("max", dato.length - 1)
+        });
+
+    })
+
+
+    $("#noisel").on("change", function () {
+
+        // console.log($("#trajsel").val());
+
+        curNoise = $("#noisel").val();
+
+        getData("datasets/traj" + curTraj + "/" + curTraj + "_" + curNoise + ".json").then(function () {
+
+
+            proj.selectAll("path").remove();
+            proj.selectAll("line").remove();
+            loc.selectAll("path").remove();
+            loc.selectAll("line").remove();
+
+            dato.sort((a, b) => {
+
+                if (a.id > b.id) {
+                    return 1
+                } else {
+                    return -1
+                }
+
+            });
+            console.log(dato);
+
+            let elem = dato.filter(d => d.id === 0)[0];
+
+            console.log(elem);
+
+            $("#imgr").attr("src", 'data:image/jpeg;base64,' + elem.imgR)
+            $("#depthr").attr("src", 'data:image/jpeg;base64,' + elem.depthR)
+
+            $("#imgb").attr("src", 'data:image/jpeg;base64,' + elem.imgB)
+            $("#depthb").attr("src", 'data:image/jpeg;base64,' + elem.depthB)
+
+
+            drawPoints(dato, proj);
+            drawElements(dato, d3.select("#loc"));
+
+            elements = proj.selectAll(".projDot");
+            elements2 = loc.selectAll(".locDot");
+            $("#timeline").attr("max", dato.length - 1)
+
+        });
+
+    })
+
+
+    getData("datasets/traj" + curTraj + "/" + curTraj + "_" + curNoise + ".json").then(function () {
+
+        proj.selectAll("path").remove();
+        proj.selectAll("line").remove();
+        loc.selectAll("path").remove();
+        loc.selectAll("line").remove();
+        $("#timeline").attr("max", dato.length)
         dato.sort((a, b) => {
 
             if (a.id > b.id) {
@@ -230,7 +508,7 @@
 
         // console.log(idSel);
 
-        inside.transition().duration(5).attr("fill", "red");
+        inside.transition().duration(5).attr("fill", "purple");
 
         // console.log(inside);
 
@@ -240,16 +518,16 @@
         });
 
         // console.log(elements2);
-        inside2.transition().duration(5).attr("fill", "red");
+        inside2.transition().duration(5).attr("fill", "purple");
 
         elements2.filter(d => {
             return euclidian_dist([proj_xscacle(d.px1), proj_yscacle(d.py1)], coords) > 24
-        }).transition().duration(5).attr("fill", "black");
+        }).transition().duration(5).attr("fill", (d) => colscale(euclidian_dist([loc_xscacle(d.lx1), loc_yscacle(d.ly1)], [loc_xscacle(d.lx2), loc_yscacle(d.ly2)])))
 
 
         elements.filter(d => {
             return euclidian_dist([proj_xscacle(d.px1), proj_yscacle(d.py1)], coords) > 24
-        }).transition().duration(5).attr("fill", "black");
+        }).transition().attr("fill", (d) => colscale(euclidian_dist([proj_xscacle(d.px1), proj_yscacle(d.py1)], [proj_xscacle(d.px2), proj_yscacle(d.py2)])))
 
 
         elements.each((d) => {
@@ -342,7 +620,7 @@
             return euclidian_dist([loc_xscacle(d.lx1), loc_yscacle(d.ly1)], coords) < 25
         });
 
-        inside.transition().duration(5).attr("fill", "red");
+        inside.transition().duration(5).attr("fill", "purple");
 
         // console.log(inside);
 
@@ -352,16 +630,16 @@
         });
 
         // console.log(elements2);
-        inside2.transition().duration(5).attr("fill", "red");
+        inside2.transition().duration(5).attr("fill", "purple");
 
         elements2.filter(d => {
             return euclidian_dist([loc_xscacle(d.lx1), loc_yscacle(d.ly1)], coords) > 24
-        }).transition().duration(5).attr("fill", "black");
+        }).transition().duration(5).attr("fill", (d) => colscale(euclidian_dist([loc_xscacle(d.lx1), loc_yscacle(d.ly1)], [loc_xscacle(d.lx2), loc_yscacle(d.ly2)])))
 
 
         elements.filter(d => {
             return euclidian_dist([loc_xscacle(d.px1), loc_yscacle(d.py1)], coords) > 24
-        }).transition().duration(5).attr("fill", "black");
+        }).transition().duration(5).attr("fill", (d) => colscale(euclidian_dist([proj_xscacle(d.px1), proj_yscacle(d.py1)], [proj_xscacle(d.px2), proj_yscacle(d.py2)])))
 
 
         elements.each((d) => {

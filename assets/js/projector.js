@@ -54,6 +54,7 @@ function drawPoints(data, svg) {
         .append("path")
         .attr("class", "projDot")
         .attr("num", d => d.id)
+        .attr("fill",(d) => colscale(euclidian_dist([proj_xscacle(d.px1),proj_yscacle(d.py1)],[proj_xscacle(d.px2),proj_yscacle(d.py2)])))
         .attr("d", "m 20 20 a -6 6 7 0 1 14 0 l -7 23 l -7 -23")
         .attr("transform", d => {
             const orr = -90 + (Math.atan2(proj_yscacle(d.py2) - proj_yscacle(d.py1), proj_xscacle(d.px2) - proj_xscacle(d.px1)) * (180 / Math.PI));
