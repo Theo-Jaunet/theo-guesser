@@ -124,12 +124,18 @@
 
     $("#timeline").on("input", function () {
 
-        let step = $(this).val();
-        $("#imgr").attr("src", 'data:image/jpeg;base64,' + dato[step].imgR)
-        $("#depthr").attr("src", 'data:image/jpeg;base64,' + dato[step].depthR)
 
-        $("#imgb").attr("src", 'data:image/jpeg;base64,' + dato[step].imgB)
-        $("#depthb").attr("src", 'data:image/jpeg;base64,' + dato[step].depthB)
+        let step = $(this).val();
+
+        let ell = dato[step]
+
+
+
+        $("#imgr").attr("src", 'data:image/jpeg;base64,' + ell.imgR)
+        $("#depthr").attr("src", 'data:image/jpeg;base64,' + ell.depthR)
+
+        $("#imgb").attr("src", 'data:image/jpeg;base64,' + ell.imgB)
+        $("#depthb").attr("src", 'data:image/jpeg;base64,' + ell.depthB)
 
         $("#timelineTxt").html(step)
 
@@ -152,6 +158,8 @@
 
 
     getData("data.json").then(function () {
+
+
         dato.sort((a, b) => {
 
             if (a.id > b.id) {
