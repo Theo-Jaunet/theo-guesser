@@ -37,8 +37,8 @@ function fakedata(npoints) {
 function drawPoints(data, svg) {
 
 
-    let p1 = [d3.extent(data.map(d => d.px1)), d3.extent(data.map(d => d.py1))]
-    let p2 = [d3.extent(data.map(d => d.px2)), d3.extent(data.map(d => d.py2))]
+    let p1 = [d3.extent(data.map(d => d.px1)), d3.extent(data.map(d => d.py1))];
+    let p2 = [d3.extent(data.map(d => d.px2)), d3.extent(data.map(d => d.py2))];
     // console.log([Math.min(p1[1], p2[1]), Math.max(p1[1], p2[1])]);
 
     console.log(p1)

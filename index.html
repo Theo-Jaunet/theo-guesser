@@ -118,7 +118,7 @@
 <div class="container" style="margin-bottom: 5%; width: 1100px;max-width: 1100px">
     <div class="row">
         <div class="twelve column" style="margin-top: 10%">
-            <h4 style="text-align: center"> VisXAi2 </h4>
+            <h4 style="text-align: center"> Theo Guesser </h4>
         </div>
     </div>
 
@@ -126,6 +126,47 @@
     <div class="row">
         <div class="twelve column" style="margin-top: 10%">
             <h4 style="text-align: left"> Introduction </h4>
+            <p>
+                The last years have witnessed the soaring of Machine Learning, which has provided disruptive performance
+                gains in several fields. Apart from undeniable advances in methodology, these gains are often attributed
+                to massive amounts of training data and computing power, which led to breakthroughs in speech
+                recognition, computer vision and language processing. Extending these advances to robotics, planning and
+                control has proven to be difficult, as these applications often require learning from interactions
+                instead of static data. They also currently suffer from low sample efficiency, often requiring billions
+                of interactions [1], which makes learning in real-time from physical interactions with real robots
+                intractable.
+            </p>
+        </div>
+
+    </div>
+
+
+    <!--</div>-->
+    <div class="row" style="text-align: center">
+        <div class="nine columns" style="margin-top: 2%;display: inline-block">
+
+            <svg id="theo-guess" style="width: 100%;height: 580px;border: #555555 solid 1px"></svg>
+        </div>
+        <div class="three columns" style="margin-top: 2%;">
+
+            <img id="guessimg" width="256" src="">
+            <button id="guesser"> Guess</button>
+            <div style="text-align: left;margin-top: 60px">
+                <p style="text-underline: #555555;text-decoration: underline"> Score </p>
+                <ul>
+                    <li># of Guesses: <span id="nguess"></span></li>
+                    <li> Avg Dist: <span id="avgDist"></span></li>
+                    <li> Avg Orr:</li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+
+
+    <div class="row">
+        <div class="twelve column" style="margin-top: 10%">
+            <h4 style="text-align: left"> This model is sensitive to noise </h4>
             <p>
                 The last years have witnessed the soaring of Machine Learning, which has provided disruptive performance
                 gains in several fields. Apart from undeniable advances in methodology, these gains are often attributed
@@ -175,11 +216,10 @@
 
 
             <img class="play" style="width: 29px;position: absolute;left: 290px;top:40px" src="assets/play-sign.svg">
-            <input id="timeline" type="range" min="0" max="58" step="1" value="0"
+            <input id="timeline" type="range" min="0" max="57" step="1" value="0"
                    style="position: absolute;left: 335px;top:52px;width: 450px">
             <p id="timelineTxt" style="position: absolute;left: 793px;top:43px"> 0 </p>
         </div>
-
     </div>
 
 
@@ -191,6 +231,44 @@
             <svg id="loc" style="width: 100%;height: 530px;border: #555555 solid 1px"></svg>
         </div>
         <div class="twelve columns" style="height: 140px" id="imband"></div>
+    </div>
+
+
+    <div class="row">
+        <div class="ten column" style="margin-top: 8%">
+            <h4 style="text-align: left"> Getting a robot involved -- Reality Gap </h4>
+            <p>
+                The last years have witnessed the soaring of Machine Learning, which has provided disruptive performance
+                gains in several fields. Apart from undeniable advances in methodology, these gains are often attributed
+                to massive amounts of training data and computing power, which led to breakthroughs in speech
+                recognition, computer vision and language processing. Extending these advances to robotics, planning and
+                control has proven to be difficult, as these applications often require learning from interactions
+                instead of static data. They also currently suffer from low sample efficiency, often requiring billions
+                of interactions [1], which makes learning in real-time from physical interactions with real robots
+                intractable.
+            </p>
+
+            <svg id="allProj" style="width: 100%;height: 800px;border: #555555 solid 1px"></svg>
+
+
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="twelve column" style="margin-top: 8%">
+            <h4 style="text-align: left"> What should we change?</h4>
+            <p>
+                The last years have witnessed the soaring of Machine Learning, which has provided disruptive performance
+                gains in several fields. Apart from undeniable advances in methodology, these gains are often attributed
+                to massive amounts of training data and computing power, which led to breakthroughs in speech
+                recognition, computer vision and language processing. Extending these advances to robotics, planning and
+                control has proven to be difficult, as these applications often require learning from interactions
+                instead of static data. They also currently suffer from low sample efficiency, often requiring billions
+                of interactions [1], which makes learning in real-time from physical interactions with real robots
+                intractable.
+            </p>
+        </div>
     </div>
 
 
@@ -218,9 +296,10 @@
 <script>
     // const data = fakedata(200);
     let dato;
+    let dator;
     let idSel = [];
-    let elements
-    let elements2
+    let elements;
+    let elements2;
 
     let curStep = 0;
     let curTraj = "0";
@@ -229,12 +308,224 @@
     let pl = false;
     let timer = null;
 
+    let rotSt = false;
+    let guessid;
+
+    let nguess = 0
+    let avgDist = 0
+    let avgOrr = 0
+
     const proj = d3.select("#proj");
     const loc = d3.select("#loc");
 
 
-    let colscale = d3.scaleLinear().domain([0, 20]).range(['green', 'red'])
+    let colscale = d3.scaleLinear().domain([0, 20]).range(['green', 'red']);
+    let tsvg = d3.select("#theo-guess");
 
+
+    $("#guesser").on("click", function () {
+
+        if (rotSt) {
+
+            d3.select("#guessLine").remove();
+            d3.select("#guessCr").remove();
+
+
+            let txscale = d3.scaleLinear(simW, [50, 750])
+            let tyscale = d3.scaleLinear(simH, [25, 545])
+            // const coords = d3.mouse(tsvg.node());
+
+
+            let tx = txscale(dato[guessid].tx)
+            let ty = tyscale(dato[guessid].ty)
+            let torr = dato[guessid].torr
+
+            nguess += 1;
+
+            let el = $("#guess")
+
+            $("#nguess").html(nguess);
+
+            avgDist += euclidian_dist([tx, ty], [el.attr("ox"), el.attr("oy")]);
+            $("#avgDist").html(Math.round(avgDist / nguess));
+
+
+            tsvg.append("path")
+                .attr("id", "gtpath")
+                .attr("fill", "green")
+                .attr("d", "m 20 20 a -6 6 7 0 1 14 0 l -7 23 l -7 -23")
+                .attr("transform", d => {
+                        return "rotate(" + (180 - torr) + " " + (tx - 6) + " " + (ty - 6) + ") translate(" + (tx - 32) + "," + (ty - 32) + ")"
+                    }
+                );
+
+            guessid = getRandomInt(0, dato.length - 1);
+
+            $("#guessimg").attr("src", "data:image/jpeg;base64," + dato[guessid].imgR);
+
+
+            tsvg.append("line")
+                .attr("x1", tx-5)
+                .attr("x2", el.attr("ox")-5)
+                .attr("y2", el.attr("oy")-5)
+                .attr("y1", ty-5)
+                .attr("stroke", "#333333")
+                .attr("stroke-width", "2")
+                .attr("stroke-dasharray", "6,2")
+
+            d3.select("#guess").transition().duration(100).style("fill", "#333333")
+                .attr("id", "")
+            rotSt = false;
+        }
+
+
+    });
+
+    tsvg.on("click", function (e) {
+
+        if (!rotSt) {
+            // console.log(e);0
+            rotSt = true;
+            const coords = d3.mouse(tsvg.node());
+
+            //
+            // tsvg.append("circle")
+            //     .attr("id", "guess")
+            //     .attr("cx", coords[0])
+            //     .attr("cy", coords[1])
+            //     .attr("ty", coords[1])
+            //     .attr("tx", coords[0])
+            //     .attr("r", "5")
+            //     .attr("fill", "steelblue")
+
+
+            tsvg.append("line")
+                .attr("id", "guessLine")
+                .attr("x1", coords[0] - 5)
+                .attr("x2", coords[0] - 5)
+                .attr("y1", coords[1] - 8)
+                .attr("y2", coords[1] + 40)
+                .attr("stroke", 'red')
+                .attr("stroke-width", "3")
+                .attr("stroke-dasharray", "6,2");
+
+
+            tsvg.append("path")
+                .attr("id", "guess")
+                .attr("num", 0)
+                .attr("tx", coords[0])
+                .attr("ty", coords[1])
+                .attr("ox", coords[0])
+                .attr("oy", coords[1])
+                .attr("thor", 0)
+                .attr("tr", 0)
+                .attr("fill", "steelblue")
+                .attr("d", "m 20 20 a -6 6 7 0 1 14 0 l -7 23 l -7 -23")
+                .attr("transform", "rotate(" + (0) + " " + (coords[0] - 6) + " " + (coords[1] - 6) + ") translate(" + (coords[0] - 32) + "," + (coords[1] - 32) + ")  ")
+                .call(d3.drag()
+                    .on("start", dragstarted)
+                    .on("drag", dragged)
+                    .on("end", dragended));
+
+
+            tsvg.append("circle")
+                .attr("id", "guessCr")
+                .attr("cx", coords[0] - 5)
+                .attr("cy", coords[1] + 40)
+                .attr("r", 6)
+                .attr("fill", "steelblue")
+
+                .call(d3.drag()
+                    .on("start", dragstarted2)
+                    .on("drag", dragged2)
+                    .on("end", dragended2));
+
+            /*            .attr("stroke", 'red')
+                    .attr("stroke-width", "3")
+                    .attr("stroke-dasharray", "6,2")*/
+
+        }
+    });
+
+
+    function dragstarted(d) {
+        d3.select(this).raise().attr("stroke", "black");
+    }
+
+    function dragged(d) {
+        const point = d3.mouse(tsvg.node());
+
+        let path = d3.select("#guess");
+        let line = d3.select("#guessLine");
+        let circle = d3.select("#guessCr");
+
+        console.log(point);
+
+
+        let deltax = parseFloat(point[0] - path.attr("ox"));
+        let deltay = parseFloat(point[1] - path.attr("oy"));
+
+
+        path.attr("ox", point[0]);
+        path.attr("oy", point[1]);
+
+        path.transition().duration(15).attr("transform", "rotate(" + (path.attr("thor")) + " " + (point[0] - 6) + " " + (point[1] - 6) + ") translate(" + (point[0] - 32) + "," + (point[1] - 30) + ")  ")
+
+        circle.attr("cx", parseFloat(circle.attr("cx")) + deltax);
+        circle.attr("cy", parseFloat(circle.attr("cy")) + deltay);
+
+
+        line.transition().duration(15).attr("x2", parseFloat(circle.attr("cx")) + deltax).attr("y2", parseFloat(circle.attr("cy")) + deltay).attr("x1", point[0] - 5).attr("y1", point[1] - 8)
+        // if ((point[0] > 0 && point[0] < 340) && (point[1] > 0 && point[1] < 340))
+        //     circle.attr("cx", point[0]).attr("cy", point[1]);
+    }
+
+    function dragended(d) {
+        d3.select(this).attr("stroke", null);
+    }
+
+
+    function dragstarted2(d) {
+        d3.select(this).raise().attr("stroke", "black");
+    }
+
+    function dragged2(d) {
+        const point = d3.mouse(tsvg.node());
+
+        let path = d3.select("#guess");
+        let line = d3.select("#guessLine");
+        let circle = d3.select("#guessCr");
+
+        console.log(point);
+
+
+        // let deltax = parseFloat(point[0] - path.attr("ox"));
+        // let deltay = parseFloat(point[1] - path.attr("oy"));
+
+        //
+        // path.attr("ox", point[0])
+        // path.attr("oy", point[1])
+
+
+        const orr = -90 + (Math.atan2(point[1] - path.attr("oy"), (point[0] - path.attr("ox"))) * (180 / Math.PI));
+
+        path.attr("thor", orr)
+
+        path.transition().duration(15).attr("transform", "rotate(" + (orr) + " " + (path.attr("ox") - 6) + " " + (path.attr("oy") - 6) + ") translate(" + (path.attr("ox") - 32) + "," + (path.attr("oy") - 32) + ")  ")
+        circle.transition().duration(15).attr("cx", parseFloat(point[0])).attr("cy", parseFloat(point[1]));
+        line.transition().duration(15).attr("x2", parseFloat(point[0])).attr("y2", parseFloat(point[1]));
+        // circle.transition().duration(15)
+
+        // if ((point[0] > 0 && point[0] < 340) && (point[1] > 0 && point[1] < 340))
+        //     circle.attr("cx", point[0]).attr("cy", point[1]);
+    }
+
+    function dragended2(d) {
+        d3.select(this).attr("stroke", null);
+    }
+
+
+    loadmap(d3.select("#theo-guess"), 'assets/images/map.jpg');
 
     $("#timeline").on("input", function () {
 
@@ -256,6 +547,17 @@
 
         update_time()
 
+        let inside = d3.selectAll("path")
+
+        inside.filter(d => {
+            return d.id > curStep
+        }).transition().duration(20).style("opacity", '0.1');
+
+
+        inside.filter(d => {
+            return d.id <= curStep
+        }).transition().duration(20).style("opacity", '1')
+
     });
 
 
@@ -264,6 +566,8 @@
 
         pl = !pl;
         if (pl) {
+            if (curStep >= dato.length)
+                curStep = 0
             $(this).attr('src', 'assets/round-pause-button.svg');
 
             timer = setInterval(step, 115);
@@ -309,6 +613,18 @@
 
             update_time()
 
+
+            let inside = d3.selectAll("path")
+
+
+            inside.filter(d => {
+                return d.id > curStep
+            }).transition().duration(20).style("opacity", '0.1')
+
+
+            inside.filter(d => {
+                return d.id <= curStep
+            }).transition().duration(20).style("opacity", '1')
 
         } else {
             pl = false;
@@ -412,11 +728,11 @@
 
             console.log(elem);
 
-            $("#imgr").attr("src", 'data:image/jpeg;base64,' + elem.imgR)
-            $("#depthr").attr("src", 'data:image/jpeg;base64,' + elem.depthR)
+            $("#imgr").attr("src", 'data:image/jpeg;base64,' + elem.imgR);
+            $("#depthr").attr("src", 'data:image/jpeg;base64,' + elem.depthR);
 
-            $("#imgb").attr("src", 'data:image/jpeg;base64,' + elem.imgB)
-            $("#depthb").attr("src", 'data:image/jpeg;base64,' + elem.depthB)
+            $("#imgb").attr("src", 'data:image/jpeg;base64,' + elem.imgB);
+            $("#depthb").attr("src", 'data:image/jpeg;base64,' + elem.depthB);
 
 
             drawPoints(dato, proj);
@@ -431,12 +747,26 @@
     })
 
 
+    function getRandomInt(min, max) {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+
     getData("datasets/traj" + curTraj + "/" + curTraj + "_" + curNoise + ".json").then(function () {
 
         proj.selectAll("path").remove();
         proj.selectAll("line").remove();
         loc.selectAll("path").remove();
         loc.selectAll("line").remove();
+
+
+        guessid = getRandomInt(0, dato.length - 1)
+        // guessid = 54
+        // guessid = 5
+        $("#guessimg").attr("src", "data:image/jpeg;base64," + dato[guessid].imgR)
+
         $("#timeline").attr("max", dato.length)
         dato.sort((a, b) => {
 
@@ -485,6 +815,59 @@
     }
 
 
+    async function getData2(url) {
+        dator = await d3.json(url).then(d => {
+            return JSON.parse(d.replace(/'/g, '"'))
+        });
+    }
+
+
+    getData2("umapout.json").then(function () {
+
+        var color = d3.scaleOrdinal(d3.schemeCategory10);
+
+        let p1 = [d3.extent(dator["umap"].map(d => d[0])), d3.extent(dator["umap"].map(d => d[1]))];
+
+        let tbo = d3.select("#allProj")
+
+        let dxscale = d3.scaleLinear().domain(p1[0]).range([100, 800]);
+        let dyscale = d3.scaleLinear().domain(p1[1]).range([100, 796]);
+
+
+        let rooms = ["Noise", "RoomTheo", "RoomMate", "LivingRoom", "Laundry", "Kitchen", "Corridor", "Bathroom", "Hall"]
+
+        console.log(dator);
+
+        for (let i = 0; i < dator["umap"].length; i++) {
+
+
+            tbo.append("circle")
+                .attr("cx", dxscale(dator["umap"][i][0]))
+                .attr("cy", dyscale(dator["umap"][i][1]))
+                .attr("r", 5)
+                .attr('fill', color(dator["rooms"][i]))
+        }
+
+
+        for (let i = 0; i < 9; i++) {
+
+            tbo.append("circle")
+                .attr("cx", 850)
+                .attr("cy", (50) + (50 * i))
+                .attr("r", 8)
+                .attr("fill", color(i))
+
+
+            tbo.append("text")
+                .attr("x", 880)
+                .attr("y", (54) + (50 * i))
+                .text(rooms[i])
+
+
+        }
+    });
+
+
     function loadmap(svg, map) {
 
         svg.append('image')
@@ -502,7 +885,7 @@
 
 
         let inside = elements.filter(d => {
-            return euclidian_dist([proj_xscacle(d.px1), proj_yscacle(d.py1)], coords) < 25
+            return euclidian_dist([proj_xscacle(d.px1), proj_yscacle(d.py1)], coords) < 25 && d.id < curStep
         });
 
 
@@ -514,30 +897,30 @@
 
 
         let inside2 = elements2.filter(d => {
-            return euclidian_dist([proj_xscacle(d.px1), proj_yscacle(d.py1)], coords) < 25
+            return euclidian_dist([proj_xscacle(d.px1), proj_yscacle(d.py1)], coords) < 25 && d.id < curStep
         });
 
         // console.log(elements2);
         inside2.transition().duration(5).attr("fill", "purple");
 
         elements2.filter(d => {
-            return euclidian_dist([proj_xscacle(d.px1), proj_yscacle(d.py1)], coords) > 24
+            return euclidian_dist([proj_xscacle(d.px1), proj_yscacle(d.py1)], coords) > 24 && d.id < curStep
         }).transition().duration(5).attr("fill", (d) => colscale(euclidian_dist([loc_xscacle(d.lx1), loc_yscacle(d.ly1)], [loc_xscacle(d.lx2), loc_yscacle(d.ly2)])))
 
 
         elements.filter(d => {
-            return euclidian_dist([proj_xscacle(d.px1), proj_yscacle(d.py1)], coords) > 24
+            return euclidian_dist([proj_xscacle(d.px1), proj_yscacle(d.py1)], coords) > 24 && d.id < curStep
         }).transition().attr("fill", (d) => colscale(euclidian_dist([proj_xscacle(d.px1), proj_yscacle(d.py1)], [proj_xscacle(d.px2), proj_yscacle(d.py2)])))
 
 
         elements.each((d) => {
 
             // console.log(d);
-            if (euclidian_dist([proj_xscacle(d.px1), proj_yscacle(d.py1)], coords) < 25) {
+            if (euclidian_dist([proj_xscacle(d.px1), proj_yscacle(d.py1)], coords) < 25 && d.id < curStep) {
 
                 if (!idSel.includes(d.id)) {
-                    const orr = -90 + (Math.atan2(proj_yscacle(d.py1) - proj_yscacle(d.py2), proj_xscacle(d.px1) - proj_xscacle(d.px2)) * (180 / Math.PI));
-                    const orr2 = -90 + (Math.atan2(loc_yscacle(d.ly1) - loc_yscacle(d.ly2), loc_xscacle(d.lx1) - loc_xscacle(d.lx2)) * (180 / Math.PI));
+                    const orr = 180 - (Math.atan2(proj_yscacle(d.py1) - proj_yscacle(d.py2), proj_xscacle(d.px1) - proj_xscacle(d.px2)) * (180 / Math.PI));
+                    const orr2 = 180 - (Math.atan2(loc_yscacle(d.ly1) - loc_yscacle(d.ly2), loc_xscacle(d.lx1) - loc_xscacle(d.lx2)) * (180 / Math.PI));
 
                     proj.append("path")
                         .attr("class", "tbrm")
@@ -648,8 +1031,8 @@
             if (euclidian_dist([loc_xscacle(d.lx1), loc_yscacle(d.ly1)], coords) < 25) {
 
                 if (!idSel.includes(d.id)) {
-                    const orr = -90 + (Math.atan2(proj_yscacle(d.py1) - proj_yscacle(d.py2), proj_xscacle(d.px1) - proj_xscacle(d.px2)) * (180 / Math.PI));
-                    const orr2 = -90 + (Math.atan2(loc_yscacle(d.ly1) - loc_yscacle(d.ly2), loc_xscacle(d.lx1) - loc_xscacle(d.lx2)) * (180 / Math.PI));
+                    const orr = 180 - (Math.atan2(proj_yscacle(d.py1) - proj_yscacle(d.py2), proj_xscacle(d.px1) - proj_xscacle(d.px2)) * (180 / Math.PI));
+                    const orr2 = 180 - (Math.atan2(loc_yscacle(d.ly1) - loc_yscacle(d.ly2), loc_xscacle(d.lx1) - loc_xscacle(d.lx2)) * (180 / Math.PI));
 
                     proj.append("path")
                         .attr("class", "tbrm")
