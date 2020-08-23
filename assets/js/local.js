@@ -63,7 +63,7 @@ function drawElements(data, svg) {
             .curve(d3.curveLinear);
 
 
-    loc.append("path")
+    svg.append("path")
         .data([data])
         .attr("class", "traj")
         .attr("d", line)
@@ -72,6 +72,6 @@ function drawElements(data, svg) {
         .attr('fill', 'none')
 
 
-    loadmap(loc, 'assets/images/map.jpg');
+    loadmap(svg, 'assets/images/map.jpg');
 
 }
