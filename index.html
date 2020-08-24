@@ -35,6 +35,10 @@
             opacity: 0.8;
         }
 
+        .play {
+            border: none;
+        }
+
         .play:hover {
 
             cursor: pointer;
@@ -108,6 +112,12 @@
             -ms-user-select: none; /* Internet Explorer/Edge */
             user-select: none;
             cursor: pointer;
+        }
+
+        img {
+
+            border: #888888 solid 1px;
+            margin: 2px;
         }
     </style>
 
@@ -186,8 +196,8 @@
         <div class="three columns" style="margin-top: 2%;">
 
             <img id="guessimg" width="256" src="">
-            <button id="guesser"> Guess</button>
-            <div style="text-align: left;margin-top: 60px">
+            <button id="guesser" style="margin-left: 25px"> Guess</button>
+            <div style="text-align: left;margin-top: 60px;margin-left: 15px">
                 <p style="text-underline: #555555;text-decoration: underline"> Score </p>
                 <ul>
                     <li># of Guesses: <span id="nguess"></span></li>
@@ -252,7 +262,7 @@
             <svg id="allProj" style="width: 100%;height: 530px;border: #555555 solid 1px"></svg>
         </div>
         <div class="six columns" style="margin-top: 1%">
-            <svg id="loc" style="width: 100%;height: 530px;border: #555555 solid 1px"></svg>
+            <svg id="loc" style="width: 100%;height: 530px;     border: none;margin-top: 63px"></svg>
         </div>
     </div>
 
@@ -281,8 +291,42 @@
             <p>
                 As mentioned in introduction, the point of such a model is to use images from a robot, and hence in
                 a real-world environment with moving objects, luminosity changes and overall disparities with the
-                simulation (e.g. physics). However, those noises may have a huge impact on the model's prediction
-                despite not being a difficulty for humans. In the figure bellow, one can observe the influence
+                simulation (e.g. physics). Those noises, referenced to as reality-gap, may have a huge impact on the
+                model's prediction
+                despite not being a difficulty for humans. As an illustration, the figure bellow depicts two captures
+                from roughly the same orientation on coordinates. The images on the left side, sampled in the simulator
+                tends to have a yellow luminosity (TO CHECK PHRASING) and overall different shades. In addition, the
+                real camera does not have the same field of view and angle. The depth sensor does not have the same
+                range as the simulated one. This results in an important shift of values (light gray) which can be
+                interpreted as no obstacles ahead.
+            </p>
+            <div style="display: inline-block;text-align: center;width: 100%">
+            </div>
+            <div style="position: relative;margin-top: 5%;text-decoration: #555555 underline">
+                <p style="position: absolute;left: 20%;top:-50px;width: 100px;text-decoration: #555555 underline">
+                    Simulator</p>
+                <p style="position: absolute;right: 20%;top:-50px;;width: 100px;text-decoration: #555555 underline">
+                    Real</p>
+            </div>
+            <div style="display: inline;text-align: center">
+                <img src="datasets/temp/rgb31.jpg">
+                <img src="datasets/temp/depth31.jpg">
+
+                <div style="border-left:2px solid #c4c4c4; height: 256px; display: inline-block;margin-left: 10px;margin-right: 10px "></div>
+                <img src="datasets/realSal/depth31.jpg">
+                <img src="datasets/realSal/rgb31.jpg">
+            </div>
+
+            <div style="position: relative;width: 100%">
+                <p style="position: absolute;left: 128px;bottom:-50px;width: 100px"> rgb</p>
+                <p style="position: absolute;left: 363px;bottom:-50px;width: 100px"> depth</p>
+
+                <p style="position: absolute;right: 338px;bottom:-50px;width: 100px"> depth</p>
+                <p style="position: absolute;right: 72px;bottom:-50px;width: 100px"> rgb</p>
+            </div>
+
+            <p style="margin-top: 7%">
+                In the following figure, one can observe the influence
                 disparities between real-world or noise can have on the model's prediction. On the left side of the
                 figures are projected features from the given images (top) in the same Umap parametric space. Hence dots
                 locations on those projection share the same meaning. We can also observe how some rooms are more
@@ -343,11 +387,11 @@
 
 
     <div class="row">
-        <div class="six columns" style="margin-top: 1%">
+        <div class="six columns" style="margin-top: 3%">
             <svg id="proj2" style="width: 100%;height: 530px;border: #555555 solid 1px"></svg>
         </div>
-        <div class="six columns" style="margin-top: 1%">
-            <svg id="loc2" style="width: 100%;height: 530px;border: #555555 solid 1px"></svg>
+        <div class="six columns" style="margin-top: 3%">
+            <svg id="loc2" style="width: 100%;height: 530px;     border: none;margin-top: 63px"></svg>
         </div>
         <div class="twelve columns" style="height: 140px" id="imband2"></div>
     </div>
@@ -415,11 +459,11 @@
 
 
     <div class="row">
-        <div class="six columns" style="margin-top: 1%">
+        <div class="six columns" style="margin-top: 3%">
             <svg id="proj3" style="width: 100%;height: 530px;border: #555555 solid 1px"></svg>
         </div>
-        <div class="six columns" style="margin-top: 1%">
-            <svg id="loc3" style="width: 100%;height: 530px;border: #555555 solid 1px"></svg>
+        <div class="six columns" style="margin-top: 3%;height: 100%;vertical-align: center">
+            <svg id="loc3" style="width: 100%;height: 530px;     border: none;margin-top: 63px"></svg>
         </div>
         <div class="twelve columns" style="height: 140px" id="imband3"></div>
     </div>
@@ -452,17 +496,22 @@
 
             <ul>
                 <li>
-                    TODO: Saliency maps of the regression
                     <div>
-                        <img src="datasets/realSal/rgb0.jpg"/>
+
                         <img src="datasets/realSal/rgb31.jpg"/>
-<!--                        <img src="datasets/temp/rgb0.jpg"/>-->
+                        <!--                        <img src="datasets/temp/rgb0.jpg"/>-->
                         <img src="datasets/temp/rgb31.jpg"/>
+
+                        <div style="border-left:2px solid #c4c4c4; height: 256px; display: inline-block;margin-left: 10px;margin-right: 10px "></div>
+
+                        <img src="datasets/realSal/rgb0.jpg"/>
                     </div>
                     <div>
-                        <img src="datasets/realSal/sal0.jpg"/>
                         <img src="datasets/realSal/sal31.jpg"/>
                         <img src="datasets/temp/sal31.jpg"/>
+                        <div style="border-left:2px solid #c4c4c4; height: 256px; display: inline-block;margin-left: 10px;margin-right: 10px "></div>
+
+                        <img src="datasets/realSal/sal0.jpg"/>
 
                     </div>
                 </li>
