@@ -1050,7 +1050,7 @@
     });
 
 
-    getData("datasets/traj" + curTraj + "/" + curTraj + "_" + curNoise + ".json").then(function () {
+    getData("datasets/basic/" + curTraj + "_" + curNoise + ".json").then(function () {
 
 
         $("#timeline2").attr("max", dato.length)
@@ -1156,22 +1156,19 @@
                     .attr('fill', color(dator["rooms"][i]))
             }
 
-
             for (let i = 0; i < 9; i++) {
 
                 tbo.append("circle")
                     .attr("cx", 100)
                     .attr("cy", 26 + (20 * i))
                     .attr("r", 5)
-                    .attr("fill", color(i))
-
+                    .attr("fill", color(i));
 
                 tbo.append("text")
                     .attr("text-anchor", "end")
                     .attr("x", 91)
                     .attr("y", 30 + (20 * i))
                     .text(rooms[i])
-
 
             }
 
@@ -1210,7 +1207,7 @@
                 .attr("cx", 510)
                 .attr("cy", (510) - (20 * i))
                 .attr("r", 5)
-                .attr("fill", color(i))
+                .attr("fill", color(i));
 
             tbo2.append("text")
                 .attr("text-anchor", "end")
