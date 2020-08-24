@@ -32,7 +32,7 @@
     <style>
         path {
 
-            opacity: 0.8;
+            /*opacity: 0.8;*/
         }
 
         .play {
@@ -129,7 +129,8 @@
 <div class="container" style="margin-bottom: 5%; width: 1100px;max-width: 1100px">
     <div class="row">
         <div class="twelve column" style="margin-top: 10%">
-            <h4 style="text-align: center"> Theo Guesser </h4>
+            <h4 style="text-align: center"><span style="text-decoration:line-through rgba(0,0,0,0.4) ">Geo</span> Theo
+                Guesser </h4>
             <h5 style="font-size: 2.2rem;color: rgba(0,0,0,0.5);text-align: center">
                 If you wake up in Theo’s appartment could you guess where you are?
             </h5>
@@ -138,7 +139,6 @@
 
 
     <div>
-
 
     </div>
 
@@ -197,10 +197,6 @@
 
     <!--</div>-->
     <div class="row" style="text-align: center">
-        <div class="nine columns" style="margin-top: 2%;display: inline-block">
-
-            <svg id="theo-guess" style="width: 100%;height: 580px;border: #555555 solid 1px"></svg>
-        </div>
         <div class="three columns" style="margin-top: 2%;">
 
             <img id="guessimg" width="256" src="">
@@ -214,6 +210,11 @@
                 </ul>
             </div>
         </div>
+        <div class="nine columns" style="margin-top: 2%;display: inline-block">
+
+            <svg id="theo-guess" style="width: 100%;height: 580px;border: #555555 solid 1px"></svg>
+        </div>
+
 
     </div>
 
@@ -225,6 +226,8 @@
                 We designed and trained posest, a convolutional deep learning model able to regress the coordinates and
                 orientation of a given rgb & depth image.
             <p>
+
+            <img src="assets/nn.png" style="width: 500px; border: none">
                 Click here to have details on the model and it's training
 
             </p>
@@ -507,32 +510,26 @@
                 Using backprogation of predictions, one can extract the gradient and build saliency maps which depicts
                 the most influencial parts of the inputed image
             </p>
+,
+            <div>
 
-            <ul>
-                <li>
-                    <div>
+                <img src="datasets/realSal/rgb31.jpg"/>
+                <!--                        <img src="datasets/temp/rgb0.jpg"/>-->
+                <img src="datasets/temp/rgb31.jpg"/>
 
-                        <img src="datasets/realSal/rgb31.jpg"/>
-                        <!--                        <img src="datasets/temp/rgb0.jpg"/>-->
-                        <img src="datasets/temp/rgb31.jpg"/>
+                <div style="border-left:2px solid #c4c4c4; height: 256px; display: inline-block;margin-left: 10px;margin-right: 10px "></div>
 
-                        <div style="border-left:2px solid #c4c4c4; height: 256px; display: inline-block;margin-left: 10px;margin-right: 10px "></div>
+                <img src="datasets/realSal/rgb0.jpg"/>
+            </div>
+            <div>
+                <img src="datasets/realSal/sal31.jpg"/>
+                <img src="datasets/temp/sal31.jpg"/>
+                <div style="border-left:2px solid #c4c4c4; height: 256px; display: inline-block;margin-left: 10px;margin-right: 10px "></div>
 
-                        <img src="datasets/realSal/rgb0.jpg"/>
-                    </div>
-                    <div>
-                        <img src="datasets/realSal/sal31.jpg"/>
-                        <img src="datasets/temp/sal31.jpg"/>
-                        <div style="border-left:2px solid #c4c4c4; height: 256px; display: inline-block;margin-left: 10px;margin-right: 10px "></div>
+                <img src="datasets/realSal/sal0.jpg"/>
 
-                        <img src="datasets/realSal/sal0.jpg"/>
+            </div>
 
-                    </div>
-                </li>
-                <li>
-                    Todo: Show Interpolation of latent space
-                </li>
-            </ul>
         </div>
     </div>
 
@@ -664,6 +661,9 @@
     const proj3 = d3.select("#proj3");
     const loc3 = d3.select("#loc3");
 
+    let p1 = [[-5.994728088378906, 16.698274612426758], [-4.038941860198975, 14.940378189086914]];
+    let proj_xscacle = d3.scaleLinear().domain(p1[0]).range([20, 515]); // Scale to Change based on SVG Size
+    let proj_yscacle = d3.scaleLinear().domain(p1[1]).range([20, 515]);
 
     let colscale = d3.scaleLinear().domain([0, 20]).range(['green', 'red']);
     let tsvg = d3.select("#theo-guess");
@@ -738,6 +738,7 @@
 
 
     });
+
 
     tsvg.on("click", function (e) {
 
@@ -1644,10 +1645,15 @@
     }
 
 
-    getUmap("umapout2.json").then(function () {
+    getUmap("umapout.json").then(function () {
             var color = d3.scaleOrdinal(d3.schemeCategory10);
 
-            let p1 = [d3.extent(dator["umap"].map(d => d[0])), d3.extent(dator["umap"].map(d => d[1]))];
+            // p1 = [d3.extent(dator["umap"].map(d => d[0])), d3.extent(dator["umap"].map(d => d[1]))];
+
+
+            console.log([d3.extent(dator["umap"].map(d => d[0])), d3.extent(dator["umap"].map(d => d[1]))]);
+
+            console.log(p1);
 
             let tbo = d3.select("#allProj")
 
@@ -1670,15 +1676,15 @@
             for (let i = 0; i < 9; i++) {
 
                 tbo.append("circle")
-                    .attr("cx", 100)
-                    .attr("cy", 26 + (20 * i))
+                    .attr("cx", 500)
+                    .attr("cy", 345 + (20 * i))
                     .attr("r", 5)
                     .attr("fill", color(i));
 
                 tbo.append("text")
                     .attr("text-anchor", "end")
-                    .attr("x", 91)
-                    .attr("y", 30 + (20 * i))
+                    .attr("x", 487)
+                    .attr("y", 350 + (20 * i))
                     .text(rooms[i])
 
             }
@@ -1686,48 +1692,49 @@
         }
     )
 
-    getUmap("umapout.json").then(function () {
 
-        var color = d3.scaleOrdinal(d3.schemeCategory10);
+    /* getUmap("umapout.json").then(function () {
 
-        let p1 = [d3.extent(dator["umap"].map(d => d[0])), d3.extent(dator["umap"].map(d => d[1]))];
+         var color = d3.scaleOrdinal(d3.schemeCategory10);
 
-        let tbo2 = d3.select("#allProj2")
+         let p1 = [d3.extent(dator["umap"].map(d => d[0])), d3.extent(dator["umap"].map(d => d[1]))];
 
-        let dxscale2 = d3.scaleLinear().domain(p1[0]).range([20, 515]); // Scale to Change based on SVG Size
-        let dyscale2 = d3.scaleLinear().domain(p1[1]).range([20, 515]);
+         let tbo2 = d3.select("#allProj2")
 
-
-        let rooms = ["Uncertain", "RoomTheo", "RoomMate", "LivingRoom", "Laundry", "Kitchen", "Corridor", "Bathroom", "Hall"]
-
-        console.log(dator);
-
-        for (let i = 0; i < dator["umap"].length; i++) {
-
-            tbo2.append("circle")
-                .attr("cx", dxscale2(dator["umap"][i][0]))
-                .attr("cy", dyscale2(dator["umap"][i][1]))
-                .attr("r", 2)
-                .attr('fill', color(dator["rooms"][i]))
-        }
+         let dxscale2 = d3.scaleLinear().domain(p1[0]).range([20, 515]); // Scale to Change based on SVG Size
+         let dyscale2 = d3.scaleLinear().domain(p1[1]).range([20, 515]);
 
 
-        for (let i = 0; i < 9; i++) {
+         let rooms = ["Uncertain", "RoomTheo", "RoomMate", "LivingRoom", "Laundry", "Kitchen", "Corridor", "Bathroom", "Hall"]
 
-            tbo2.append("circle")
-                .attr("cx", 510)
-                .attr("cy", (510) - (20 * i))
-                .attr("r", 5)
-                .attr("fill", color(i));
+         console.log(dator);
 
-            tbo2.append("text")
-                .attr("text-anchor", "end")
-                .attr("x", 500)
-                .attr("y", (515) - (20 * i))
-                .text(rooms[i])
-        }
-    });
+         for (let i = 0; i < dator["umap"].length; i++) {
 
+             tbo2.append("circle")
+                 .attr("cx", dxscale2(dator["umap"][i][0]))
+                 .attr("cy", dyscale2(dator["umap"][i][1]))
+                 .attr("r", 2)
+                 .attr('fill', color(dator["rooms"][i]))
+         }
+
+
+         for (let i = 0; i < 9; i++) {
+
+             tbo2.append("circle")
+                 .attr("cx", 510)
+                 .attr("cy", (510) - (20 * i))
+                 .attr("r", 5)
+                 .attr("fill", color(i));
+
+             tbo2.append("text")
+                 .attr("text-anchor", "end")
+                 .attr("x", 500)
+                 .attr("y", (515) - (20 * i))
+                 .text(rooms[i])
+         }
+     });
+ */
 
     function loadmap(svg, map) {
 
