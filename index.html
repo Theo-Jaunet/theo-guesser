@@ -130,9 +130,17 @@
     <div class="row">
         <div class="twelve column" style="margin-top: 10%">
             <h4 style="text-align: center"> Theo Guesser </h4>
+            <h5 style="font-size: 2.2rem;color: rgba(0,0,0,0.5);text-align: center">
+                If you wake up in Theo’s appartment could you guess where you are?
+            </h5>
         </div>
     </div>
 
+
+    <div>
+
+
+    </div>
 
     <div class="row">
         <div class="twelve column" style="margin-top: 10%">
@@ -260,9 +268,14 @@
         <div class="six columns" style="margin-top: 1%">
             <!--            <svg id="proj" style="width: 100%;height: 530px;border: #555555 solid 1px"></svg>-->
             <svg id="allProj" style="width: 100%;height: 530px;border: #555555 solid 1px"></svg>
+            <div style="text-align: center;color: rgba(0,0,0,0.5)">
+                Umap projection of features 12000 images. Each dot represents an image classified by the model, and
+                their color their estimated room derived from the model's predicted coordinates.
+            </div>
         </div>
         <div class="six columns" style="margin-top: 1%">
-            <svg id="loc" style="width: 100%;height: 530px;     border: none;margin-top: 63px"></svg>
+            <svg id="loc" style="width: 100%;height: 370px;     border: none;margin-top: 84px"></svg>
+
         </div>
     </div>
 
@@ -391,7 +404,7 @@
             <svg id="proj2" style="width: 100%;height: 530px;border: #555555 solid 1px"></svg>
         </div>
         <div class="six columns" style="margin-top: 3%">
-            <svg id="loc2" style="width: 100%;height: 530px;     border: none;margin-top: 63px"></svg>
+            <svg id="loc2" style="width: 100%;height: 370px;border: none;margin-top: 84px"></svg>
         </div>
         <div class="twelve columns" style="height: 140px" id="imband2"></div>
     </div>
@@ -423,6 +436,7 @@
                     <div style="position: absolute;left:470px; top: 65px">
                         <label for="trajsel3">Trajectory</label>
                         <select class="" id="trajsel3">
+                            <option value="r">real</option>
                             <option value="0">0</option>
                             <option value="1">1</option>
                             <option value="2">2</option>
@@ -463,7 +477,7 @@
             <svg id="proj3" style="width: 100%;height: 530px;border: #555555 solid 1px"></svg>
         </div>
         <div class="six columns" style="margin-top: 3%;height: 100%;vertical-align: center">
-            <svg id="loc3" style="width: 100%;height: 530px;     border: none;margin-top: 63px"></svg>
+            <svg id="loc3" style="width: 100%;height: 370px;     border: none;margin-top: 84px"></svg>
         </div>
         <div class="twelve columns" style="height: 140px" id="imband3"></div>
     </div>
@@ -600,6 +614,8 @@
     let dato2;
     let dato3;
 
+    let tref;
+
     let dator;
     let idSel = [];
 
@@ -634,6 +650,9 @@
     let nguess = 0
     let avgDist = 0
     let avgOrr = 0
+
+
+    let guessw = true
 
     const proj = d3.select("#proj");
     const loc = d3.select("#loc");
@@ -671,6 +690,7 @@
 
             let el = $("#guess");
 
+            $("#guesser").html("Try again!")
             $("#nguess").html(nguess);
 
             avgDist += euclidian_dist([tx, ty], [el.attr("ox"), el.attr("oy")]);
@@ -686,10 +706,6 @@
                     }
                 );
 
-            guessid = getRandomInt(0, dato.length - 1);
-
-            $("#guessimg").attr("src", "data:image/jpeg;base64," + dato[guessid].imgR);
-
 
             tsvg.append("line")
                 .attr("x1", tx - 5)
@@ -703,6 +719,21 @@
             d3.select("#guess").transition().duration(100).style("fill", "#333333")
                 .attr("id", "")
             rotSt = false;
+        } else {
+
+
+            const introsvg = d3.select("#theo-guess")
+
+
+            introsvg.selectAll("path").remove()
+            introsvg.selectAll("line").remove()
+
+            guessid = getRandomInt(0, tref.length - 1);
+
+            $("#guessimg").attr("src", "data:image/jpeg;base64," + tref[guessid].imgR);
+
+            $("#guesser").html("Guess")
+
         }
 
 
@@ -1266,43 +1297,86 @@
 
         curTraj2 = $("#trajsel3").val();
 
-        getData2("datasets/traj" + curTraj2 + "/" + curTraj2 + "_" + curNoise2 + ".json").then(function () {
 
-            proj3.selectAll("path").remove();
-            proj3.selectAll("line").remove();
-            loc3.selectAll("path").remove();
-            loc3.selectAll("line").remove();
+        if (curTraj2 !== "r") {
+            getData2("datasets/traj" + curTraj2 + "/" + curTraj2 + "_" + curNoise2 + ".json").then(function () {
 
-            dato3.sort((a, b) => {
+                proj3.selectAll("path").remove();
+                proj3.selectAll("line").remove();
+                loc3.selectAll("path").remove();
+                loc3.selectAll("line").remove();
 
-                if (a.id > b.id) {
-                    return 1
-                } else {
-                    return -1
-                }
+                dato3.sort((a, b) => {
 
+                    if (a.id > b.id) {
+                        return 1
+                    } else {
+                        return -1
+                    }
+
+                });
+
+                let elem = dato3.filter(d => d.id === 0)[0];
+
+                // console.log(elem);
+
+                $("#imgr3").attr("src", 'data:image/jpeg;base64,' + elem.imgR)
+                $("#depthr3").attr("src", 'data:image/jpeg;base64,' + elem.depthR)
+
+                $("#imgb3").attr("src", 'data:image/jpeg;base64,' + elem.imgB)
+                $("#depthb3").attr("src", 'data:image/jpeg;base64,' + elem.depthB)
+
+
+                drawPoints(dato3, proj3);
+                drawElements(dato3, loc3);
+
+                elements5 = proj3.selectAll(".projDot");
+                elements6 = loc3.selectAll(".locDot");
+
+                $("#timeline3").attr("max", dato3.length - 1)
+            });
+        } else {
+
+
+            getData2("datasets/cbon.json").then(function () {
+
+                proj3.selectAll("path").remove();
+                proj3.selectAll("line").remove();
+                loc3.selectAll("path").remove();
+                loc3.selectAll("line").remove();
+
+                dato3.sort((a, b) => {
+
+                    if (a.id > b.id) {
+                        return 1
+                    } else {
+                        return -1
+                    }
+
+                });
+
+                let elem = dato3.filter(d => d.id === 0)[0];
+                let telem = tref.filter(d => d.id === 0)[0];
+
+                // console.log(elem);
+
+                $("#imgr3").attr("src", 'data:image/jpeg;base64,' + telem.imgR)
+                $("#depthr3").attr("src", 'data:image/jpeg;base64,' + telem.depthR)
+
+                $("#imgb3").attr("src", 'data:image/jpeg;base64,' + elem.imgR)
+                $("#depthb3").attr("src", 'data:image/jpeg;base64,' + elem.depthR)
+
+
+                drawPoints(dato3, proj3);
+                drawElements(dato3, loc3);
+
+                elements5 = proj3.selectAll(".projDot");
+                elements6 = loc3.selectAll(".locDot");
+
+                $("#timeline3").attr("max", dato3.length - 1)
             });
 
-            let elem = dato3.filter(d => d.id === 0)[0];
-
-            // console.log(elem);
-
-            $("#imgr3").attr("src", 'data:image/jpeg;base64,' + elem.imgR)
-            $("#depthr3").attr("src", 'data:image/jpeg;base64,' + elem.depthR)
-
-            $("#imgb3").attr("src", 'data:image/jpeg;base64,' + elem.imgB)
-            $("#depthb3").attr("src", 'data:image/jpeg;base64,' + elem.depthB)
-
-
-            drawPoints(dato3, proj3);
-            drawElements(dato3, loc3);
-
-            elements5 = proj3.selectAll(".projDot");
-            elements6 = loc3.selectAll(".locDot");
-
-            $("#timeline3").attr("max", dato3.length - 1)
-        });
-
+        }
     })
 
 
@@ -1379,6 +1453,7 @@
 
             let elem = dato3.filter(d => d.id === 0)[0];
 
+
             console.log(elem);
 
             $("#imgr3").attr("src", 'data:image/jpeg;base64,' + elem.imgR);
@@ -1406,7 +1481,11 @@
     }
 
 
+    getRef("datasets/traj" + 0 + "/" + 0 + "_gaussian.json").then(function () {
+    })
+
     getData0("datasets/traj" + curTraj + "/" + curTraj + "_" + curNoise + ".json").then(function () {
+
         /*
                 proj2.selectAll("path").remove();
                 proj2.selectAll("line").remove();
@@ -1546,6 +1625,13 @@
 
     async function getData2(url) {
         dato3 = await d3.json(url).then(d => {
+            return JSON.parse(d.replace(/'/g, '"'))
+        });
+    }
+
+
+    async function getRef(url) {
+        tref = await d3.json(url).then(d => {
             return JSON.parse(d.replace(/'/g, '"'))
         });
     }
