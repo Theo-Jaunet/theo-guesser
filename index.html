@@ -174,6 +174,7 @@
         <div class="three columns" style="margin-top: 2%;">
 
             <img id="guessimg" width="256" src="">
+            <img id="saliencim" width="256" src="">
             <button id="guesser" class="button-primary" style="margin-left: 25px"> Guess</button>
             <div style="text-align: left;margin-top: 60px;margin-left: 15px">
                 <p style="text-underline: #555555;text-decoration: underline"> Score </p>
@@ -255,7 +256,8 @@
                 the coordinates and
                 orientation of a given RGB (color) & depth image. This model contains five CNN layers used to process
                 the given images and extract features from them. Those extracted features are then given to three fully
-                connected layers which use these features to decide the location and orientation angle.
+                connected layers which use these features to decide the location (x and y coordinates) and orientation
+                angle.
 
             </p>
             <div style="position: relative;width: 100%;text-align: center;margin-bottom: 15%">
@@ -590,84 +592,84 @@
 
     <div class="row">
         <div class="twelve column" style="margin-top: 8%">
-            <h4 style="text-align: left"> What must change in real-images?</h4>
-            <p>
-                Using backprogation of predictions, one can extract the gradient and build saliency maps which depicts
-                the most influencial parts of the inputed image.
+            <h4 style="text-align: left"> Using real-images</h4>
+            <!-- <p>
+                 Using backprogation of predictions, one can extract the gradient and build saliency maps which depicts
+                 the most influencial parts of the inputed image.
 
-                <br> <br><br>
-                -- Some furniture have more impact than others, e.g. couch
-                <br>
+                 <br> <br><br>
+                 &#45;&#45; Some furniture have more impact than others, e.g. couch
+                 <br>
 
-                -- Mistake despite having a painting on focus in saliency map. Did it mistaken that for another item ?
-                <br>
-                -- Focus on Brooms in laundry.
+                 &#45;&#45; Mistake despite having a painting on focus in saliency map. Did it mistaken that for another item ?
+                 <br>
+                 &#45;&#45; Focus on Brooms in laundry.
 
-            </p>
-
-
-            <p>
-                -- Fix the gap in depth with a manual function.
-
-                -- Use color shifts to make the rgb look alike
-
-            </p>
+             </p>
 
 
-            <div style="width: 100%;text-align: center;position: relative">
-                <svg id="saliency" style="width: 60%;height: 580px">
-                    <path id="guess" num="0" tx="734.5" ty="262" ox="709.5" oy="258" thor="-78.51800864525191" tr="0"
-                          fill="steelblue" d="m 20 20 a -6 6 7 0 1 14 0 l -7 23 l -7 -23"
-                          transform="translate(544.8447704990486, 220.30411052580246) rotate(-78.51800537109375) scale(1.2999999523162842,1.2999999523162842)"
-                          style="stroke: rgba(0, 0, 0, 0.6); stroke-width: 2px;"></path>
-                    <path id="guess" num="0" tx="260.5" ty="321" ox="272.5" oy="325" thor="26.56505117707799" tr="0"
-                          fill="steelblue" d="m 20 20 a -6 6 7 0 1 14 0 l -7 23 l -7 -23"
-                          transform="translate(192.87244703777895, 230.11733937741064) rotate(26.565052032470707) scale(1.2999999523162842,1.2999999523162842)"
-                          style="stroke: rgba(0, 0, 0, 0.6); stroke-width: 2px;"></path>
-                </svg>
+             <p>
+                 &#45;&#45; Fix the gap in depth with a manual function.
+
+                 &#45;&#45; Use color shifts to make the rgb look alike
+
+             </p>
 
 
-                <div style="position: absolute;background-image: url('datasets/realSal/rgb0.jpg');top: 10px;right: -45px;height: 256px ">
-                    <img src="datasets/realSal/sal0.jpg" style="opacity: 0.6"/>
-                </div>
-
-                <div style="position: absolute;background-image: url('datasets/realSal/rgb0.jpg');top: 10px;right: -45px;height: 256px ">
-                    <img src="datasets/realSal/sal0.jpg" style="opacity: 0.6"/>
-                </div>
-
-                <div style="position: absolute;background-image: url('datasets/realSal/rgb0.jpg');top: 10px;right: -45px;height: 256px ">
-                    <img src="datasets/realSal/sal0.jpg" style="opacity: 0.6"/>
-                </div>
-
-            </div>
+             <div style="width: 100%;text-align: center;position: relative">
+                 <svg id="saliency" style="width: 60%;height: 580px">
+                     <path id="guess" num="0" tx="734.5" ty="262" ox="709.5" oy="258" thor="-78.51800864525191" tr="0"
+                           fill="steelblue" d="m 20 20 a -6 6 7 0 1 14 0 l -7 23 l -7 -23"
+                           transform="translate(544.8447704990486, 220.30411052580246) rotate(-78.51800537109375) scale(1.2999999523162842,1.2999999523162842)"
+                           style="stroke: rgba(0, 0, 0, 0.6); stroke-width: 2px;"></path>
+                     <path id="guess" num="0" tx="260.5" ty="321" ox="272.5" oy="325" thor="26.56505117707799" tr="0"
+                           fill="steelblue" d="m 20 20 a -6 6 7 0 1 14 0 l -7 23 l -7 -23"
+                           transform="translate(192.87244703777895, 230.11733937741064) rotate(26.565052032470707) scale(1.2999999523162842,1.2999999523162842)"
+                           style="stroke: rgba(0, 0, 0, 0.6); stroke-width: 2px;"></path>
+                 </svg>
 
 
-            <div>
+                 <div style="position: absolute;background-image: url('datasets/realSal/rgb0.jpg');top: 10px;right: -45px;height: 256px ">
+                     <img src="datasets/realSal/sal0.jpg" style="opacity: 0.6"/>
+                 </div>
 
-                <img src="datasets/realSal/rgb31.jpg"/>
-                <!--                        <img src="datasets/temp/rgb0.jpg"/>-->
-                <img src="datasets/temp/rgb31.jpg"/>
+                 <div style="position: absolute;background-image: url('datasets/realSal/rgb0.jpg');top: 10px;right: -45px;height: 256px ">
+                     <img src="datasets/realSal/sal0.jpg" style="opacity: 0.6"/>
+                 </div>
 
-                <div style="border-left:2px solid #c4c4c4; height: 256px; display: inline-block;margin-left: 10px;margin-right: 10px "></div>
+                 <div style="position: absolute;background-image: url('datasets/realSal/rgb0.jpg');top: 10px;right: -45px;height: 256px ">
+                     <img src="datasets/realSal/sal0.jpg" style="opacity: 0.6"/>
+                 </div>
 
-                <img src="datasets/realSal/rgb0.jpg"/>
-            </div>
-            <div>
-                <img src="datasets/realSal/sal31.jpg"/>
-                <img src="datasets/temp/sal31.jpg"/>
-                <div style="border-left:2px solid #c4c4c4; height: 256px; display: inline-block;margin-left: 10px;margin-right: 10px "></div>
+             </div>
 
-                <img src="datasets/realSal/sal0.jpg"/>
 
-            </div>
+             <div>
 
+                 <img src="datasets/realSal/rgb31.jpg"/>
+                 &lt;!&ndash;                        <img src="datasets/temp/rgb0.jpg"/>&ndash;&gt;
+                 <img src="datasets/temp/rgb31.jpg"/>
+
+                 <div style="border-left:2px solid #c4c4c4; height: 256px; display: inline-block;margin-left: 10px;margin-right: 10px "></div>
+
+                 <img src="datasets/realSal/rgb0.jpg"/>
+             </div>
+             <div>
+                 <img src="datasets/realSal/sal31.jpg"/>
+                 <img src="datasets/temp/sal31.jpg"/>
+                 <div style="border-left:2px solid #c4c4c4; height: 256px; display: inline-block;margin-left: 10px;margin-right: 10px "></div>
+
+                 <img src="datasets/realSal/sal0.jpg"/>
+
+             </div>
+ -->
         </div>
     </div>
 
 
     <div class="row">
         <div class="twelve column" style="margin-top: 8%">
-            <h4 style="text-align: left"> What can be improved ?</h4>
+            <h4 style="text-align: left"> Do it yourself!</h4>
             <p>
             </p>
 
@@ -819,6 +821,7 @@
     let proj_yscacle = d3.scaleLinear().domain(p1[1]).range([20, 515]);
 
     let colscale = d3.scaleLinear().domain([0, 20]).range(['green', 'red']);
+    let colscaleizy = d3.scaleLinear().domain([0, 60]).range(['green', 'red']);
     let tsvg = d3.select("#theo-guess");
 
 
@@ -911,6 +914,7 @@
             guessid = getRandomInt(0, tref.length - 1);
 
             $("#guessimg").attr("src", "data:image/jpeg;base64," + tref[guessid].imgR);
+            $("#saliencim").attr("src", "data:image/jpeg;base64," + tref[guessid].salR);
 
             $("#guesser").html("Guess")
 
@@ -1437,7 +1441,7 @@
 
         curTraj = $("#trajsel2").val();
 
-        getData1("datasets/basic/" + curTraj + "_" + curNoise + ".json").then(function () {
+        getData1("datasets/bad/try" + "_" + curNoise + ".json").then(function () {
 
             proj2.selectAll("path").remove();
             proj2.selectAll("line").remove();
@@ -1671,6 +1675,7 @@
 
         guessid = getRandomInt(0, tref.length - 1)
         $("#guessimg").attr("src", "data:image/jpeg;base64," + tref[guessid].imgR);
+        $("#saliencim").attr("src", "data:image/jpeg;base64," + tref[guessid].salR);
     })
 
     /*    getDatatry("datasets/try_gaussian.json").then(function () {
@@ -1682,7 +1687,8 @@
 
         })*/
 
-    getData0("datasets/traj" + curTraj + "/" + curTraj + "_" + curNoise + ".json").then(function () {
+    // getData0("datasets/traj" + curTraj + "/" + curTraj + "_" + curNoise + ".json").then(function () {
+    getData0("datasets/bad/try_gaussian.json").then(function () {
 
         /*
                 proj2.selectAll("path").remove();
@@ -1698,11 +1704,8 @@
 
 
         guessid = getRandomInt(0, tref.length - 1)
-
-
-        // guessid = 54
-        // guessid = 5
         $("#guessimg").attr("src", "data:image/jpeg;base64," + tref[guessid].imgR)
+
 
         $("#timeline").attr("max", dato.length)
         dato.sort((a, b) => {
@@ -1721,14 +1724,14 @@
         $("#imgr").attr("src", 'data:image/jpeg;base64,' + elem.imgR)
         $("#depthr").attr("src", 'data:image/jpeg;base64,' + elem.depthR)
 
-        $("#imgb").attr("src", 'data:image/jpeg;base64,' + elem.imgB)
-        $("#depthb").attr("src", 'data:image/jpeg;base64,' + elem.depthB)
+        // $("#imgb").attr("src", 'data:image/jpeg;base64,' + elem.imgB)
+        // $("#depthb").attr("src", 'data:image/jpeg;base64,' + elem.depthB)
 
 
         drawPoints(dato, proj);
-        drawElements(dato, loc);
+        drawElementsBad(dato, loc);
 
-        elements = proj.selectAll(".projDot");
+        elements = loc.selectAll(".locDot");
         elements2 = loc.selectAll(".locDot");
 
 
