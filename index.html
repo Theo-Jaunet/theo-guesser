@@ -227,14 +227,17 @@
                 Inspired by PoseNet [TODO], we designed and trained a convolutional deep learning model able to regress
                 the coordinates and
                 orientation of a given RGB (color) & depth image.
-            <p>
-
-                <img src="assets/nn.png" style="width: 500px; border: none">
-                Click here for details on the model and it's training
 
             </p>
+            <div style="position: relative;width: 100%;text-align: center;margin-bottom: 15%">
 
-            </p>
+                <img src="assets/nn2.png" style="width: 750px; border: none">
+
+                <span style="position: absolute;bottom: -6px;right: 270px"> Features for Umap</span>
+                <span style="position: absolute;bottom: -20px"> Click here for details on the model and it's training</span>
+
+            </div>
+
 
             <p>
                 In the figure below (right side), we show a
@@ -259,7 +262,7 @@
                 room this image
                 has been taken from based on predicted coordinates (the mapping from locations to rooms has been
                 determined manually). We can observe that the model is
-                quite able to distinguish rooms, with the execption of some ambiguities at the intersection of clusters.
+                quite able to distinguish rooms, with the exception of some ambiguities at the intersection of clusters.
                 We can
                 conclude that the model properly learned to identify rooms, as long as we stay in the same simulated
                 environment.
@@ -294,6 +297,11 @@
         </div>
         <div class="six columns" style="margin-top: 1%">
             <svg id="loc" style="width: 100%;height: 370px;     border: none;margin-top: 84px"></svg>
+            <div style="text-align: center;color: rgba(0,0,0,0.5)">
+                Neural model's predictions of coordinates and orientation angles of given images sampled from a
+                trajectory in the simulator. The color of each arrow encodes how wrong a prediction is from low error
+                (green) to high error (red).
+            </div>
 
         </div>
     </div>
@@ -358,11 +366,11 @@
             </div>
 
             <div style="position: relative;width: 100%">
-                <p style="position: absolute;left: 128px;bottom:-50px;width: 100px"> rgb</p>
-                <p style="position: absolute;left: 363px;bottom:-50px;width: 100px"> depth</p>
+                <p style="position: absolute;left: 128px;bottom:-50px;width: 100px"> RGB</p>
+                <p style="position: absolute;left: 363px;bottom:-50px;width: 100px"> Depth</p>
 
-                <p style="position: absolute;right: 338px;bottom:-50px;width: 100px"> depth</p>
-                <p style="position: absolute;right: 72px;bottom:-50px;width: 100px"> rgb</p>
+                <p style="position: absolute;right: 338px;bottom:-50px;width: 100px"> Depth</p>
+                <p style="position: absolute;right: 72px;bottom:-50px;width: 100px"> RGB</p>
             </div>
 
             <p style="margin-top: 7%">
@@ -390,6 +398,12 @@
 
     <div class="row">
         <div class="twelve columns" style="margin-top: 8%;position: relative;height: 130px">
+            <div style="position: relative;margin-top: 2%;text-decoration: #555555 underline;text-align: center;margin-bottom: -10px" >
+                <p style="position: absolute;left:90px ;top:-50px;width: 100px;text-decoration: #555555 underline;text-anchor: middle">
+                    Simulator</p>
+                <p style="position: absolute;right: 90px;top:-50px;width: 100px;text-decoration: #555555 underline;text-anchor: middle">
+                    Noise/Real</p>
+            </div>
             <img src="" height="128" width="128" id="imgr2" style="position: absolute">
             <img src="" height="128" width="128" id="depthr2" style="position: absolute;left:130px; ">
             <img src="" height="128" width="128" id="imgb2" style="position: absolute;right: 0">
@@ -459,6 +473,12 @@
 
             <div class="row">
                 <div class="twelve columns" style="margin-top: 8%;position: relative;height: 130px">
+                                <div style="position: relative;margin-top: 2%;text-decoration: #555555 underline;text-align: center;margin-bottom: -10px" >
+                <p style="position: absolute;left:90px ;top:-50px;width: 100px;text-decoration: #555555 underline;text-anchor: middle">
+                    Simulator</p>
+                <p style="position: absolute;right: 90px;top:-50px;width: 100px;text-decoration: #555555 underline;text-anchor: middle">
+                    Noise/Real</p>
+            </div>
                     <img src="" height="128" width="128" id="imgr3" style="position: absolute">
                     <img src="" height="128" width="128" id="depthr3" style="position: absolute;left:130px; ">
                     <img src="" height="128" width="128" id="imgb3" style="position: absolute;right: 0">
@@ -905,7 +925,7 @@
 
         path.attr("thor", orr)
 
-        path.transition().duration(15).attr("transform", "rotate(" + (orr) + " " + (path.attr("ox") -1) + " " + (path.attr("oy") - 6) + ") translate(" + (path.attr("ox") - 36) + "," + (path.attr("oy") - 31) + ") scale(1.3)  ")
+        path.transition().duration(15).attr("transform", "rotate(" + (orr) + " " + (path.attr("ox") - 1) + " " + (path.attr("oy") - 6) + ") translate(" + (path.attr("ox") - 36) + "," + (path.attr("oy") - 31) + ") scale(1.3)  ")
         circle.transition().duration(15).attr("cx", parseFloat(point[0])).attr("cy", parseFloat(point[1]));
         line.transition().duration(15).attr("x2", parseFloat(point[0])).attr("y2", parseFloat(point[1]));
         // circle.transition().duration(15)
