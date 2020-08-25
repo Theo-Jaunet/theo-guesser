@@ -174,7 +174,7 @@
         <div class="three columns" style="margin-top: 2%;">
 
             <img id="guessimg" width="256" src="">
-            <img id="saliencim" width="256" src="">
+<!--            <img id="saliencim" width="256" src="">-->
             <button id="guesser" class="button-primary" style="margin-left: 25px"> Guess</button>
             <div style="text-align: left;margin-top: 60px;margin-left: 15px">
                 <p style="text-underline: #555555;text-decoration: underline"> Score </p>
@@ -322,7 +322,8 @@
         <div class="twelve columns" style="margin-top: 1%;position: relative;height: 130px">
             <div style="position: absolute;right: 48.1%;top:108%">
                 <img src="" height="128" width="128" id="imgr" style="position: absolute">
-                <img src="" height="128" width="128" id="depthr" style="position: absolute;left:130px; ">
+                <img src="" height="128" width="128" id="depthr" style="position: absolute;left:140px; ">
+                <img src="" height="128" width="128" id="salr" style="position: absolute;left:280px; ">
             </div>
             <!--            <img class="play" id="play1" style="width: 29px;position: absolute;left: 290px;top:40px"
                              src="assets/play-sign.svg">
@@ -497,7 +498,7 @@
             <svg id="proj2" style="width: 100%;height: 530px;border: #555555 solid 1px"></svg>
         </div>
         <div class="six columns" style="margin-top: 3%">
-            <svg id="loc2" style="width: 100%;height: 370px;border: none;margin-top: 84px"></svg>
+            <svg id="loc2" style="width: 100%;height: 370px;border: none;margin-top: 160px"></svg>
         </div>
         <div class="twelve columns" style="height: 140px" id="imband2"></div>
     </div>
@@ -1698,7 +1699,7 @@
             }
 
 
-            getRef("datasets/try_gaussian.json").then(function () {
+            getRef("datasets/bad/try_gaussian.json").then(function () {
                 // console.log(dat);
 
                 guessid = getRandomInt(0, tref.length - 1)
@@ -1751,6 +1752,7 @@
 
                 $("#imgr").attr("src", 'data:image/jpeg;base64,' + elem.imgR)
                 $("#depthr").attr("src", 'data:image/jpeg;base64,' + elem.depthR)
+                $("#salr").attr("src", 'data:image/jpeg;base64,' + elem.salR)
 
                 // $("#imgb").attr("src", 'data:image/jpeg;base64,' + elem.imgB)
                 // $("#depthb").attr("src", 'data:image/jpeg;base64,' + elem.depthB)
