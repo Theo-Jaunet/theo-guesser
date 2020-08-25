@@ -157,7 +157,8 @@
                 On the map on the right, try to pinpoint the point from which the observed image (shown left) has been
                 taken.
                 To do so, click on the corresponding location and then drag the appearing circle to configure the
-                orientation angle.
+                orientation angle. After clicking on the "Guess" button, the ground truth appears in green, and a neural
+                network prediction in purple.
             </div>
         </div>
     </div>
@@ -322,8 +323,8 @@
         <div class="twelve columns" style="margin-top: 1%;position: relative;height: 130px">
             <div style="position: absolute;right: 48.1%;top:108%">
                 <img src="" height="128" width="128" id="imgr" style="position: absolute">
-                <img src="" height="128" width="128" id="depthr" style="position: absolute;left:140px; ">
-                <img src="" height="128" width="128" id="salr" style="position: absolute;left:280px; ">
+                <img src="" height="128" width="128" id="depthr" style="position: absolute;left:140px;">
+                <img src="" height="128" width="128" id="salr" style="position: absolute;left:280px;">
             </div>
             <!--            <img class="play" id="play1" style="width: 29px;position: absolute;left: 290px;top:40px"
                              src="assets/play-sign.svg">
@@ -450,7 +451,7 @@
                 <p style="position: absolute;right:348px ;top:120px;width: 100px;text-decoration: #555555 underline;text-anchor: middle">
                     Simulator</p>
                 <p style="position: absolute;right: 90px;top:120px;width: 100px;text-decoration: #555555 underline;text-anchor: middle">
-                    Noise/Real</p>
+                    Noise</p>
             </div>
             <img src="" height="128" width="128" id="imgr2" style="position: absolute;top:170px;right:395px">
             <img src="" height="128" width="128" id="depthr2" style="position: absolute;right:264px;top:170px ">
@@ -477,7 +478,6 @@
                     <option value="brightness">Brightness</option>
                     <option value="pepper">Pepper</option>
                     <option value="sharpen">Sharpen</option>
-                    <option value="trans">Transforms</option>
                     <option value="white">White balance</option>
 
                 </select>
@@ -523,31 +523,19 @@
             <div class="row">
                 <div class="twelve columns" style="margin-top: 8%;position: relative;height: 130px">
                     <div style="position: relative;margin-top: 2%;text-decoration: #555555 underline;text-align: center;margin-bottom: -10px">
-                        <p style="position: absolute;left:90px ;top:-50px;width: 100px;text-decoration: #555555 underline;text-anchor: middle">
+                        <p style="position: absolute;right:348px ;top:120px;width: 100px;text-decoration: #555555 underline;text-anchor: middle">
                             Simulator</p>
-                        <p style="position: absolute;right: 90px;top:-50px;width: 100px;text-decoration: #555555 underline;text-anchor: middle">
-                            Noise/Real</p>
+                        <p style="position: absolute;right:90px ;top:120px;width: 100px;text-decoration: #555555 underline;text-anchor: middle">
+                            Noise</p>
                     </div>
-                    <img src="" height="128" width="128" id="imgr3" style="position: absolute">
-                    <img src="" height="128" width="128" id="depthr3" style="position: absolute;left:130px; ">
-                    <img src="" height="128" width="128" id="imgb3" style="position: absolute;right: 0">
-                    <img src="" height="128" width="128" id="depthb3" style="position: absolute;right: 130px">
+                    <img src="" height="128" width="128" id="imgr3" style="position: absolute;top:170px;right:395px">
+                    <img src="" height="128" width="128" id="depthr3" style="position: absolute;right:264px;top:170px ">
+                    <img src="" height="128" width="128" id="imgb3" style="position: absolute;right: 0;top:170px">
+                    <img src="" height="128" width="128" id="depthb3" style="position: absolute;right: 130px;top:170px">
 
 
-                    <div style="position: absolute;left:470px; top: 65px">
-                        <label for="trajsel3">Trajectory</label>
-                        <select class="" id="trajsel3">
-                            <option value="r">real</option>
-                            <option value="0">0</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                        </select>
-                    </div>
-
-                    <div style="position: absolute;left:570px; top: 65px">
-                        <label for="noisel3">Noise</label>
+                    <div style="position: absolute;right:25px; top: 340px;">
+                        <label for="noisel3" style="color: #E1E1E1">Noise</label>
                         <select class="" id="noisel3">
                             <option value="gaussian">Gaussian</option>
                             <option value="edge">Edge-Enhancing</option>
@@ -578,7 +566,7 @@
             <svg id="proj3" style="width: 100%;height: 530px;border: #555555 solid 1px"></svg>
         </div>
         <div class="six columns" style="margin-top: 3%;height: 100%;vertical-align: center">
-            <svg id="loc3" style="width: 100%;height: 370px;     border: none;margin-top: 84px"></svg>
+            <svg id="loc3" style="width: 100%;height: 370px;     border: none;margin-top: 160px"></svg>
         </div>
         <div class="twelve columns" style="height: 140px" id="imband3"></div>
     </div>
