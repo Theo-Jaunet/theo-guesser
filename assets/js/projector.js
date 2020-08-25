@@ -65,7 +65,7 @@ function drawPoints(data, svg) {
         .attr("d", "m 20 20 a -6 6 7 0 1 14 0 l -7 23 l -7 -23")
         .attr("transform", d => {
             const orr = -90 + (Math.atan2(proj_yscacle(d.py2) - proj_yscacle(d.py1), proj_xscacle(d.px2) - proj_xscacle(d.px1)) * (180 / Math.PI));
-            return "rotate(" + (orr) + " " + (proj_xscacle(d.px1) - 2) + " " + (proj_yscacle(d.py1) - 2) + ") translate(" + (proj_xscacle(d.px1) - 16) + "," + (proj_yscacle(d.py1) - 16) + ")  scale(0.5) "
+            return "rotate(" + (orr) + " " + (proj_xscacle(d.px1) - 2) + " " + (proj_yscacle(d.py1) - 2) + ") translate(" + (proj_xscacle(d.px2) - 16) + "," + (proj_yscacle(d.py2) - 16) + ")  scale(0.5) "
         })
 }
 
