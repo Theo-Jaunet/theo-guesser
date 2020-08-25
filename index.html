@@ -131,7 +131,7 @@
             cursor: pointer;
             /*border: #333333 solid 1px;*/
             /*background-color: #33d2ff;*/
-            border-radius: 5%;
+            border-radius: 4px;
 
         }
     </style>
@@ -268,7 +268,15 @@
                 <p style="position: absolute;bottom: 59px;right: 70px;text-align: left;font-weight: 800;font-style: italic">
                     x = 12.6, <br> y = 3.84, <br> angle = 63.12<br>
                 </p>
-                <span style="position: absolute;bottom: -75px;border: #333333 solid 1px;            border-radius: 5%;"
+
+                <p style="position: absolute;top: 46px;left: 132px;text-align: left;font-weight: 800;font-style: italic;text-anchor: end">
+                    RGB
+                </p>
+
+                <p style="position: absolute;top: 166px;left: 120px;text-align: left;font-weight: 800;font-style: italic;text-anchor: end">
+                    Depth
+                </p>
+                <span style="position: absolute;bottom: -75px;border: #333333 solid 1px;            border-radius: 4px;"
                       class="actcl"> Click here for details on the model and it's training</span>
 
             </div>
@@ -311,9 +319,11 @@
 
     </div>
     <div class="row">
-        <div class="twelve columns" style="margin-top: 8%;position: relative;height: 130px">
-            <img src="" height="128" width="128" id="imgr" style="position: absolute">
-            <img src="" height="128" width="128" id="depthr" style="position: absolute;left:130px; ">
+        <div class="twelve columns" style="margin-top: 1%;position: relative;height: 130px">
+            <div style="position: absolute;right: 48.1%;top:108%">
+                <img src="" height="128" width="128" id="imgr" style="position: absolute">
+                <img src="" height="128" width="128" id="depthr" style="position: absolute;left:130px; ">
+            </div>
             <!--            <img class="play" id="play1" style="width: 29px;position: absolute;left: 290px;top:40px"
                              src="assets/play-sign.svg">
                         <input id="timeline" type="range" min="0" max="57" step="1" value="0"
@@ -333,7 +343,7 @@
             </div>
         </div>
         <div class="six columns" style="margin-top: 1%">
-            <svg id="loc" style="width: 100%;height: 370px;     border: none;margin-top: 84px"></svg>
+            <svg id="loc" style="width: 100%;height: 370px;     border: none;margin-top: 160px"></svg>
             <div style="text-align: center;color: rgba(0,0,0,0.5)">
                 Neural model's predictions of coordinates and orientation angles of given images sampled from a
                 trajectory in the simulator. The color of each arrow encodes how wrong a prediction is from low error
@@ -774,6 +784,8 @@
             let dato2;
             let dato3;
 
+            let hacl = false;
+
             let tref;
 
             let dator;
@@ -836,6 +848,12 @@
             function focusRef(id) {
                 console.log(id);
                 document.getElementById(id).scrollIntoView({block: 'center', behavior: 'smooth'})
+            }
+
+
+            function handleAcl() {
+
+                hacl = !hacl
             }
 
 
