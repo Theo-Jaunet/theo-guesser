@@ -129,7 +129,7 @@
 
         .actcl:hover {
             cursor: pointer;
-            border: #333333 solid 1px;
+            /*border: #333333 solid 1px;*/
             /*background-color: #33d2ff;*/
             border-radius: 5%;
 
@@ -266,7 +266,8 @@
                 <p style="position: absolute;bottom: 59px;right: 70px;text-align: left;font-weight: 800;font-style: italic">
                     x = 12.6, <br> y = 3.84, <br> angle = 63.12<br>
                 </p>
-                <span style="position: absolute;bottom: -75px" class="actcl"> Click here for details on the model and it's training</span>
+                <span style="position: absolute;bottom: -75px;border: #333333 solid 1px;            border-radius: 5%;"
+                      class="actcl"> Click here for details on the model and it's training</span>
 
             </div>
 
@@ -311,12 +312,11 @@
         <div class="twelve columns" style="margin-top: 8%;position: relative;height: 130px">
             <img src="" height="128" width="128" id="imgr" style="position: absolute">
             <img src="" height="128" width="128" id="depthr" style="position: absolute;left:130px; ">
-            <img class="play" id="play1" style="width: 29px;position: absolute;left: 290px;top:40px"
-                 src="assets/play-sign.svg">
-            <input id="timeline" type="range" min="0" max="57" step="1" value="0"
-                   style="position: absolute;left: 335px;top:52px;width: 450px">
-            <p id="timelineTxt" style="position: absolute;left: 793px;top:43px"> 0 </p>
-
+            <!--            <img class="play" id="play1" style="width: 29px;position: absolute;left: 290px;top:40px"
+                             src="assets/play-sign.svg">
+                        <input id="timeline" type="range" min="0" max="57" step="1" value="0"
+                               style="position: absolute;left: 335px;top:52px;width: 450px">
+                        <p id="timelineTxt" style="position: absolute;left: 793px;top:43px"> 0 </p>-->
 
         </div>
     </div>
@@ -760,6 +760,7 @@
 <script>
     // const data = fakedata(200);
     let dato;
+    let dat;
     let dato2;
     let dato3;
 
@@ -840,9 +841,15 @@
             // const coords = d3.mouse(tsvg.node());
 
 
-            let tx = txscale(dato[guessid].tx);
-            let ty = tyscale(dato[guessid].ty);
-            let torr = dato[guessid].torr;
+            let pred_tx = txscale(tref[guessid].lx1);
+            let pred_ty = tyscale(tref[guessid].lx2);
+            let pred_torr = tref[guessid].lorr1;
+
+
+            let tx = txscale(tref[guessid].tx);
+            let ty = tyscale(tref[guessid].ty);
+            let torr = tref[guessid].torr;
+
 
             nguess += 1;
 
@@ -863,6 +870,18 @@
                 .attr("d", "m 20 20 a -6 6 7 0 1 14 0 l -7 23 l -7 -23")
                 .attr("transform", d => {
                         return "rotate(" + (180 - torr) + " " + (tx - 6) + " " + (ty - 6) + ") translate(" + (tx - 32) + "," + (ty - 32) + ") scale(1.5)"
+                    }
+                );
+
+
+            tsvg.append("path")
+                // .attr("id", "gtpath")
+                .attr("fill", "purple")
+                .style("stroke", "rgba(0,0,0,0.6)")
+                .style("stroke-width", "2px")
+                .attr("d", "m 20 20 a -6 6 7 0 1 14 0 l -7 23 l -7 -23")
+                .attr("transform", d => {
+                        return "rotate(" + (180 - pred_torr) + " " + (pred_tx - 6) + " " + (pred_ty - 6) + ") translate(" + (pred_tx - 32) + "," + (pred_ty - 32) + ") scale(1.5)"
                     }
                 );
 
@@ -888,6 +907,7 @@
             introsvg.selectAll("path").remove()
             introsvg.selectAll("line").remove()
 
+            // guessid = getRandomInt(0, tref.length - 1);
             guessid = getRandomInt(0, tref.length - 1);
 
             $("#guessimg").attr("src", "data:image/jpeg;base64," + tref[guessid].imgR);
@@ -982,12 +1002,11 @@
         let line = d3.select("#guessLine");
         let circle = d3.select("#guessCr");
 
-        console.log(point);
+        // console.log(point);
 
 
         let deltax = parseFloat(point[0] - path.attr("ox"));
         let deltay = parseFloat(point[1] - path.attr("oy"));
-
 
         path.attr("ox", point[0]);
         path.attr("oy", point[1]);
@@ -1647,8 +1666,21 @@
     }
 
 
-    getRef("datasets/traj" + 0 + "/" + 0 + "_gaussian.json").then(function () {
+    getRef("datasets/try_gaussian.json").then(function () {
+        // console.log(dat);
+
+        guessid = getRandomInt(0, tref.length - 1)
+        $("#guessimg").attr("src", "data:image/jpeg;base64," + tref[guessid].imgR);
     })
+
+    /*    getDatatry("datasets/try_gaussian.json").then(function () {
+
+
+            tsvg
+
+            console.log(dat);
+
+        })*/
 
     getData0("datasets/traj" + curTraj + "/" + curTraj + "_" + curNoise + ".json").then(function () {
 
@@ -1665,10 +1697,12 @@
                 loc3.selectAll("line").remove();*/
 
 
-        guessid = getRandomInt(0, dato.length - 1)
+        guessid = getRandomInt(0, tref.length - 1)
+
+
         // guessid = 54
         // guessid = 5
-        $("#guessimg").attr("src", "data:image/jpeg;base64," + dato[guessid].imgR)
+        $("#guessimg").attr("src", "data:image/jpeg;base64," + tref[guessid].imgR)
 
         $("#timeline").attr("max", dato.length)
         dato.sort((a, b) => {
@@ -1679,7 +1713,6 @@
                 return -1
             }
         });
-        console.log(dato);
 
         let elem = dato.filter(d => d.id === 0)[0];
 
@@ -1776,6 +1809,13 @@
         drawPoints(data, proj);
         drawElements(data, d3.select("#loc"));
     }
+
+    async function getDatatry(url) {
+        dat = await d3.json(url).then(d => {
+            return JSON.parse(d.replace(/'/g, '"'))
+        });
+    }
+
 
     async function getData0(url) {
         dato = await d3.json(url).then(d => {
