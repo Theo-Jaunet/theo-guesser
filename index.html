@@ -174,9 +174,9 @@
         <div class="three columns" style="margin-top: 2%;">
 
             <img id="guessimg" width="256" src="">
-<!--            <img id="saliencim" width="256" src="">-->
+            <!--            <img id="saliencim" width="256" src="">-->
             <button id="guesser" class="button-primary" style="margin-left: 25px"> Guess</button>
-            <div style="text-align: left;margin-top: 60px;margin-left: 15px">
+            <div style="text-align: left;margin-top: 60px;margin-left: 15px;font-size: 14pt">
                 <p style="text-underline: #555555;text-decoration: underline"> Score </p>
                 <ul>
                     <li># of Guesses: <span id="nguess"></span></li>
@@ -445,17 +445,17 @@
     </div>
 
     <div class="row">
-        <div class="twelve columns" style="margin-top: 8%;position: relative;height: 130px">
+        <div class="twelve columns" style="margin-top: -2%;position: relative;height: 130px">
             <div style="position: relative;margin-top: 2%;text-decoration: #555555 underline;text-align: center;margin-bottom: -10px">
-                <p style="position: absolute;left:90px ;top:-50px;width: 100px;text-decoration: #555555 underline;text-anchor: middle">
+                <p style="position: absolute;right:348px ;top:120px;width: 100px;text-decoration: #555555 underline;text-anchor: middle">
                     Simulator</p>
-                <p style="position: absolute;right: 90px;top:-50px;width: 100px;text-decoration: #555555 underline;text-anchor: middle">
+                <p style="position: absolute;right: 90px;top:120px;width: 100px;text-decoration: #555555 underline;text-anchor: middle">
                     Noise/Real</p>
             </div>
-            <img src="" height="128" width="128" id="imgr2" style="position: absolute">
-            <img src="" height="128" width="128" id="depthr2" style="position: absolute;left:130px; ">
-            <img src="" height="128" width="128" id="imgb2" style="position: absolute;right: 0">
-            <img src="" height="128" width="128" id="depthb2" style="position: absolute;right: 130px">
+            <img src="" height="128" width="128" id="imgr2" style="position: absolute;top:170px;right:395px">
+            <img src="" height="128" width="128" id="depthr2" style="position: absolute;right:264px;top:170px ">
+            <img src="" height="128" width="128" id="imgb2" style="position: absolute;right: 0;top:170px">
+            <img src="" height="128" width="128" id="depthb2" style="position: absolute;right: 130px;top:170px">
 
 
             <!--            <div style="position: absolute;left:470px; top: 65px">
@@ -469,8 +469,8 @@
                             </select>
                         </div>-->
 
-            <div style="position: absolute;left:570px; top: 65px">
-                <label for="noisel2">Noise</label>
+            <div style="position: absolute;right:25px; top: 340px;">
+                <label for="noisel2" style="color: #E1E1E1">Noise</label>
                 <select class="" id="noisel2">
                     <option value="gaussian">Gaussian</option>
                     <option value="edge">Edge-Enhancing</option>
