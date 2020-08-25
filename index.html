@@ -46,6 +46,13 @@
         }
 
 
+        .focus {
+
+            cursor: pointer;
+            text-decoration: underline;
+
+        }
+
         input::-moz-focus-inner {
             border: 0;
         }
@@ -119,6 +126,14 @@
             border: #888888 solid 1px;
             margin: 2px;
         }
+
+        .actcl:hover {
+            cursor: pointer;
+            border: #333333 solid 1px;
+            /*background-color: #33d2ff;*/
+            border-radius: 5%;
+
+        }
     </style>
 
 </head>
@@ -134,6 +149,16 @@
             <h5 style="font-size: 2.2rem;color: rgba(0,0,0,0.5);text-align: center">
                 If you wake up in Theo’s appartment could you guess where you are?
             </h5>
+
+
+            <!--            <h4 style="text-align: left"> Introduction </h4>-->
+
+            <div style="font-style: italic;margin-top: 10%">
+                On the map on the right, try to pinpoint the point from which the observed image (shown left) has been
+                taken.
+                To do so, click on the corresponding location and then drag the appearing circle to configure the
+                orientation angle.
+            </div>
         </div>
     </div>
 
@@ -142,9 +167,34 @@
 
     </div>
 
+
+    <!--</div>-->
+    <div class="row" style="text-align: center">
+
+        <div class="three columns" style="margin-top: 2%;">
+
+            <img id="guessimg" width="256" src="">
+            <button id="guesser" class="button-primary" style="margin-left: 25px"> Guess</button>
+            <div style="text-align: left;margin-top: 60px;margin-left: 15px">
+                <p style="text-underline: #555555;text-decoration: underline"> Score </p>
+                <ul>
+                    <li># of Guesses: <span id="nguess"></span></li>
+                    <li> Avg Dist: <span id="avgDist"></span></li>
+                    <!--                    <li> Avg Orr:</li>-->
+                </ul>
+            </div>
+        </div>
+        <div class="nine columns" style="margin-top: 2%;display: inline-block">
+
+            <svg id="theo-guess" style="width: 100%;height: 580px;border: #555555 solid 1px;cursor: crosshair"></svg>
+        </div>
+
+
+    </div>
+
+
     <div class="row">
         <div class="twelve column" style="margin-top: 10%">
-            <h4 style="text-align: left"> Introduction </h4>
             <p>
                 The last years have witnessed the soaring of Machine Learning, which has provided disruptive performance
                 gains in several fields. Apart from undeniable advances in methodology, these gains are often attributed
@@ -152,7 +202,8 @@
                 recognition, computer vision and language processing. Extending these advances to robotics, planning and
                 control has proven to be difficult, as these applications often require learning from interactions
                 instead of static data. They also currently suffer from low sample efficiency, often requiring billions
-                of interactions <a href="#ref1">[1]</a>, which makes learning in real-time from physical interactions
+                of interactions <a onclick="focusRef('ref1')" class="focus">[1]</a>, which makes learning in real-time
+                from physical interactions
                 with real robots
                 intractable.
                 <br/><br/>
@@ -181,41 +232,15 @@
 
                 <br/><br/>
 
-                But first, are you (as a human) able to solve this task?
+                <!--
+                                But first, are you (as a human) able to solve this task?
 
-                <br/><br/>
+                                <br/><br/>
+                -->
 
-                <span style="font-style: italic">
-                    On the map on the right, try to pinpoint the point from which the observed image (shown left) has been taken.
-                    To do so, click on the corresponding location and then drag the appearing circle to configure the orientation angle.
-                </span>
 
             </p>
         </div>
-
-    </div>
-
-
-    <!--</div>-->
-    <div class="row" style="text-align: center">
-        <div class="three columns" style="margin-top: 2%;">
-
-            <img id="guessimg" width="256" src="">
-            <button id="guesser" style="margin-left: 25px"> Guess</button>
-            <div style="text-align: left;margin-top: 60px;margin-left: 15px">
-                <p style="text-underline: #555555;text-decoration: underline"> Score </p>
-                <ul>
-                    <li># of Guesses: <span id="nguess"></span></li>
-                    <li> Avg Dist: <span id="avgDist"></span></li>
-                    <!--                    <li> Avg Orr:</li>-->
-                </ul>
-            </div>
-        </div>
-        <div class="nine columns" style="margin-top: 2%;display: inline-block">
-
-            <svg id="theo-guess" style="width: 100%;height: 580px;border: #555555 solid 1px;cursor: crosshair"></svg>
-        </div>
-
 
     </div>
 
@@ -224,17 +249,24 @@
         <div class="twelve column" style="margin-top: 10%">
             <h4 style="text-align: left"> Let's see how a model performs </h4>
             <p>
-                Inspired by PoseNet [TODO], we designed and trained a convolutional deep learning model able to regress
+                Inspired by PoseNet <a onclick="focusRef('ref4')" class="focus">[4]</a>, we designed and trained a
+                convolutional deep learning model
+                able to regress
                 the coordinates and
-                orientation of a given RGB (color) & depth image.
+                orientation of a given RGB (color) & depth image. This model contains five CNN layers used to process
+                the given images and extract features from them. Those extracted features are then given to three fully
+                connected layers which use these features to decide the location and orientation angle.
 
             </p>
             <div style="position: relative;width: 100%;text-align: center;margin-bottom: 15%">
 
                 <img src="assets/nn2.png" style="width: 750px; border: none">
 
-                <span style="position: absolute;bottom: -6px;right: 270px"> Features for Umap</span>
-                <span style="position: absolute;bottom: -20px"> Click here for details on the model and it's training</span>
+                <span style="position: absolute;bottom: -6px;right: 270px" id="umapMarl"> Features for Umap</span>
+                <p style="position: absolute;bottom: 59px;right: 70px;text-align: left;font-weight: 800;font-style: italic">
+                    x = 12.6, <br> y = 3.84, <br> angle = 63.12<br>
+                </p>
+                <span style="position: absolute;bottom: -75px" class="actcl"> Click here for details on the model and it's training</span>
 
             </div>
 
@@ -256,7 +288,10 @@
             </p>
             <p>
                 To the left, we provide a visualization of the feature representation used by the neural network in the
-                form of the activations of its penultimate layer. We show a Umap projection of features extracted from
+                form of the activations of its last CNN layer (indicated in the <a class="focus"
+                                                                                   onclick="focusRef('umapMarl')">figure
+                above</a>). We show a Umap projection
+                of features extracted from
                 nearly 12000 previously unseen
                 images. The location of its dot represents the features of an image, and its color corresponds to the
                 room this image
@@ -335,7 +370,7 @@
                 simulated training environment, for instance, displaced, removed or additional objects, opened or
                 closed doors, but also low level changes like different luminosity and lighting, different focal lengths
                 and geometry of the camera and other disparities due to different physical conditions. Those differences
-                called the reality-gap,may have a huge impact on the model's prediction despite not being particularly
+                called the reality-gap, may have a huge impact on the model's prediction despite not being particularly
                 difficult for humans.
                 As an illustration, the figure below shows two different observations
                 from roughly the same orientation and coordinates. The images on the left side, provided by the
@@ -398,7 +433,7 @@
 
     <div class="row">
         <div class="twelve columns" style="margin-top: 8%;position: relative;height: 130px">
-            <div style="position: relative;margin-top: 2%;text-decoration: #555555 underline;text-align: center;margin-bottom: -10px" >
+            <div style="position: relative;margin-top: 2%;text-decoration: #555555 underline;text-align: center;margin-bottom: -10px">
                 <p style="position: absolute;left:90px ;top:-50px;width: 100px;text-decoration: #555555 underline;text-anchor: middle">
                     Simulator</p>
                 <p style="position: absolute;right: 90px;top:-50px;width: 100px;text-decoration: #555555 underline;text-anchor: middle">
@@ -461,7 +496,8 @@
             <h4 style="text-align: left"> Domain Randomization to the rescue</h4>
 
             <p>
-                A standard technique to tackle these an issues, is Domain Randomization <a href="#ref2">[2]</a>.
+                A standard technique to tackle these an issues, is Domain Randomization <a onclick="focusRef('ref2')"
+                                                                                           class="focus">[2]</a>.
                 It consist in modifying high level parameters of the simulator in order to force the agent to adapt to
                 those changes and thus learn invariant
                 features. The changes in the simulator can take many forms, such as visual data augmentation (e.g.
@@ -473,12 +509,12 @@
 
             <div class="row">
                 <div class="twelve columns" style="margin-top: 8%;position: relative;height: 130px">
-                                <div style="position: relative;margin-top: 2%;text-decoration: #555555 underline;text-align: center;margin-bottom: -10px" >
-                <p style="position: absolute;left:90px ;top:-50px;width: 100px;text-decoration: #555555 underline;text-anchor: middle">
-                    Simulator</p>
-                <p style="position: absolute;right: 90px;top:-50px;width: 100px;text-decoration: #555555 underline;text-anchor: middle">
-                    Noise/Real</p>
-            </div>
+                    <div style="position: relative;margin-top: 2%;text-decoration: #555555 underline;text-align: center;margin-bottom: -10px">
+                        <p style="position: absolute;left:90px ;top:-50px;width: 100px;text-decoration: #555555 underline;text-anchor: middle">
+                            Simulator</p>
+                        <p style="position: absolute;right: 90px;top:-50px;width: 100px;text-decoration: #555555 underline;text-anchor: middle">
+                            Noise/Real</p>
+                    </div>
                     <img src="" height="128" width="128" id="imgr3" style="position: absolute">
                     <img src="" height="128" width="128" id="depthr3" style="position: absolute;left:130px; ">
                     <img src="" height="128" width="128" id="imgb3" style="position: absolute;right: 0">
@@ -557,9 +593,55 @@
             <h4 style="text-align: left"> What must change in real-images?</h4>
             <p>
                 Using backprogation of predictions, one can extract the gradient and build saliency maps which depicts
-                the most influencial parts of the inputed image
+                the most influencial parts of the inputed image.
+
+                <br> <br><br>
+                -- Some furniture have more impact than others, e.g. couch
+                <br>
+
+                -- Mistake despite having a painting on focus in saliency map. Did it mistaken that for another item ?
+                <br>
+                -- Focus on Brooms in laundry.
+
             </p>
-            ,
+
+
+            <p>
+                -- Fix the gap in depth with a manual function.
+
+                -- Use color shifts to make the rgb look alike
+
+            </p>
+
+
+            <div style="width: 100%;text-align: center;position: relative">
+                <svg id="saliency" style="width: 60%;height: 580px">
+                    <path id="guess" num="0" tx="734.5" ty="262" ox="709.5" oy="258" thor="-78.51800864525191" tr="0"
+                          fill="steelblue" d="m 20 20 a -6 6 7 0 1 14 0 l -7 23 l -7 -23"
+                          transform="translate(544.8447704990486, 220.30411052580246) rotate(-78.51800537109375) scale(1.2999999523162842,1.2999999523162842)"
+                          style="stroke: rgba(0, 0, 0, 0.6); stroke-width: 2px;"></path>
+                    <path id="guess" num="0" tx="260.5" ty="321" ox="272.5" oy="325" thor="26.56505117707799" tr="0"
+                          fill="steelblue" d="m 20 20 a -6 6 7 0 1 14 0 l -7 23 l -7 -23"
+                          transform="translate(192.87244703777895, 230.11733937741064) rotate(26.565052032470707) scale(1.2999999523162842,1.2999999523162842)"
+                          style="stroke: rgba(0, 0, 0, 0.6); stroke-width: 2px;"></path>
+                </svg>
+
+
+                <div style="position: absolute;background-image: url('datasets/realSal/rgb0.jpg');top: 10px;right: -45px;height: 256px ">
+                    <img src="datasets/realSal/sal0.jpg" style="opacity: 0.6"/>
+                </div>
+
+                <div style="position: absolute;background-image: url('datasets/realSal/rgb0.jpg');top: 10px;right: -45px;height: 256px ">
+                    <img src="datasets/realSal/sal0.jpg" style="opacity: 0.6"/>
+                </div>
+
+                <div style="position: absolute;background-image: url('datasets/realSal/rgb0.jpg');top: 10px;right: -45px;height: 256px ">
+                    <img src="datasets/realSal/sal0.jpg" style="opacity: 0.6"/>
+                </div>
+
+            </div>
+
+
             <div>
 
                 <img src="datasets/realSal/rgb31.jpg"/>
@@ -638,11 +720,32 @@
 
                 <li style="color: rgba(0,0,0,0.9);" id="ref2">
                     Domain
-                    randomization for transferring deep neural networks from simulation to the real world. [<a
+                    randomization for transferring deep neural networks from simulation to the real world [<a
                         href="https://arxiv.org/abs/1703.06907">URL</a>]
                     <div style="color: rgba(0,0,0,0.5);margin-left: 15px">
                         Josh Tobin, Rachel Fong, Alex Ray, Jonas Schneider, Wojciech Zaremba, Pieter Abbeel <br/>
                         IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS), 2017
+                    </div>
+                </li>
+
+
+                <li style="color: rgba(0,0,0,0.9);" id="ref3">
+                    Habitat: A Platform for Embodied AI Research [<a
+                        href="https://arxiv.org/abs/1904.01201">URL</a>]
+                    <div style="color: rgba(0,0,0,0.5);margin-left: 15px">
+                        Manolis Savva, Abhishek Kadian, Oleksandr Maksymets, Yili Zhao, Erik Wijmans,
+                        Bhavana Jain, Julian Straub, Jia Liu, Vladlen Koltun, Jitendra Malik, Devi Parikh, Dhruv Batra
+                        <br/>
+                        Proceedings of the IEEE/CVF International Conference on Computer Vision (ICCV), 2019
+                    </div>
+                </li>
+
+                <li style="color: rgba(0,0,0,0.9);" id="ref4">
+                    Posenet: A convolutional network for real-time 6-dof camera relocalization [<a
+                        href="https://arxiv.org/abs/1505.07427">URL</a>]
+                    <div style="color: rgba(0,0,0,0.5);margin-left: 15px">
+                        Alex Kendall, Matthew Grimes, and Roberto Cipolla <br/>
+                        Proceedings of the IEEE international conference on computer vision (ICCV), 2015
                     </div>
                 </li>
 
@@ -716,6 +819,12 @@
 
     let colscale = d3.scaleLinear().domain([0, 20]).range(['green', 'red']);
     let tsvg = d3.select("#theo-guess");
+
+
+    function focusRef(id) {
+        console.log(id);
+        document.getElementById(id).scrollIntoView({block: 'center', behavior: 'smooth'})
+    }
 
 
     $("#guesser").on("click", function () {
@@ -940,6 +1049,7 @@
 
 
     loadmap(d3.select("#theo-guess"), 'assets/images/map.jpg');
+    loadmap(d3.select("#saliency"), 'assets/images/map.jpg');
     loadmap(d3.select("#loc2"), 'assets/images/map.jpg');
     loadmap(d3.select("#loc3"), 'assets/images/map.jpg');
 
