@@ -27,7 +27,7 @@ function drawElementsBad(data, svg) {
         .append("path")
         .attr("class", "locDot")
         .attr("id", d => d.id)
-        .attr("fill", (d) => colscaleizy(euclidian_dist([loc_xscacle(d.lx1), loc_yscacle(d.ly1)], [loc_xscacle(d.lx2), loc_yscacle(d.ly2)])))
+        .attr("fill", (d) => colscale(euclidian_dist([loc_xscacle(d.lx1), loc_yscacle(d.ly1)], [loc_xscacle(d.tx), loc_yscacle(d.ty)])))
         .attr("d", "m 20 20 a -6 6 7 0 1 14 0 l -7 23 l -7 -23")
         .attr("transform", d => {
             const orr2 = (-180 + d.lorr1)// + (Math.atan2(loc_yscacle(d.ly2) - loc_yscacle(d.ly1), loc_xscacle(d.lx2) - loc_xscacle(d.lx1)) * (180 / Math.PI));

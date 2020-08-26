@@ -2103,6 +2103,123 @@
             }
 
 
+            function handleCirHovSingleLoc(cirhov, coords, elements, elements2, loc, proj) {
+
+                cirhov.transition().duration(25).attr("transform", "translate(" + coords[0] + ", " + coords[1] + ")")
+
+                if (elements2) {
+                    let inside = elements2.filter(d => {
+                        return euclidian_dist([loc_xscacle(d.lx1), loc_yscacle(d.ly1)], coords) < 25
+                    });
+
+                    inside.transition().duration(5).attr("fill", "purple");
+                    elements2.filter(d => {
+                        return euclidian_dist([loc_xscacle(d.lx1), loc_yscacle(d.ly1)], coords) > 24
+                    }).transition().duration(5).attr("fill", (d) => colscale(euclidian_dist([loc_xscacle(d.lx1), loc_yscacle(d.ly1)], [loc_xscacle(d.tx), loc_yscacle(d.ty)])))
+
+                }
+
+                // console.log(inside);
+
+
+                /*        let inside2 = elements.filter(d => {
+                            return euclidian_dist([loc_xscacle(d.lx1), loc_yscacle(d.ly1)], coords) < 25
+                        });
+        */
+                // console.log(elements2);
+                // inside2.transition().duration(5).attr("fill", "purple");
+
+
+                /*
+                                elements.filter(d => {
+                                    return euclidian_dist([loc_xscacle(d.px1), loc_yscacle(d.py1)], coords) > 24
+                                }).transition().duration(5).attr("fill", (d) => colscale(euclidian_dist([proj_xscacle(d.px1), proj_yscacle(d.py1)], [proj_xscacle(d.px2), proj_yscacle(d.py2)])))
+                */
+
+
+                elements.each((d) => {
+
+                    // console.log(d);
+                    if (euclidian_dist([loc_xscacle(d.lx1), loc_yscacle(d.ly1)], coords) < 25) {
+
+                        if (!idSel.includes(d.id)) {
+                            const orr = 180 - (Math.atan2(proj_yscacle(d.py1) - proj_yscacle(d.py2), proj_xscacle(d.px1) - proj_xscacle(d.px2)) * (180 / Math.PI));
+                            // const orr2 = 180 - (Math.atan2(loc_yscacle(d.ly1) - loc_yscacle(d.ly2), loc_xscacle(d.lx1) - loc_xscacle(d.lx2)) * (180 / Math.PI));
+                            const orr2 = (-180 + d.torr)
+                            /*
+
+                                                        proj.append("path")
+                                                            .attr("class", "tbrm")
+                                                            // .style("transform-origin", "50% 50%")
+                                                            .attr("num", d.id)
+                                                            .attr("fill", "steelblue")
+                                                            .attr("d", "m 20 20 a -6 6 7 0 1 14 0 l -7 23 l -7 -23")
+                                                            .attr("transform", "rotate(" + (orr) + " " + (proj_xscacle(d.px2) - 2) + " " + (proj_yscacle(d.py2) - 2) + ") translate(" + (proj_xscacle(d.px2) - 16) + "," + (proj_yscacle(d.py2) - 16) + ")  scale(0.5) ")
+                            */
+
+                            loc.append("path")
+                                .attr("class", "tbrm")
+                                .attr("num", d.id)
+                                .attr("fill", "steelblue")
+                                .attr("d", "m 20 20 a -6 6 7 0 1 14 0 l -7 23 l -7 -23")
+                                .attr("transform", "rotate(" + (orr2) + " " + (loc_xscacle(d.tx) - 2) + " " + (loc_yscacle(d.ty) - 2) + ") translate(" + (loc_xscacle(d.tx) - 21.5) + "," + (loc_yscacle(d.ty) - 24.5) + ")  scale(0.8) ")
+                            // .attr("transform", "rotate(180 64 62) translate(50 50) scale(0.5)")
+
+                            // return "rotate(" + (orr2) + " " + (loc_xscacle(d.lx1) - 2) + " " + (loc_yscacle(d.ly1) - 2) + ") translate(" + (loc_xscacle(d.lx1) - 21.5) + "," + (loc_yscacle(d.ly1) - 24.5) + ")  scale(0.8) "
+
+                            idSel.push(d.id)
+
+                            /*  let tpath = proj.append("line")
+                                  .attr("class", "tbrm")
+                                  .attr("num", d.id)
+                                  .attr("x1", proj_xscacle(d.px1))
+                                  .attr("y1", proj_yscacle(d.py1))
+                                  .attr("x2", proj_xscacle(d.px2))
+                                  .attr("y2", proj_yscacle(d.py2))
+                                  .attr('stroke', 'steelblue')
+                                  .style('stroke-width', '3px')
+
+                              let totalLength = tpath.node().getTotalLength();
+
+                              tpath.attr("stroke-dasharray", totalLength + " " + totalLength)
+                                  .attr("stroke-dashoffset", totalLength)
+                                  .transition()
+                                  .duration(250)
+                                  .attr("stroke-dashoffset", 0);
+  */
+
+                            let tpath2 = loc.append("line")
+                                .attr("class", "tbrm")
+                                .attr("num", d.id)
+                                .attr("x1", loc_xscacle(d.lx1))
+                                .attr("y1", loc_yscacle(d.ly1))
+                                .attr("x2", loc_xscacle(d.tx))
+                                .attr("y2", loc_yscacle(d.ty))
+                                .attr('stroke', 'steelblue')
+                                .style('stroke-width', '3px')
+
+                            let totalLength2 = tpath2.node().getTotalLength();
+
+                            tpath2.attr("stroke-dasharray", totalLength2 + " " + totalLength2)
+                                .attr("stroke-dashoffset", totalLength2)
+                                .transition()
+                                .duration(250)
+                                .attr("stroke-dashoffset", 0)
+
+                        }
+                    } else {
+                        let tid = idSel.indexOf(d.id);
+                        if (tid) {
+                            idSel.splice(tid)
+                            d3.selectAll('.tbrm[num="' + d.id + '"]').remove()
+
+                        }
+
+                    }
+                })
+            }
+
+
             function handleCirHovSyncProj(cirhov, coords, elements, elements2, loc, proj) {
 
 
@@ -2233,7 +2350,7 @@
 
                 const coords = d3.mouse(loc.node());
                 // console.log('Lalalaa');
-                handleCirHovSyncLoc(cirhov2, coords, elements, elements2, loc, proj);
+                handleCirHovSingleLoc(cirhov2, coords, elements, elements2, loc, proj);
 
             });
 
