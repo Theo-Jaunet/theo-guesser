@@ -143,6 +143,13 @@
             border-radius: 4px;
 
         }
+
+
+        .salcon {
+            background-size: contain;
+            width: 128px;
+            height: 128px;
+        }
     </style>
 
 </head>
@@ -190,7 +197,7 @@
             <div style="text-align: center;width: 256px">
                 <div style="margin: auto">
                     <button id="guesser" class="button-primary" style="margin-top: 20px"> Guess</button>
-                    <button id="salbt1" class="button" style="margin-top: 20px"> Saliency</button>
+                    <button class="button salbt" style="margin-top: 20px"> Saliency</button>
                 </div>
             </div>
             <div style="text-align: left;margin-top: 60px;margin-left: 15px;font-size: 14pt">
@@ -346,9 +353,19 @@
     <div class="row">
         <div class="twelve columns" style="margin-top: 1%;position: relative;height: 130px">
             <div style="position: absolute;right: 48.1%;top:108%">
-                <img src="" height="128" width="128" id="imgr" style="position: absolute">
-                <img src="" height="128" width="128" id="depthr" style="position: absolute;left:140px;">
-<!--                <img src="" height="128" width="128" id="salr" style="position: absolute;left:280px;">-->
+
+                <div class="salcon" style="position: absolute" id="imgrc">
+                    <img src="" height="128" width="128" id="imgr" class="salon">
+                </div>
+
+                <div class="salcon" style="position: absolute;left:140px;top: -2px" id="depthc">
+                    <img src="" height="128" width="128" id="depthr">
+
+                    <button class="button salbt" style="margin-top: 20px;position: absolute;left:184px;top: 18%"> Saliency</button>
+                </div>
+
+
+                <!--                <img src="" height="128" width="128" id="salr" style="position: absolute;left:280px;">-->
             </div>
             <!--            <img class="play" id="play1" style="width: 29px;position: absolute;left: 290px;top:40px"
                              src="assets/play-sign.svg">
@@ -481,14 +498,22 @@
             <div style="position: relative;margin-top: 2%;text-decoration: #555555 underline;text-align: center;margin-bottom: -10px">
                 <p style="position: absolute;right:348px ;top:120px;width: 100px;text-anchor: middle">
                     Simulator</p>
+                <button class="button salbt" style="margin-top: 20px;position: absolute;right: 205px;top:85px"> Saliency</button>
                 <p style="position: absolute;right: 90px;top:120px;width: 100px;text-anchor: middle">
                     Noise</p>
             </div>
-            <img src="" height="128" width="128" id="imgr2" style="position: absolute;top:170px;right:395px">
-            <img src="" height="128" width="128" id="depthr2" style="position: absolute;right:264px;top:170px ">
-            <img src="" height="128" width="128" id="imgb2" style="position: absolute;right: 0;top:170px">
-            <img src="" height="128" width="128" id="depthb2" style="position: absolute;right: 130px;top:170px">
 
+
+            <div class="salcon" style="position: absolute;top:172px;right:398px" id="imgrc2">
+                <img src="" height="128" width="128" id="imgr2" class="salon">
+            </div>
+            <img src="" height="128" width="128" id="depthr2" style="position: absolute;right:264px;top:170px ">
+
+
+            <div class="salcon" id="imgbc2" style="position: absolute;right: 0;top:172px">
+                <img src="" height="128" width="128" id="imgb2" class="salon">
+            </div>
+            <img src="" height="128" width="128" id="depthb2" style="position: absolute;right: 128px;top:170px">
 
             <!--            <div style="position: absolute;left:470px; top: 65px">
                             <label for="trajsel2">Trajectory</label>
@@ -564,14 +589,22 @@
                     <div style="position: relative;margin-top: 2%;text-decoration: #555555 underline;text-align: center;margin-bottom: -10px">
                         <p style="position: absolute;right:348px ;top:120px;width: 100px;text-anchor: middle">
                             Simulator</p>
+                        <button class="button salbt" style="margin-top: 20px;position: absolute;right: 205px;top:85px"> Saliency</button>
                         <p style="position: absolute;right:90px ;top:120px;width: 100px;text-anchor: middle">
                             Noise</p>
                     </div>
-                    <img src="" height="128" width="128" id="imgr3" style="position: absolute;top:170px;right:395px">
-                    <img src="" height="128" width="128" id="depthr3" style="position: absolute;right:264px;top:170px ">
-                    <img src="" height="128" width="128" id="imgb3" style="position: absolute;right: 0;top:170px">
-                    <img src="" height="128" width="128" id="depthb3" style="position: absolute;right: 130px;top:170px">
 
+
+                    <div class="salcon" style="position: absolute;top:172px;right:398px" id="imgrc3">
+                        <img src="" height="128" width="128" id="imgr3" class="salon">
+                    </div>
+                    <img src="" height="128" width="128" id="depthr3" style="position: absolute;right:264px;top:170px ">
+
+
+                    <div class="salcon" id="imgbc3" style="position: absolute;right: 0;top:172px">
+                        <img src="" height="128" width="128" id="imgb3" class="salon">
+                    </div>
+                    <img src="" height="128" width="128" id="depthb3" style="position: absolute;right: 128px;top:170px">
 
                     <div style="position: absolute;right:25px; top: 340px;">
                         <label for="noisel3" style="color: #E1E1E1">Noise</label>
@@ -904,16 +937,15 @@
             }
 
 
-            $("#salbt1").on("click", function () {
+            $(".salbt").on("click", function () {
 
                 salop = !salop
 
                 if (!salop) {
 
-                    $(".salon").css("opacity","0")
-                }
-                else {
-                    $(".salon").css("opacity","0.5")
+                    $(".salon").css("opacity", "0")
+                } else {
+                    $(".salon").css("opacity", "0.5")
                 }
             })
 
@@ -1108,11 +1140,22 @@
                     .attr("stroke-width", "1px").attr('fill', 'purple')
 
 
-                $("#imgr2").attr("src", 'data:image/jpeg;base64,' + dato2[id].imgR)
-                $("#depthr2").attr("src", 'data:image/jpeg;base64,' + dato2[id].depthR)
+                $("#imgr2").attr("src", 'data:image/jpeg;base64,' + dato2[id].salR)
+                $("#imgrc2").css("background-image", "url(" + ("data:image/jpeg;base64," + dato2[id].imgR) + " )")
 
-                $("#imgb2").attr("src", 'data:image/jpeg;base64,' + dato2[id].imgB)
+                $("#imgb2").attr("src", 'data:image/jpeg;base64,' + dato2[id].salB)
+                $("#imgbc2").css("background-image", "url(" + ("data:image/jpeg;base64," + dato2[id].imgB) + " )")
+
+                $("#depthr2").attr("src", 'data:image/jpeg;base64,' + dato2[id].depthR)
                 $("#depthb2").attr("src", 'data:image/jpeg;base64,' + dato2[id].depthB)
+
+                /*
+                                $("#imgr2").attr("src", 'data:image/jpeg;base64,' + dato2[id].imgR)
+                                $("#depthr2").attr("src", 'data:image/jpeg;base64,' + dato2[id].depthR)
+
+                                $("#imgb2").attr("src", 'data:image/jpeg;base64,' + dato2[id].imgB)
+                                $("#depthb2").attr("src", 'data:image/jpeg;base64,' + dato2[id].depthB)
+                */
 
             }
 
@@ -1237,332 +1280,125 @@
 
             loadmap(d3.select("#theo-guess"), 'assets/images/map.jpg');
             // loadmap(d3.select("#saliency"), 'assets/images/map.jpg');
-/*            loadmap(d3.select("#loc2"), 'assets/images/map.jpg');
-            loadmap(d3.select("#loc3"), 'assets/images/map.jpg');*/
+            /*            loadmap(d3.select("#loc2"), 'assets/images/map.jpg');
+                        loadmap(d3.select("#loc3"), 'assets/images/map.jpg');*/
 
-            $("#timeline").on("input", function () {
+            /*
+                        $("#timeline").on("input", function () {
 
-                let step = $(this).val();
-                let ell = dato[step];
-                curStep0 = parseInt(step);
+                            let step = $(this).val();
+                            let ell = dato[step];
+                            curStep0 = parseInt(step);
 
-                $("#imgr").attr("src", 'data:image/jpeg;base64,' + ell.imgR)
-                $("#depthr").attr("src", 'data:image/jpeg;base64,' + ell.depthR)
+                            $("#imgr").attr("src", 'data:image/jpeg;base64,' + ell.imgR)
+                            $("#depthr").attr("src", 'data:image/jpeg;base64,' + ell.depthR)
 
-                $("#imgb").attr("src", 'data:image/jpeg;base64,' + ell.imgB)
-                $("#depthb").attr("src", 'data:image/jpeg;base64,' + ell.depthB)
+                            $("#imgb").attr("src", 'data:image/jpeg;base64,' + ell.imgB)
+                            $("#depthb").attr("src", 'data:image/jpeg;base64,' + ell.depthB)
 
-                $("#timelineTxt").html(step)
+                            $("#timelineTxt").html(step)
 
-                update_time();
+                            update_time();
 
-                let inside = d3.selectAll("path")
+                            let inside = d3.selectAll("path")
 
-                inside.filter(d => {
-                    return d.id > curStep0
-                }).transition().duration(20).style("opacity", '0.1');
-
-
-                inside.filter(d => {
-                    return d.id <= curStep0
-                }).transition().duration(20).style("opacity", '1')
-
-            });
+                            inside.filter(d => {
+                                return d.id > curStep0
+                            }).transition().duration(20).style("opacity", '0.1');
 
 
-            $("#timeline2").on("input", function () {
+                            inside.filter(d => {
+                                return d.id <= curStep0
+                            }).transition().duration(20).style("opacity", '1')
 
-                let step = $(this).val();
-                let ell = dato2[step];
-                curStep = parseInt(step);
-
-                $("#imgr2").attr("src", 'data:image/jpeg;base64,' + ell.imgR)
-                $("#depthr2").attr("src", 'data:image/jpeg;base64,' + ell.depthR)
-
-                $("#imgb2").attr("src", 'data:image/jpeg;base64,' + ell.imgB)
-                $("#depthb2").attr("src", 'data:image/jpeg;base64,' + ell.depthB)
-
-                $("#timelineTxt2").html(step2)
-
-                update_time2();
-
-                let inside = d3.selectAll("path")
-
-                inside.filter(d => {
-                    return d.id > curStep
-                }).transition().duration(20).style("opacity", '0.1');
+                        });
+            */
 
 
-                inside.filter(d => {
-                    return d.id <= curStep
-                }).transition().duration(20).style("opacity", '1')
+            /*            $('#play1').on('click', function () {
 
-            });
+                            pl = !pl;
+                            if (pl) {
+                                if (curStep0 >= dato.length)
+                                    curStep0 = 0
+                                $(this).attr('src', 'assets/round-pause-button.svg');
 
-
-            $("#timeline3").on("input", function () {
-
-                let step = $(this).val();
-                let ell = dato3[step];
-                curStep2 = parseInt(step);
-
-                $("#imgr3").attr("src", 'data:image/jpeg;base64,' + ell.imgR)
-                $("#depthr3").attr("src", 'data:image/jpeg;base64,' + ell.depthR)
-
-                $("#imgb3").attr("src", 'data:image/jpeg;base64,' + ell.imgB)
-                $("#depthb3").attr("src", 'data:image/jpeg;base64,' + ell.depthB)
-
-                $("#timelineTxt3").html(step3)
-
-                update_time3();
-
-                let inside = d3.selectAll("path")
-
-                inside.filter(d => {
-                    return d.id > curStep2
-                }).transition().duration(20).style("opacity", '0.1');
+                                timer = setInterval(step, 115);
+                                step()
+                            } else {
+                                $(this).attr('src', 'assets/play-sign.svg');
+                                clearInterval(timer);
+                                timer = null
+                            }
+                        });*/
 
 
-                inside.filter(d => {
-                    return d.id <= curStep2
-                }).transition().duration(20).style("opacity", '1')
+            /*
+                        function update_time() {
 
-            });
+                            let tbar = $('#timeline');
+
+                            let val = (tbar.val() - tbar.attr('min')) / (tbar.attr('max') - tbar.attr('min'));
+
+                            tbar.css('background-image',
+                                '-webkit-gradient(linear, left top, right top, '
+                                + 'color-stop(' + val + ', #233E34), '
+                                + 'color-stop(' + val + ', #C5C5C5)'
+                                + ')'
+                            );
+                        }
+            */
 
 
-            $('#play1').on('click', function () {
+            /*    function step() {
 
-                pl = !pl;
-                if (pl) {
-                    if (curStep0 >= dato.length)
-                        curStep0 = 0
-                    $(this).attr('src', 'assets/round-pause-button.svg');
+                    curStep0 += 1;
+                    let ell = dato[curStep0];
 
-                    timer = setInterval(step, 115);
-                    step()
-                } else {
-                    $(this).attr('src', 'assets/play-sign.svg');
-                    clearInterval(timer);
-                    timer = null
+
+                    if (ell) {
+                        $("#imgr").attr("src", 'data:image/jpeg;base64,' + ell.imgR)
+                        $("#depthr").attr("src", 'data:image/jpeg;base64,' + ell.depthR)
+
+                        $("#imgb2").attr("src", 'data:image/jpeg;base64,' + ell.imgB)
+                        $("#depthb2").attr("src", 'data:image/jpeg;base64,' + ell.depthB)
+
+                        $("#timelineTxt").html(curStep0)
+
+                        $("#timeline").val(curStep0);
+
+                        update_time()
+
+
+                        let inside = d3.selectAll("path")
+
+
+                        inside.filter(d => {
+                            return d.id > curStep0
+                        }).transition().duration(20).style("opacity", '0.1')
+
+
+                        inside.filter(d => {
+                            return d.id <= curStep0
+                        }).transition().duration(20).style("opacity", '1')
+
+                    } else {
+                        pl = false;
+                        $('#play1').attr('src', 'assets/play-sign.svg');
+                        curStep0 = 0;
+                        clearInterval(timer);
+                        timer = null
+                    }
+
                 }
-            });
-
-
-            $('#play2').on('click', function () {
-
-                pl = !pl;
-                if (pl) {
-                    if (curStep >= dato2.length)
-                        curStep = 0
-                    $(this).attr('src', 'assets/round-pause-button.svg');
-
-                    timer2 = setInterval(step2, 115);
-                    step2()
-                } else {
-                    $(this).attr('src', 'assets/play-sign.svg');
-                    clearInterval(timer2);
-                    timer2 = null
-                }
-            });
-
-
-            $('#play3').on('click', function () {
-
-                pl = !pl;
-                if (pl) {
-                    if (curStep2 >= dato3.length)
-                        curStep2 = 0
-                    $(this).attr('src', 'assets/round-pause-button.svg');
-
-                    timer3 = setInterval(step3, 115);
-                    step3()
-                } else {
-                    $(this).attr('src', 'assets/play-sign.svg');
-                    clearInterval(timer3);
-                    timer3 = null
-                }
-            });
-
-
-            function update_time() {
-
-                let tbar = $('#timeline');
-
-                let val = (tbar.val() - tbar.attr('min')) / (tbar.attr('max') - tbar.attr('min'));
-
-                tbar.css('background-image',
-                    '-webkit-gradient(linear, left top, right top, '
-                    + 'color-stop(' + val + ', #233E34), '
-                    + 'color-stop(' + val + ', #C5C5C5)'
-                    + ')'
-                );
-            }
-
-
-            function update_time2() {
-
-                let tbar = $('#timeline2');
-
-                let val = (tbar.val() - tbar.attr('min')) / (tbar.attr('max') - tbar.attr('min'));
-
-                tbar.css('background-image',
-                    '-webkit-gradient(linear, left top, right top, '
-                    + 'color-stop(' + val + ', #233E34), '
-                    + 'color-stop(' + val + ', #C5C5C5)'
-                    + ')'
-                );
-            }
-
-            function update_time3() {
-
-                let tbar = $('#timeline3');
-
-                let val = (tbar.val() - tbar.attr('min')) / (tbar.attr('max') - tbar.attr('min'));
-
-                tbar.css('background-image',
-                    '-webkit-gradient(linear, left top, right top, '
-                    + 'color-stop(' + val + ', #233E34), '
-                    + 'color-stop(' + val + ', #C5C5C5)'
-                    + ')'
-                );
-            }
-
-
-            function step2() {
-
-                curStep += 1;
-                let ell = dato2[curStep];
-
-
-                if (ell) {
-                    $("#imgr2").attr("src", 'data:image/jpeg;base64,' + ell.imgR)
-                    $("#depthr2").attr("src", 'data:image/jpeg;base64,' + ell.depthR)
-
-                    $("#imgb2").attr("src", 'data:image/jpeg;base64,' + ell.imgB)
-                    $("#depthb2").attr("src", 'data:image/jpeg;base64,' + ell.depthB)
-
-                    $("#timelineTxt2").html(curStep)
-
-                    $("#timeline2").val(curStep);
-
-                    update_time2()
-
-
-                    let inside = d3.selectAll("path")
-
-
-                    inside.filter(d => {
-                        return d.id > curStep
-                    }).transition().duration(20).style("opacity", '0.1')
-
-
-                    inside.filter(d => {
-                        return d.id <= curStep
-                    }).transition().duration(20).style("opacity", '1')
-
-                } else {
-                    pl = false;
-                    $('#play2 ').attr('src', 'assets/play-sign.svg');
-                    curStep = 0;
-                    clearInterval(timer2);
-                    timer2 = null
-                }
-
-            }
-
-
-            function step3() {
-
-                curStep2 += 1;
-                let ell = dato3[curStep2];
-
-
-                if (ell) {
-                    $("#imgr3").attr("src", 'data:image/jpeg;base64,' + ell.imgR)
-                    $("#depthr3").attr("src", 'data:image/jpeg;base64,' + ell.depthR)
-
-                    $("#imgb3").attr("src", 'data:image/jpeg;base64,' + ell.imgB)
-                    $("#depthb3").attr("src", 'data:image/jpeg;base64,' + ell.depthB)
-
-                    $("#timelineTxt3").html(curStep2)
-
-                    $("#timeline3").val(curStep2);
-
-                    update_time3()
-
-
-                    let inside = d3.selectAll("path")
-
-
-                    inside.filter(d => {
-                        return d.id > curStep2
-                    }).transition().duration(20).style("opacity", '0.1')
-
-
-                    inside.filter(d => {
-                        return d.id <= curStep2
-                    }).transition().duration(20).style("opacity", '1')
-
-                } else {
-                    pl = false;
-                    $('#play3 ').attr('src', 'assets/play-sign.svg');
-                    curStep2 = 0;
-                    clearInterval(timer3);
-                    timer3 = null
-                }
-
-            }
-
-
-            function step() {
-
-                curStep0 += 1;
-                let ell = dato[curStep0];
-
-
-                if (ell) {
-                    $("#imgr").attr("src", 'data:image/jpeg;base64,' + ell.imgR)
-                    $("#depthr").attr("src", 'data:image/jpeg;base64,' + ell.depthR)
-
-                    $("#imgb2").attr("src", 'data:image/jpeg;base64,' + ell.imgB)
-                    $("#depthb2").attr("src", 'data:image/jpeg;base64,' + ell.depthB)
-
-                    $("#timelineTxt").html(curStep0)
-
-                    $("#timeline").val(curStep0);
-
-                    update_time()
-
-
-                    let inside = d3.selectAll("path")
-
-
-                    inside.filter(d => {
-                        return d.id > curStep0
-                    }).transition().duration(20).style("opacity", '0.1')
-
-
-                    inside.filter(d => {
-                        return d.id <= curStep0
-                    }).transition().duration(20).style("opacity", '1')
-
-                } else {
-                    pl = false;
-                    $('#play1').attr('src', 'assets/play-sign.svg');
-                    curStep0 = 0;
-                    clearInterval(timer);
-                    timer = null
-                }
-
-            }
-
-
-            const cirhov = proj.append("circle")
-                .attr("id", "projHov")
-                .attr("stroke", "#333333")
-                .attr("stroke-width", "1")
-                .attr("fill", "none")
-                .attr("r", "24");
+    */
+            //
+            // const cirhov = proj.append("circle")
+            //     .attr("id", "projHov")
+            //     .attr("stroke", "#333333")
+            //     .attr("stroke-width", "1")
+            //     .attr("fill", "none")
+            //     .attr("r", "24");
 
             const cirhov2 = loc.append("circle")
                 .attr("id", "locHov")
@@ -1601,184 +1437,50 @@
                 .attr("r", "24");
 
 
-            $("#trajsel2").on("change", function () {
+            /*   $("#noisel2").on("change", function () {
 
-                curTraj = $("#trajsel2").val();
+                   // console.log($("#trajsel").val());
 
-                getData1("datasets/bad/try" + "_" + curNoise + ".json").then(function () {
+                   curNoise = $("#noisel2").val();
 
-                    proj2.selectAll("path").remove();
-                    proj2.selectAll("line").remove();
-                    loc2.selectAll("path").remove();
-                    loc2.selectAll("line").remove();
+                   getData1("datasets/bad/try" + "_" + curNoise + ".json").then(function () {
 
-                    dato2.sort((a, b) => {
 
-                        if (a.id > b.id) {
-                            return 1
-                        } else {
-                            return -1
-                        }
+                       proj2.selectAll("path").remove();
+                       proj2.selectAll("line").remove();
+                       loc2.selectAll("path").remove();
+                       loc2.selectAll("line").remove();
 
-                    });
+                       dato2.sort((a, b) => {
 
+                           if (a.id > b.id) {
+                               return 1
+                           } else {
+                               return -1
+                           }
 
-                    let elem = dato2.filter(d => d.id === 0)[0];
+                       });
 
 
-                    $("#imgr2").attr("src", 'data:image/jpeg;base64,' + elem.imgR)
-                    $("#depthr2").attr("src", 'data:image/jpeg;base64,' + elem.depthR)
+                       let elem = dato2.filter(d => d.id === 0)[0];
 
-                    $("#imgb2").attr("src", 'data:image/jpeg;base64,' + elem.imgB)
-                    $("#depthb2").attr("src", 'data:image/jpeg;base64,' + elem.depthB)
 
+                       $("#imgr2").attr("src", 'data:image/jpeg;base64,' + elem.imgR);
+                       $("#depthr2").attr("src", 'data:image/jpeg;base64,' + elem.depthR);
 
-                    drawPoints(dato2, proj2);
-                    drawElements(dato2, loc2);
+                       $("#imgb2").attr("src", 'data:image/jpeg;base64,' + elem.imgB);
+                       $("#depthb2").attr("src", 'data:image/jpeg;base64,' + elem.depthB);
 
-                    elements3 = proj2.selectAll(".projDot");
-                    elements4 = loc2.selectAll(".locDot");
 
-                    $("#timeline2").attr("max", dato2.length - 1)
-                });
+                       drawPoints(dato2, proj2);
+                       drawElements(dato2, loc2);
 
-            })
+                       elements3 = proj2.selectAll(".projDot");
+                       elements4 = loc2.selectAll(".locDot");
+                       // $("#timeline2").attr("max", dato2.length - 1)
 
-
-            $("#trajsel3").on("change", function () {
-
-
-                    curTraj2 = $("#trajsel3").val();
-
-
-                    if (curTraj2 !== "r") {
-                        // getData2("datasets/traj" + curTraj2 + "/" + curTraj2 + "_" + curNoise2 + ".json").then(function () {
-                        getData2("datasets/good/try2" + "_" + curNoise2 + ".json").then(function () {
-
-                            proj3.selectAll("path").remove();
-                            proj3.selectAll("line").remove();
-                            loc3.selectAll("path").remove();
-                            loc3.selectAll("line").remove();
-
-                            dato3.sort((a, b) => {
-
-                                if (a.id > b.id) {
-                                    return 1
-                                } else {
-                                    return -1
-                                }
-
-                            });
-
-                            let elem = dato3.filter(d => d.id === 0)[0];
-
-                            // console.log(elem);
-
-                            $("#imgr3").attr("src", 'data:image/jpeg;base64,' + elem.imgR)
-                            $("#depthr3").attr("src", 'data:image/jpeg;base64,' + elem.depthR)
-
-                            $("#imgb3").attr("src", 'data:image/jpeg;base64,' + elem.imgB)
-                            $("#depthb3").attr("src", 'data:image/jpeg;base64,' + elem.depthB)
-
-
-                            drawPoints(dato3, proj3);
-                            drawElements(dato3, loc3);
-
-                            elements5 = proj3.selectAll(".projDot");
-                            elements6 = loc3.selectAll(".locDot");
-
-                            $("#timeline3").attr("max", dato3.length - 1)
-                        });
-                    } else {
-
-
-                        getData2("datasets/cbon.json").then(function () {
-
-                            proj3.selectAll("path").remove();
-                            proj3.selectAll("line").remove();
-                            loc3.selectAll("path").remove();
-                            loc3.selectAll("line").remove();
-
-                            dato3.sort((a, b) => {
-
-                                if (a.id > b.id) {
-                                    return 1
-                                } else {
-                                    return -1
-                                }
-
-                            });
-
-                            let elem = dato3.filter(d => d.id === 0)[0];
-                            let telem = tref.filter(d => d.id === 0)[0];
-
-                            // console.log(elem);
-
-                            $("#imgr3").attr("src", 'data:image/jpeg;base64,' + telem.imgR)
-                            $("#depthr3").attr("src", 'data:image/jpeg;base64,' + telem.depthR)
-
-                            $("#imgb3").attr("src", 'data:image/jpeg;base64,' + elem.imgR)
-                            $("#depthb3").attr("src", 'data:image/jpeg;base64,' + elem.depthR)
-
-
-                            drawPoints(dato3, proj3);
-                            drawElements(dato3, loc3);
-
-                            elements5 = proj3.selectAll(".projDot");
-                            elements6 = loc3.selectAll(".locDot");
-
-                            $("#timeline3").attr("max", dato3.length - 1)
-                        });
-
-                    }
-                }
-            )
-
-
-            $("#noisel2").on("change", function () {
-
-                // console.log($("#trajsel").val());
-
-                curNoise = $("#noisel2").val();
-
-                getData1("datasets/bad/try" + "_" + curNoise + ".json").then(function () {
-
-
-                    proj2.selectAll("path").remove();
-                    proj2.selectAll("line").remove();
-                    loc2.selectAll("path").remove();
-                    loc2.selectAll("line").remove();
-
-                    dato2.sort((a, b) => {
-
-                        if (a.id > b.id) {
-                            return 1
-                        } else {
-                            return -1
-                        }
-
-                    });
-
-
-                    let elem = dato2.filter(d => d.id === 0)[0];
-
-
-                    $("#imgr2").attr("src", 'data:image/jpeg;base64,' + elem.imgR);
-                    $("#depthr2").attr("src", 'data:image/jpeg;base64,' + elem.depthR);
-
-                    $("#imgb2").attr("src", 'data:image/jpeg;base64,' + elem.imgB);
-                    $("#depthb2").attr("src", 'data:image/jpeg;base64,' + elem.depthB);
-
-
-                    drawPoints(dato2, proj2);
-                    drawElements(dato2, loc2);
-
-                    elements3 = proj2.selectAll(".projDot");
-                    elements4 = loc2.selectAll(".locDot");
-                    // $("#timeline2").attr("max", dato2.length - 1)
-
-                });
-            })
+                   });
+               })*/
 
 
             $("#noisel3").on("change", function () {
@@ -1811,11 +1513,15 @@
 
                     console.log(elem);
 
-                    $("#imgr3").attr("src", 'data:image/jpeg;base64,' + elem.imgR);
-                    $("#depthr3").attr("src", 'data:image/jpeg;base64,' + elem.depthR);
 
-                    $("#imgb3").attr("src", 'data:image/jpeg;base64,' + elem.imgB);
-                    $("#depthb3").attr("src", 'data:image/jpeg;base64,' + elem.depthB);
+                    $("#imgr3").attr("src", 'data:image/jpeg;base64,' + elem.salR)
+                    $("#imgrc3").css("background-image", "url(" + ("data:image/jpeg;base64," + elem.imgR) + " )")
+
+
+                    $("#imgb3").attr("src", 'data:image/jpeg;base64,' + elem.salB)
+                    $("#imgbc3").css("background-image", "url(" + ("data:image/jpeg;base64," + elem.imgB) + " )")
+                    $("#depthr3").attr("src", 'data:image/jpeg;base64,' + elem.depthR);
+                    $("#depthb3").attr("src", 'data:image/jpeg;base64,' + elem.depthR);
 
 
                     drawPoints(dato3, proj3);
@@ -1900,9 +1606,13 @@
 
                 console.log(elem);
 
-                $("#imgr").attr("src", 'data:image/jpeg;base64,' + elem.imgR)
+
+                $("#imgr").attr("src", 'data:image/jpeg;base64,' + elem.salR)
+                $("#imgrc").css("background-image", "url(" + ("data:image/jpeg;base64," + elem.imgR) + " )")
+
+
                 $("#depthr").attr("src", 'data:image/jpeg;base64,' + elem.depthR)
-                $("#salr").attr("src", 'data:image/jpeg;base64,' + elem.salR)
+                // $("#salr").attr("src", 'data:image/jpeg;base64,' + elem.salR)
 
                 // $("#imgb").attr("src", 'data:image/jpeg;base64,' + elem.imgB)
                 // $("#depthb").attr("src", 'data:image/jpeg;base64,' + elem.depthB)
@@ -1935,11 +1645,24 @@
 
                 let elem = dato2.filter(d => d.id === 0)[0];
 
-                $("#imgr2").attr("src", 'data:image/jpeg;base64,' + elem.imgR);
-                $("#depthr2").attr("src", 'data:image/jpeg;base64,' + elem.depthR);
 
-                $("#imgb2").attr("src", 'data:image/jpeg;base64,' + elem.imgB);
-                $("#depthb2").attr("src", 'data:image/jpeg;base64,' + elem.depthB);
+                $("#imgr2").attr("src", 'data:image/jpeg;base64,' + elem.salR)
+                $("#imgrc2").css("background-image", "url(" + ("data:image/jpeg;base64," + elem.imgR) + " )")
+
+
+                $("#imgb2").attr("src", 'data:image/jpeg;base64,' + elem.salB)
+                $("#imgbc2").css("background-image", "url(" + ("data:image/jpeg;base64," + elem.imgB) + " )")
+                $("#depthr2").attr("src", 'data:image/jpeg;base64,' + elem.depthR);
+                $("#depthb2").attr("src", 'data:image/jpeg;base64,' + elem.depthR);
+
+                /*
+
+                                $("#imgr2").attr("src", 'data:image/jpeg;base64,' + elem.imgR);
+                                $("#depthr2").attr("src", 'data:image/jpeg;base64,' + elem.depthR);
+
+                                $("#imgb2").attr("src", 'data:image/jpeg;base64,' + elem.imgB);
+                                $("#depthb2").attr("src", 'data:image/jpeg;base64,' + elem.depthB);
+                */
 
 
                 drawPoints(dato2, proj2);
@@ -1966,11 +1689,14 @@
 
                 let elem = dato3.filter(d => d.id === 0)[0];
 
-                $("#imgr3").attr("src", 'data:image/jpeg;base64,' + elem.imgR)
-                $("#depthr3").attr("src", 'data:image/jpeg;base64,' + elem.depthR)
+                $("#imgr3").attr("src", 'data:image/jpeg;base64,' + elem.salR)
+                $("#imgrc3").css("background-image", "url(" + ("data:image/jpeg;base64," + elem.imgR) + " )")
 
-                $("#imgb3").attr("src", 'data:image/jpeg;base64,' + elem.imgB)
-                $("#depthb3").attr("src", 'data:image/jpeg;base64,' + elem.depthB)
+
+                $("#imgb3").attr("src", 'data:image/jpeg;base64,' + elem.salB)
+                $("#imgbc3").css("background-image", "url(" + ("data:image/jpeg;base64," + elem.imgB) + " )")
+                $("#depthr3").attr("src", 'data:image/jpeg;base64,' + elem.depthR);
+                $("#depthb3").attr("src", 'data:image/jpeg;base64,' + elem.depthR);
 
 
                 drawPoints(dato3, proj3);
