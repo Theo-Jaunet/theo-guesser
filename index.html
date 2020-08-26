@@ -474,25 +474,37 @@
                 on a simulated trajectory.
 
                 Shown below we can observe the impact of these disparities on the model's prediction. On the left side,
-                both simulated and "real" features are projected into the same parametric Umap space, i.e. dots
-                locations in this projection share the same meaning. Swiching between trajectories, we can observe how
+                simulated features are projected into the same parametric Umap space, i.e. dots
+                locations in this projection share the same meaning. We can observe how
                 some rooms are more
                 affected than others by the gap. For instance, we can see that with the <a class="interlink"
-                                                                                           onclick="selCur(7,'gaussian')">input
+                                                                                           onclick="selCur([2,-0.699999988079071,57],'gaussian')">input
                 #8</a> and Gaussian
-                noise, the model predicts the corresponding coordinates in an other room. However, with <a
-                    class="interlink" onclick="selCur(8,'pepper')">pepper noise</a>,
-                despite being visually harder interpret (for humans), the model predicts a closer location.
+                noise, the model predicts the corresponding coordinates in an other room, despite having both features
+                at the same location in Umap. With a <a
+                    class="interlink" onclick="selCur([-4.599999904632568,3.0999999046325684,42],'pepper')">pepper
+                noise,
+                input#1</a>, have a room shift between the kitchen and the living room in both Umap and regression.
+                However, with the same input, and a <a
+                    class="interlink" onclick="selCur([-4.599999904632568,3.0999999046325684,42],'gaussian')"> gaussian
+                blur</a>, the model predicts a location closer to furniture ahead. This may be due the fact that in the
+                noisy saliency map, the focus of the model seems to be on the chair and the table as opposed to the
+                floor in the noiseless input.
+                Overvall, the biggest disturbancies are caused by the <a class="interlink" onclick="selCur([-2.799999952316284,4.5,94],'pepper')">
+                pepper</a>, or
+                <a class="interlink" onclick="selCur([2,-0.699999988079071,57],'edge')"> edge-enhancing </a>. ne
+                hypothesis we came up with is that the model heavily relies on the depth channel, which is most impacted
+                by those noises, for its decisions.
+                As we can see below, most of the model's predictions are far from where they were sampled.
+                <!--                Despite being visually harder interpret (for humans), the model predicts a closer location.-->
 
-                Changing noises types such as <a class="interlink" onclick="selCur(4,'brightness')"> brightness</a>, or
+<!--
+                Changing noises types such as <a class="interlink" onclick="selCur(4,'pepper')"> pepper</a>, or
                 <a class="interlink" onclick="selCur(8,'edge')"> edge-enhancing </a> we
-                see that this makes the model fails most of its predictions, and sometimes mistake rooms like on <a
-                    class="interlink" onclick="selCur(6,'edge')"> Input #6</a>. One
+                see that this makes the model fails most of its predictions, and sometimes mistake rooms like on. One
                 hypothesis we came up with is that the model heavily relies on the depth channel for its decisions, t
+                As we can see below, most of the model's predictions are far from where they were sampled.-->
 
-                As we can see below, most of the model's predictions are far from where they were sampled, and
-                some are not even predicted outside the building.
-            </p>
         </div>
     </div>
 
@@ -1092,8 +1104,8 @@
 
                     tsvg.append("line")
                         .attr("id", "guessLine")
-                        .attr("x1", coords[0] + 3)
-                        .attr("x2", coords[0] + 3)
+                        .attr("x1", coords[0])
+                        .attr("x2", coords[0] - 3)
                         .attr("y1", coords[1] - 8)
                         .attr("y2", coords[1] + 40)
                         .attr("stroke", 'red')
@@ -1115,7 +1127,7 @@
                         .style("cursor", "grab")
                         .attr("fill", "steelblue")
                         .attr("d", "m 20 20 a -6 6 7 0 1 14 0 l -7 23 l -7 -23")
-                        .attr("transform", "rotate(" + (0) + " " + (coords[0] - 2) + " " + (coords[1] - 2) + ") translate(" + (coords[0] - 31) + "," + (coords[1] - 37) + ")  scale(1.3)")
+                        .attr("transform", "rotate(" + (0) + " " + (coords[0] - 2.5) + " " + (coords[1] - 2.5) + ") translate(" + (coords[0] - 37.4) + "," + (coords[1] - 28.2) + ")  scale(1.3)")
                         .call(d3.drag()
                             .on("start", dragstarted)
                             .on("drag", dragged)
@@ -1124,7 +1136,7 @@
 
                     tsvg.append("circle")
                         .attr("id", "guessCr")
-                        .attr("cx", coords[0] + 3)
+                        .attr("cx", coords[0] - 3)
                         .attr("cy", coords[1] + 40)
                         .attr("r", 6)
                         .style("cursor", "grab")
@@ -1144,16 +1156,28 @@
 
 
             function selit(id) {
-                let pelem = elements3.filter(d => d.id === id)
-                let lelem = elements4.filter(d => d.id === id)
+
+
+                let pelem = elements3.filter(d => d.torr === id[2] && d.tx === id[0] && d.ty === id[1])
+                let lelem = elements4.filter(d => d.torr === id[2] && d.tx === id[0] && d.ty === id[1])
 
                 console.log(lelem);
 
                 // lelem.attr("fill", "purple")
 
                 lelem.attr("transform", d => {
-                    console.log(d);
                     const orr2 = (-180 + d.lorr1);
+
+                    $("#imgr2").attr("src", 'data:image/jpeg;base64,' + d.salR)
+                    $("#imgrc2").css("background-image", "url(" + ("data:image/jpeg;base64," + d.imgR) + " )")
+
+                    $("#imgb2").attr("src", 'data:image/jpeg;base64,' + d.salB)
+                    $("#imgbc2").css("background-image", "url(" + ("data:image/jpeg;base64," + d.imgB) + " )")
+
+                    $("#depthr2").attr("src", 'data:image/jpeg;base64,' + d.depthR)
+                    $("#depthb2").attr("src", 'data:image/jpeg;base64,' + d.depthB)
+
+
                     return "rotate(" + (orr2) + " " + (loc_xscacle(d.lx1) - 2.5) + " " + (loc_yscacle(d.ly1) - 2.5) + ") translate(" + (loc_xscacle(d.lx1) - 26.8) + "," + (loc_yscacle(d.ly1) - 35.2) + ")  scale(1.2) "
                 }).attr("stroke", "#888888")
                     .attr("stroke-width", "1px").attr('fill', 'purple')
@@ -1164,15 +1188,6 @@
                     return "rotate(" + (orr) + " " + (proj_xscacle(d.px2) - 2) + " " + (proj_yscacle(d.py2) - 2) + ") translate(" + (proj_xscacle(d.px2) - 16) + "," + (proj_yscacle(d.py2) - 16) + ")  scale(0.5) "
                 })
 
-
-                $("#imgr2").attr("src", 'data:image/jpeg;base64,' + dato2[id].salR)
-                $("#imgrc2").css("background-image", "url(" + ("data:image/jpeg;base64," + dato2[id].imgR) + " )")
-
-                $("#imgb2").attr("src", 'data:image/jpeg;base64,' + dato2[id].salB)
-                $("#imgbc2").css("background-image", "url(" + ("data:image/jpeg;base64," + dato2[id].imgB) + " )")
-
-                $("#depthr2").attr("src", 'data:image/jpeg;base64,' + dato2[id].depthR)
-                $("#depthb2").attr("src", 'data:image/jpeg;base64,' + dato2[id].depthB)
 
                 /*
                                 $("#imgr2").attr("src", 'data:image/jpeg;base64,' + dato2[id].imgR)
@@ -1247,13 +1262,13 @@
                 path.attr("ox", point[0]);
                 path.attr("oy", point[1]);
 
-                path.transition().duration(15).attr("transform", "rotate(" + (path.attr("thor")) + " " + (point[0] - 6) + " " + (point[1] - 6) + ") translate(" + (point[0] - 32) + "," + (point[1] - 32) + ") scale(1.3) ")
+                path.transition().duration(15).attr("transform", "rotate(" + (path.attr("thor")) + " " + (point[0] - 2.5) + " " + (point[1] - 2.5) + ") translate(" + (point[0] - 37.4) + "," + (point[1] - 28.2) + ") scale(1.3) ")
 
                 circle.attr("cx", parseFloat(circle.attr("cx")) + deltax);
                 circle.attr("cy", parseFloat(circle.attr("cy")) + deltay);
 
 
-                line.transition().duration(15).attr("x2", parseFloat(circle.attr("cx")) + deltax).attr("y2", parseFloat(circle.attr("cy")) + deltay).attr("x1", point[0] - 5).attr("y1", point[1] - 8)
+                line.transition().duration(15).attr("x2", parseFloat(circle.attr("cx")) + deltax).attr("y2", parseFloat(circle.attr("cy")) + deltay).attr("x1", point[0] - 3).attr("y1", point[1] - 8)
                 // if ((point[0] > 0 && point[0] < 340) && (point[1] > 0 && point[1] < 340))
                 //     circle.attr("cx", point[0]).attr("cy", point[1]);
             }
@@ -1274,8 +1289,6 @@
                 let line = d3.select("#guessLine");
                 let circle = d3.select("#guessCr");
 
-                console.log(point);
-
 
                 // let deltax = parseFloat(point[0] - path.attr("ox"));
                 // let deltay = parseFloat(point[1] - path.attr("oy"));
@@ -1289,9 +1302,9 @@
 
                 path.attr("thor", orr)
 
-                path.transition().duration(15).attr("transform", "rotate(" + (orr) + " " + (path.attr("ox") - 1) + " " + (path.attr("oy") - 6) + ") translate(" + (path.attr("ox") - 36) + "," + (path.attr("oy") - 31) + ") scale(1.3)  ")
+                path.transition().duration(15).attr("transform", "rotate(" + (orr) + " " + (path.attr("ox") - 2.5) + " " + (path.attr("oy") - 2.5) + ") translate(" + (path.attr("ox") - 37.4) + "," + (path.attr("oy") - 28.2) + ") scale(1.3)  ")
                 circle.transition().duration(15).attr("cx", parseFloat(point[0])).attr("cy", parseFloat(point[1]));
-                line.transition().duration(15).attr("x2", parseFloat(point[0])).attr("y2", parseFloat(point[1]));
+                line.transition().duration(15).attr("x2", parseFloat(point[0]) - 2).attr("y2", parseFloat(point[1]));
                 // circle.transition().duration(15)
 
                 // if ((point[0] > 0 && point[0] < 340) && (point[1] > 0 && point[1] < 340))
