@@ -88,6 +88,10 @@
                                              supported by Chrome and Opera */
         }
 
+        .interlink {
+            cursor: pointer;
+        }
+
         input[type='range']::-webkit-slider-thumb {
             -webkit-appearance: none !important;
             background-color: #183d4e;
@@ -199,40 +203,48 @@
     <div class="row">
         <div class="twelve column" style="margin-top: 10%">
             <p>
-                The last years have witnessed the soaring of Machine Learning, which has provided disruptive performance
-                gains in several fields. Apart from undeniable advances in methodology, these gains are often attributed
-                to massive amounts of training data and computing power, which led to breakthroughs in speech
-                recognition, computer vision and language processing. Extending these advances to robotics, planning and
-                control has proven to be difficult, as these applications often require learning from interactions
-                instead of static data. They also currently suffer from low sample efficiency, often requiring billions
-                of interactions <a onclick="focusRef('ref1')" class="focus">[1]</a>, which makes learning in real-time
-                from physical interactions
-                with real robots
-                intractable.
+                <!--                The last years have witnessed the soaring of Machine Learning, which has provided disruptive performance
+                                gains in several fields. Apart from undeniable advances in methodology, these gains are often attributed
+                                to massive amounts of training data and computing power, which led to breakthroughs in speech
+                                recognition, computer vision and language processing. Extending these advances to robotics, planning and
+                                control has proven to be difficult, as these applications often require learning from interactions
+                                instead of static data. They also currently suffer from low sample efficiency, often requiring billions
+                                of interactions <a onclick="focusRef('ref1')" class="focus">[1]</a>, which makes learning in real-time
+                                from physical interactions
+                                with real robots
+                                intractable.
+                                <br/><br/>
+                                Simulation is a promising direction, which allows training to proceed significantly faster than physical
+                                time on fast modern hardware, easily distributing multiple simulated environments over a large number of
+                                cores and machines. However, neural networks trained in simulated environments generally perform poorly
+                                when deployed on real robots and environments, mainly to the “sim2real” gap, i.e. the lack of accuracy
+                                in simulating real environment conditions [X][X][X]. The exact nature of the gap is often difficult to
+                                pinpoint, and modelling this gap and a successful transfer from simulation to physical environments has
+                                become a major subfield between machine learning and robotics.
+                                <br/><br/>-->
+
+                The concrete application we target is robot localization, also called ego-pose estimation, which
+                requires to estimate the 3D position and orientation (angle) of a mobile robot navigating in a 3D
+                environment, in our case an apartment. At each time step t, the robot
+                observes two ego-centric images (an RGB image <span
+                    style="font-style: italic;font-weight: 700">I<sub>t</sub></span> and a depth image <span
+                    style="font-style: italic;font-weight: 700">D<sub>t</sub></span> ) from an onboard camera, from
+                which a convolutional neural network directly regresses the robot’s pose <span
+                    style="font-style: italic;font-weight: 700">pt = f(I<sub>t</sub>, D<sub>t</sub>; θ)</span>, where
+                <span style="font-style: italic;font-weight: 700">θ</span> are
+                the network parameters obtained with supervised training in simulation. The pose is defined as <span
+                    style="font-style: italic;font-weight: 700">p<sub>t</sub> = [x<sub>t</sub>, y<sub>t</sub>, ɑ<sub>t</sub>]</span>,
+                two coordinates and an angle.
+
                 <br/><br/>
-                Simulation is a promising direction, which allows training to proceed significantly faster than physical
-                time on fast modern hardware, easily distributing multiple simulated environments over a large number of
-                cores and machines. However, neural networks trained in simulated environments generally perform poorly
-                when deployed on real robots and environments, mainly to the “sim2real” gap, i.e. the lack of accuracy
-                in simulating real environment conditions [X][X][X]. The exact nature of the gap is often difficult to
-                pinpoint, and modelling this gap and a successful transfer from simulation to physical environments has
-                become a major subfield between machine learning and robotics.
-                <br/><br/>
+
+
                 This work is at the crossroads of three different fields and explores techniques of data visualization
                 to advance machine learning for robotics applications. We propose new techniques for the visualization
                 of the sim2real gap, which provide insights into the difference in performance obtained when neural
                 networks are applied out of distribution (OOD) in real settings. The objective is to pinpoint transfer
                 problems and to assist researchers and engineers in the fields of machine learning for robotics to
                 design neural models which better transfer to real world scenarios.
-                <br/><br/>
-                The concrete application we target is robot localization, also called ego-pose estimation, which
-                requires to estimate the 3D position and viewpoint (2 angles) of a mobile robot navigating in a 3D
-                environment, in our case an apartment. At each time step t, the robot
-                observes two ego-centric images (an RGB image It and a depth image Dt) from an onboard camera, from
-                which a convolutional neural network directly regresses the robot’s pose pt = f(It, Dt; θ), where θ are
-                the network parameters obtained with supervised training in simulation. The pose is defined as pt = [xt,
-                yt, ɑt, βt ], two coordinates and two angles.
-
                 <br/><br/>
 
                 <!--
@@ -268,15 +280,15 @@
 
                 <span style="position: absolute;bottom: -6px;right: 270px" id="umapMarl"> Features for Umap</span>
                 <p style="position: absolute;bottom: 59px;right: 70px;text-align: left;font-weight: 800;font-style: italic">
-                    x = 12.6, <br> y = 3.84, <br> angle = 63.12<br>
+                    x<sub>t</sub> = 12.6, <br> y<sub>t</sub> = 3.84, <br> ɑ<sub>t</sub> = 63.12<br>
                 </p>
 
-                <p style="position: absolute;top: 46px;left: 132px;text-align: left;font-weight: 800;font-style: italic;text-anchor: end">
-                    RGB
+                <p style="position: absolute;top: 46px;left: 112px;text-align: left;font-weight: 800;font-style: italic;text-anchor: end">
+                    I<sub>t</sub> (RGB)
                 </p>
 
-                <p style="position: absolute;top: 166px;left: 120px;text-align: left;font-weight: 800;font-style: italic;text-anchor: end">
-                    Depth
+                <p style="position: absolute;top: 166px;left: 92px;text-align: left;font-weight: 800;font-style: italic;text-anchor: end">
+                    D<sub>t</sub> (Depth)
                 </p>
                 <!--                <span style="position: absolute;bottom: -75px;border: #333333 solid 1px;            border-radius: 4px;"
                                       class="actcl"> Click here for details on the model and it's training</span>-->
@@ -434,10 +446,15 @@
                 both simulated and "real" features are projected into the same parametric Umap space, i.e. dots
                 locations in this projection share the same meaning. Swiching between trajectories, we can observe how
                 some rooms are more
-                affected than others by the gap. For instance, we can see that in trajectory [XX],
-                the model ...
+                affected than others by the gap. For instance, we can see that with the <a class="interlink" onclick="selCur(8,'gaussian')">input
+                #8</a> and Gaussian
+                noise, the model predicts the corresponding coordinates in an other room. However, with <a
+                    class="interlink"  onclick="selCur(8,'pepper')">pepper noise</a>,
+                despite being visually harder interpret (for humans), the model predicts a closer location.
 
-                Changing noises types, we see that [XX] makes the model fail most of its predictions. One
+                Changing noises types such as <a class="interlink"  onclick="selCur(4,'brightness')"> brightness</a>, or <a class="interlink"  onclick="selCur(8,'edge')"> edge-enhancing </a> we
+                see that this makes the model fails most of its predictions, and sometimes mistake rooms like on <a
+                        class="interlink" onclick="selCur(6,'edge')"> Input #6</a>. One
                 hypothesis we came up with is that the model heavily relies on the depth channel for its decisions, t
 
                 As we can see below, most of the model's predictions are far from where they were sampled, and
@@ -447,7 +464,7 @@
     </div>
 
     <div class="row">
-        <div class="twelve columns" style="margin-top: -2%;position: relative;height: 130px">
+        <div class="twelve columns" style="margin-top: -10%;position: relative;height: 130px">
             <div style="position: relative;margin-top: 2%;text-decoration: #555555 underline;text-align: center;margin-bottom: -10px">
                 <p style="position: absolute;right:348px ;top:120px;width: 100px;text-anchor: middle">
                     Simulator</p>
@@ -506,7 +523,7 @@
 
 
     <div class="row">
-        <div class="ten column" style="margin-top: 8%">
+        <div class="ten column" style="margin-top: -8%">
             <h4 style="text-align: left"> Domain Randomization to the rescue</h4>
 
             <p>
@@ -522,7 +539,7 @@
             </p>
 
             <div class="row">
-                <div class="twelve columns" style="margin-top: 8%;position: relative;height: 130px">
+                <div class="twelve columns" style="margin-top: -8%;position: relative;height: 130px">
                     <div style="position: relative;margin-top: 2%;text-decoration: #555555 underline;text-align: center;margin-bottom: -10px">
                         <p style="position: absolute;right:348px ;top:120px;width: 100px;text-anchor: middle">
                             Simulator</p>
@@ -548,13 +565,13 @@
 
                         </select>
                     </div>
-
+<!--
 
                     <img class="play" id="play3" style="width: 29px;position: absolute;left: 290px;top:40px"
                          src="assets/play-sign.svg">
                     <input id="timeline3" type="range" min="0" max="57" step="1" value="0"
                            style="position: absolute;left: 335px;top:52px;width: 450px">
-                    <p id="timelineTxt3" style="position: absolute;left: 793px;top:43px"> 0 </p>
+                    <p id="timelineTxt3" style="position: absolute;left: 793px;top:43px"> 0 </p>-->
                 </div>
             </div>
 
@@ -1013,22 +1030,69 @@
             });
 
 
-            function selCur(id) {
+            function selit(id) {
                 let pelem = elements3.filter(d => d.id === id)
                 let lelem = elements4.filter(d => d.id === id)
 
                 console.log(lelem);
 
-                lelem.attr("fill", "purple")
+                // lelem.attr("fill", "purple")
 
-                /*
-                                lelem.attr("transform", d => {
-                                    console.log(d);
-                                    const orr2 = 180 - d.lorr1;
-                                        return "rotate(" + (orr2) + " " + (loc_xscacle(d.lx1) - 2) + " " + (loc_yscacle(d.ly1) - 2) + ") translate(" + (loc_xscacle(d.lx1) - 16) + "," + (loc_yscacle(d.ly1) - 16) + ")  scale(1.2) "
-                                    })
-                */
+                lelem.attr("transform", d => {
+                    console.log(d);
+                    const orr2 = (-180 + d.lorr1);
+                    return "rotate(" + (orr2) + " " + (loc_xscacle(d.lx1) - 2.5) + " " + (loc_yscacle(d.ly1) - 2.5) + ") translate(" + (loc_xscacle(d.lx1) - 26.8) + "," + (loc_yscacle(d.ly1) - 35.2) + ")  scale(1.2) "
+                }).attr("stroke", "#888888")
+                    .attr("stroke-width", "1px").attr('fill', 'purple')
 
+
+                $("#imgr2").attr("src", 'data:image/jpeg;base64,' + dato2[id].imgR)
+                $("#depthr2").attr("src", 'data:image/jpeg;base64,' + dato2[id].depthR)
+
+                $("#imgb2").attr("src", 'data:image/jpeg;base64,' + dato2[id].imgB)
+                $("#depthb2").attr("src", 'data:image/jpeg;base64,' + dato2[id].depthB)
+
+            }
+
+            function selCur(id, noise) {
+
+                if (noise === curNoise) {
+                    selit(id)
+                } else {
+
+                    curNoise = noise;
+
+                    getData1("datasets/bad/try" + "_" + curNoise + ".json").then(function () {
+
+
+                        proj2.selectAll("path").remove();
+                        proj2.selectAll("line").remove();
+                        loc2.selectAll("path").remove();
+                        loc2.selectAll("line").remove();
+
+                        dato2.sort((a, b) => {
+
+                            if (a.id > b.id) {
+                                return 1
+                            } else {
+                                return -1
+                            }
+
+                        });
+
+                        drawPoints(dato2, proj2);
+                        drawElements(dato2, loc2);
+
+                        elements3 = proj2.selectAll(".projDot");
+                        elements4 = loc2.selectAll(".locDot");
+
+                        selit(id)
+
+                        // $("#timeline2").attr("max", dato2.length - 1)
+
+                    });
+
+                }
 
             }
 
@@ -1649,7 +1713,7 @@
 
                     elements3 = proj2.selectAll(".projDot");
                     elements4 = loc2.selectAll(".locDot");
-                    $("#timeline2").attr("max", dato2.length - 1)
+                    // $("#timeline2").attr("max", dato2.length - 1)
 
                 });
             })
