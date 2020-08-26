@@ -92,6 +92,11 @@
             cursor: pointer;
         }
 
+        .salon {
+            opacity: 0;
+            filter: contrast(1.35) brightness(71.3) blur(2.7px);
+        }
+
         input[type='range']::-webkit-slider-thumb {
             -webkit-appearance: none !important;
             background-color: #183d4e;
@@ -163,7 +168,7 @@
                 taken.
                 To do so, click on the corresponding location and then drag the appearing circle to configure the
                 orientation angle. After clicking on the "Guess" button, the ground truth appears in green, and a neural
-                network prediction in purple.
+                network prediction in purple. You can click on the saliency button to display/hide the AI's vision.
             </div>
         </div>
     </div>
@@ -178,10 +183,16 @@
     <div class="row" style="text-align: center">
 
         <div class="three columns" style="margin-top: 2%;">
-
-            <img id="guessimg" width="256" src="">
+            <div id="contguessimg" style="width:256px;height:256px">
+                <img id="guessimg" width="256" height="256" src="" class="salon">
+            </div>
             <!--            <img id="saliencim" width="256" src="">-->
-            <button id="guesser" class="button-primary" style="margin-left: 25px"> Guess</button>
+            <div style="text-align: center;width: 256px">
+                <div style="margin: auto">
+                    <button id="guesser" class="button-primary" style="margin-top: 20px"> Guess</button>
+                    <button id="salbt1" class="button" style="margin-top: 20px"> Saliency</button>
+                </div>
+            </div>
             <div style="text-align: left;margin-top: 60px;margin-left: 15px;font-size: 14pt">
                 <p style="text-underline: #555555;text-decoration: underline"> Score </p>
                 <ul>
@@ -337,7 +348,7 @@
             <div style="position: absolute;right: 48.1%;top:108%">
                 <img src="" height="128" width="128" id="imgr" style="position: absolute">
                 <img src="" height="128" width="128" id="depthr" style="position: absolute;left:140px;">
-                <img src="" height="128" width="128" id="salr" style="position: absolute;left:280px;">
+<!--                <img src="" height="128" width="128" id="salr" style="position: absolute;left:280px;">-->
             </div>
             <!--            <img class="play" id="play1" style="width: 29px;position: absolute;left: 290px;top:40px"
                              src="assets/play-sign.svg">
@@ -466,7 +477,7 @@
     </div>
 
     <div class="row">
-        <div class="twelve columns" style="margin-top: -10%;position: relative;height: 130px">
+        <div class="twelve columns" style="margin-top: -1%;position: relative;height: 130px">
             <div style="position: relative;margin-top: 2%;text-decoration: #555555 underline;text-align: center;margin-bottom: -10px">
                 <p style="position: absolute;right:348px ;top:120px;width: 100px;text-anchor: middle">
                     Simulator</p>
@@ -490,18 +501,20 @@
                             </select>
                         </div>-->
 
-            <div style="position: absolute;right:25px; top: 340px;">
-                <label for="noisel2" style="color: #E1E1E1">Noise</label>
-                <select class="" id="noisel2">
-                    <option value="gaussian">Gaussian</option>
-                    <option value="edge">Edge-Enhancing</option>
-                    <option value="brightness">Brightness</option>
-                    <option value="pepper">Pepper</option>
-                    <option value="sharpen">Sharpen</option>
-                    <option value="white">White balance</option>
+            <!--
+                        <div style="position: absolute;right:25px; top: 340px;">
+                            <label for="noisel2" style="color: #E1E1E1">Noise</label>
+                            <select class="" id="noisel2">
+                                <option value="gaussian">Gaussian</option>
+                                <option value="edge">Edge-Enhancing</option>
+                                <option value="brightness">Brightness</option>
+                                <option value="pepper">Pepper</option>
+                                <option value="sharpen">Sharpen</option>
+                                <option value="white">White balance</option>
 
-                </select>
-            </div>
+                            </select>
+                        </div>
+            -->
 
             <!--
                         <img class="play" id="play2" style="width: 29px;position: absolute;left: 290px;top:40px"
@@ -540,6 +553,12 @@
                 performances of the neural model on unseen simulated images and "real" images.
             </p>
 
+
+            <p>
+
+
+            </p>
+
             <div class="row">
                 <div class="twelve columns" style="margin-top: -8%;position: relative;height: 130px">
                     <div style="position: relative;margin-top: 2%;text-decoration: #555555 underline;text-align: center;margin-bottom: -10px">
@@ -562,9 +581,7 @@
                             <option value="brightness">Brightness</option>
                             <option value="pepper">Pepper</option>
                             <option value="sharpen">Sharpen</option>
-                            <option value="trans">Transforms</option>
                             <option value="white">White balance</option>
-
                         </select>
                     </div>
                     <!--
@@ -854,6 +871,8 @@
 
             let guessw = true
 
+            let salop = false;
+
             const proj = d3.select("#proj");
             const loc = d3.select("#loc");
 
@@ -884,6 +903,19 @@
                 hacl = !hacl
             }
 
+
+            $("#salbt1").on("click", function () {
+
+                salop = !salop
+
+                if (!salop) {
+
+                    $(".salon").css("opacity","0")
+                }
+                else {
+                    $(".salon").css("opacity","0.5")
+                }
+            })
 
             $("#guesser").on("click", function () {
 
@@ -967,15 +999,25 @@
 
                     // guessid = getRandomInt(0, tref.length - 1);
                     guessid = getRandomInt(0, tref.length - 1);
+                    //
+                    // .
+                    //     attr("src", ("data:image/jpeg;base64," + tref[guessid].imgR));
 
-                    $("#guessimg").attr("src", "data:image/jpeg;base64," + tref[guessid].imgR);
-                    $("#saliencim").attr("src", "data:image/jpeg;base64," + tref[guessid].salR);
+                    let im = $("#guessimg")
+
+                    $("#contguessimg").css("background-image", "url(" + ("data:image/jpeg;base64," + tref[guessid].imgR) + " )")
+
+
+                    im.attr("src", "data:image/jpeg;base64," + tref[guessid].salR);
 
                     $("#guesser").html("Guess")
 
                 }
 
+                /*
 
+                                    opacity: 0.4;
+                    filter: contrast(1.55) brightness(23);*/
             });
 
 
@@ -1194,9 +1236,9 @@
 
 
             loadmap(d3.select("#theo-guess"), 'assets/images/map.jpg');
-            loadmap(d3.select("#saliency"), 'assets/images/map.jpg');
-            loadmap(d3.select("#loc2"), 'assets/images/map.jpg');
-            loadmap(d3.select("#loc3"), 'assets/images/map.jpg');
+            // loadmap(d3.select("#saliency"), 'assets/images/map.jpg');
+/*            loadmap(d3.select("#loc2"), 'assets/images/map.jpg');
+            loadmap(d3.select("#loc3"), 'assets/images/map.jpg');*/
 
             $("#timeline").on("input", function () {
 
@@ -1798,8 +1840,14 @@
                 // console.log(dat);
 
                 guessid = getRandomInt(0, tref.length - 1)
-                $("#guessimg").attr("src", "data:image/jpeg;base64," + tref[guessid].imgR);
-                $("#saliencim").attr("src", "data:image/jpeg;base64," + tref[guessid].salR);
+                let im = $("#guessimg")
+
+                $("#contguessimg").css("background-image", "url(" + ("data:image/jpeg;base64," + tref[guessid].imgR) + " )")
+
+
+                im.attr("src", "data:image/jpeg;base64," + tref[guessid].salR);
+
+
             })
 
             /*    getDatatry("datasets/try_gaussian.json").then(function () {
@@ -1829,10 +1877,16 @@
 
                 // guessid = getRandomInt(0, tref.length - 1)
                 guessid = 0
-                $("#guessimg").attr("src", "data:image/jpeg;base64," + dato[guessid].imgR)
 
 
-                $("#timeline").attr("max", dato.length)
+                let im = $("#guessimg")
+
+                $("#contguessimg").css("background-image", "url(" + ("data:image/jpeg;base64," + tref[guessid].imgR) + " )")
+
+
+                im.attr("src", "data:image/jpeg;base64," + tref[guessid].salR);
+
+
                 dato.sort((a, b) => {
 
                     if (a.id > b.id) {
