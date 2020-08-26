@@ -415,7 +415,7 @@
             <div style="position: relative;margin-top: 5%;text-decoration: #555555 underline">
                 <p style="position: absolute;left: 20%;top:-50px;width: 100px;">
                     Simulator</p>
-                <p style="position: absolute;right: 20%;top:-50px;;width: 100px;">
+                <p style="position: absolute;right: 17.7%;top:-50px;width: 100px;">
                     Real</p>
             </div>
             <div style="display: inline;text-align: center">
@@ -446,15 +446,17 @@
                 both simulated and "real" features are projected into the same parametric Umap space, i.e. dots
                 locations in this projection share the same meaning. Swiching between trajectories, we can observe how
                 some rooms are more
-                affected than others by the gap. For instance, we can see that with the <a class="interlink" onclick="selCur(8,'gaussian')">input
+                affected than others by the gap. For instance, we can see that with the <a class="interlink"
+                                                                                           onclick="selCur(8,'gaussian')">input
                 #8</a> and Gaussian
                 noise, the model predicts the corresponding coordinates in an other room. However, with <a
-                    class="interlink"  onclick="selCur(8,'pepper')">pepper noise</a>,
+                    class="interlink" onclick="selCur(8,'pepper')">pepper noise</a>,
                 despite being visually harder interpret (for humans), the model predicts a closer location.
 
-                Changing noises types such as <a class="interlink"  onclick="selCur(4,'brightness')"> brightness</a>, or <a class="interlink"  onclick="selCur(8,'edge')"> edge-enhancing </a> we
+                Changing noises types such as <a class="interlink" onclick="selCur(4,'brightness')"> brightness</a>, or
+                <a class="interlink" onclick="selCur(8,'edge')"> edge-enhancing </a> we
                 see that this makes the model fails most of its predictions, and sometimes mistake rooms like on <a
-                        class="interlink" onclick="selCur(6,'edge')"> Input #6</a>. One
+                    class="interlink" onclick="selCur(6,'edge')"> Input #6</a>. One
                 hypothesis we came up with is that the model heavily relies on the depth channel for its decisions, t
 
                 As we can see below, most of the model's predictions are far from where they were sampled, and
@@ -565,13 +567,13 @@
 
                         </select>
                     </div>
-<!--
+                    <!--
 
-                    <img class="play" id="play3" style="width: 29px;position: absolute;left: 290px;top:40px"
-                         src="assets/play-sign.svg">
-                    <input id="timeline3" type="range" min="0" max="57" step="1" value="0"
-                           style="position: absolute;left: 335px;top:52px;width: 450px">
-                    <p id="timelineTxt3" style="position: absolute;left: 793px;top:43px"> 0 </p>-->
+                                        <img class="play" id="play3" style="width: 29px;position: absolute;left: 290px;top:40px"
+                                             src="assets/play-sign.svg">
+                                        <input id="timeline3" type="range" min="0" max="57" step="1" value="0"
+                                               style="position: absolute;left: 335px;top:52px;width: 450px">
+                                        <p id="timelineTxt3" style="position: absolute;left: 793px;top:43px"> 0 </p>-->
                 </div>
             </div>
 
@@ -704,6 +706,17 @@
             -->
 
 
+            <div class="row">
+                <div class="twelve columns" style="margin-top: 2%;display: inline-block">
+
+                    <h5>Implementation</h5>
+                    <p> This project uses the JavaScript library <a href="https://d3js.org/">d3</a> to display data
+                        extracted from the Deep convolutional network implemented in Python using <a
+                                href="https://pytorch.org/">PyTorch</a>. The apartement simulated with <a
+                                href="https://aihabitat.org/">Habitat</a>.</p>
+
+                </div>
+            </div>
             <div class="row" style="text-align: center">
                 <div class="twelve columns" style="margin-top: 2%;display: inline-block">
                     <div style=" text-align: left;margin-bottom: 50px">
@@ -713,11 +726,13 @@
                             <a href="http://romain.vuillemot.net/">Romain
                                 Vuillemot</a> (<a href="https://twitter.com/romsson">@romsson</a>) and <a
                                     href="https://perso.liris.cnrs.fr/christian.wolf/">Christian Wolf </a>(<a
-                                    href="https://twitter.com/chriswolfvision">@chriswolfvision</a>), at LIRIS lab Lyon
+                                    href="https://twitter.com/chriswolfvision">@chriswolfvision</a>), at LIRIS
+                            lab Lyon
                             -
                             France.
                         </p>
-                        This work takes place in Théo jaunet's Ph.D. which is supported by a French Ministry Fellowship
+                        This work takes place in Théo jaunet's Ph.D. which is supported by a French Ministry
+                        Fellowship
                         and the
                         <a
                                 href="https://projet.liris.cnrs.fr/mi2/"> M2I project</a>,
@@ -734,7 +749,8 @@
                 <div class="ten columns">
                     <ol>
                         <li style="color: rgba(0,0,0,0.9);" id="ref1">
-                            Deep Reinforcement Learning on a Budget: 3D Control and Reasoning Without a Supercomputer
+                            Deep Reinforcement Learning on a Budget: 3D Control and Reasoning Without a
+                            Supercomputer
                             [<a
                                 href="https://arxiv.org/abs/1904.01806">URL</a>].
                             <div style="color: rgba(0,0,0,0.5);margin-left: 15px">
@@ -745,10 +761,12 @@
 
                         <li style="color: rgba(0,0,0,0.9);" id="ref2">
                             Domain
-                            randomization for transferring deep neural networks from simulation to the real world [<a
+                            randomization for transferring deep neural networks from simulation to the real
+                            world [<a
                                 href="https://arxiv.org/abs/1703.06907">URL</a>]
                             <div style="color: rgba(0,0,0,0.5);margin-left: 15px">
-                                Josh Tobin, Rachel Fong, Alex Ray, Jonas Schneider, Wojciech Zaremba, Pieter Abbeel
+                                Josh Tobin, Rachel Fong, Alex Ray, Jonas Schneider, Wojciech Zaremba, Pieter
+                                Abbeel
                                 <br/>
                                 IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS), 2017
                             </div>
@@ -760,10 +778,12 @@
                                 href="https://arxiv.org/abs/1904.01201">URL</a>]
                             <div style="color: rgba(0,0,0,0.5);margin-left: 15px">
                                 Manolis Savva, Abhishek Kadian, Oleksandr Maksymets, Yili Zhao, Erik Wijmans,
-                                Bhavana Jain, Julian Straub, Jia Liu, Vladlen Koltun, Jitendra Malik, Devi Parikh, Dhruv
+                                Bhavana Jain, Julian Straub, Jia Liu, Vladlen Koltun, Jitendra Malik, Devi
+                                Parikh, Dhruv
                                 Batra
                                 <br/>
-                                Proceedings of the IEEE/CVF International Conference on Computer Vision (ICCV), 2019
+                                Proceedings of the IEEE/CVF International Conference on Computer Vision (ICCV),
+                                2019
                             </div>
                         </li>
 
