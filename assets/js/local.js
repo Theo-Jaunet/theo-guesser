@@ -93,8 +93,9 @@ function drawElements(data, svg) {
         .attr("fill", (d) => colscale(euclidian_dist([loc_xscacle(d.lx1), loc_yscacle(d.ly1)], [loc_xscacle(d.lx2), loc_yscacle(d.ly2)])))
         .attr("d", "m 20 20 a -6 6 7 0 1 14 0 l -7 23 l -7 -23")
         .attr("transform", d => {
-            const orr2 = (Math.atan2(loc_yscacle(d.ly2) - loc_yscacle(d.ly1), loc_xscacle(d.lx2) - loc_xscacle(d.lx1)) * (180 / Math.PI));
-            return "rotate(" + (-180 + orr2) + " " + (loc_xscacle(d.lx1) - 2) + " " + (loc_yscacle(d.ly1) - 2) + ") translate(" + (loc_xscacle(d.lx1) - 21.5) + "," + (loc_yscacle(d.ly1) - 24.5) + ")  scale(0.8) "
+            const orr2 = (-180 + d.lorr1)
+            // const orr2 = (Math.atan2(loc_yscacle(d.ly2) - loc_yscacle(d.ly1), loc_xscacle(d.lx2) - loc_xscacle(d.lx1)) * (180 / Math.PI));
+            return "rotate(" + (orr2) + " " + (loc_xscacle(d.lx1) - 2) + " " + (loc_yscacle(d.ly1) - 2) + ") translate(" + (loc_xscacle(d.lx1) - 21.5) + "," + (loc_yscacle(d.ly1) - 24.5) + ")  scale(0.8) "
         })
 
     /*

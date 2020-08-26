@@ -196,15 +196,16 @@
             <!--            <img id="saliencim" width="256" src="">-->
             <div style="text-align: center;width: 256px">
                 <div style="margin: auto">
-                    <button id="guesser" class="button-primary" style="margin-top: 20px"> Guess</button>
-                    <button class="button salbt" style="margin-top: 20px"> Saliency</button>
+                    <button id="guesser" class="button-primary" style="margin-top: 20px;padding: 0 26px"> Guess</button>
+                    <button class="button salbt" style="margin-top: 20px;;padding: 0 26px"> Saliency</button>
                 </div>
             </div>
             <div style="text-align: left;margin-top: 60px;margin-left: 15px;font-size: 14pt">
-                <p style="text-underline: #555555;text-decoration: underline"> Score </p>
+                <!--                <p style="text-underline: #555555;text-decoration: underline"> Score </p>-->
                 <ul>
                     <li># of Guesses: <span id="nguess"></span></li>
-                    <li> Avg Dist: <span id="avgDist"></span></li>
+                    <li> Your score: <span id="avgDist"></span></li>
+                    <li> AI's score: <span id="avgDist2"></span></li>
                     <!--                    <li> Avg Orr:</li>-->
                 </ul>
             </div>
@@ -361,7 +362,9 @@
                 <div class="salcon" style="position: absolute;left:140px;top: -2px" id="depthc">
                     <img src="" height="128" width="128" id="depthr">
 
-                    <button class="button salbt" style="margin-top: 20px;position: absolute;left:184px;top: 18%"> Saliency</button>
+                    <button class="button salbt" style="margin-top: 20px;position: absolute;left:184px;top: 18%">
+                        Saliency
+                    </button>
                 </div>
 
 
@@ -475,7 +478,7 @@
                 locations in this projection share the same meaning. Swiching between trajectories, we can observe how
                 some rooms are more
                 affected than others by the gap. For instance, we can see that with the <a class="interlink"
-                                                                                           onclick="selCur(8,'gaussian')">input
+                                                                                           onclick="selCur(7,'gaussian')">input
                 #8</a> and Gaussian
                 noise, the model predicts the corresponding coordinates in an other room. However, with <a
                     class="interlink" onclick="selCur(8,'pepper')">pepper noise</a>,
@@ -498,7 +501,9 @@
             <div style="position: relative;margin-top: 2%;text-decoration: #555555 underline;text-align: center;margin-bottom: -10px">
                 <p style="position: absolute;right:348px ;top:120px;width: 100px;text-anchor: middle">
                     Simulator</p>
-                <button class="button salbt" style="margin-top: 20px;position: absolute;right: 205px;top:85px"> Saliency</button>
+                <button class="button salbt" style="margin-top: 20px;position: absolute;right: 205px;top:85px">
+                    Saliency
+                </button>
                 <p style="position: absolute;right: 90px;top:120px;width: 100px;text-anchor: middle">
                     Noise</p>
             </div>
@@ -553,7 +558,12 @@
 
     <div class="row">
         <div class="six columns" style="margin-top: 3%">
-            <svg id="proj2" style="width: 100%;height: 530px;border: #555555 solid 1px"></svg>
+            <div style="width: 100%;height: 532px;background-image: url('assets/bg.png');background-size: contain;">
+                <div style="width: 100%;height: 532px;background-color:rgba(254,254,254,0.4);">
+                    <svg id="proj2"
+                         style="width: 100%;height: 530px;border: #555555 solid 1px;opacity: 1 !important;"></svg>
+                </div>
+            </div>
         </div>
         <div class="six columns" style="margin-top: 3%">
             <svg id="loc2" style="width: 100%;height: 370px;border: none;margin-top: 160px"></svg>
@@ -589,7 +599,9 @@
                     <div style="position: relative;margin-top: 2%;text-decoration: #555555 underline;text-align: center;margin-bottom: -10px">
                         <p style="position: absolute;right:348px ;top:120px;width: 100px;text-anchor: middle">
                             Simulator</p>
-                        <button class="button salbt" style="margin-top: 20px;position: absolute;right: 205px;top:85px"> Saliency</button>
+                        <button class="button salbt" style="margin-top: 20px;position: absolute;right: 205px;top:85px">
+                            Saliency
+                        </button>
                         <p style="position: absolute;right:90px ;top:120px;width: 100px;text-anchor: middle">
                             Noise</p>
                     </div>
@@ -633,7 +645,11 @@
 
     <div class="row">
         <div class="six columns" style="margin-top: 3%">
-            <svg id="proj3" style="width: 100%;height: 530px;border: #555555 solid 1px"></svg>
+            <div style="width: 100%;height: 532px;background-image: url('assets/bg.png');background-size: contain;">
+                <div style="width: 100%;height: 532px;background-color:rgba(254,254,254,0.4);">
+                    <svg id="proj3" style="width: 100%;height: 530px;border: #555555 solid 1px"></svg>
+                </div>
+            </div>
         </div>
         <div class="six columns" style="margin-top: 3%;height: 100%;vertical-align: center">
             <svg id="loc3" style="width: 100%;height: 370px;     border: none;margin-top: 160px"></svg>
@@ -899,6 +915,7 @@
 
             let nguess = 0
             let avgDist = 0
+            let avgDist2 = 0
             let avgOrr = 0
 
 
@@ -980,7 +997,9 @@
                     $("#nguess").html(nguess);
 
                     avgDist += euclidian_dist([tx, ty], [el.attr("ox"), el.attr("oy")]);
+                    avgDist2 += euclidian_dist([tx, ty], [pred_tx, pred_ty]);
                     $("#avgDist").html(Math.round(avgDist / nguess));
+                    $("#avgDist2").html(Math.round(avgDist2 / nguess));
 
 
                     tsvg.append("path")
@@ -1138,6 +1157,12 @@
                     return "rotate(" + (orr2) + " " + (loc_xscacle(d.lx1) - 2.5) + " " + (loc_yscacle(d.ly1) - 2.5) + ") translate(" + (loc_xscacle(d.lx1) - 26.8) + "," + (loc_yscacle(d.ly1) - 35.2) + ")  scale(1.2) "
                 }).attr("stroke", "#888888")
                     .attr("stroke-width", "1px").attr('fill', 'purple')
+
+
+                pelem.attr("transform", d => {
+                    const orr = -90 + (Math.atan2(proj_yscacle(d.py2) - proj_yscacle(d.py1), proj_xscacle(d.px2) - proj_xscacle(d.px1)) * (180 / Math.PI));
+                    return "rotate(" + (orr) + " " + (proj_xscacle(d.px2) - 2) + " " + (proj_yscacle(d.py2) - 2) + ") translate(" + (proj_xscacle(d.px2) - 16) + "," + (proj_yscacle(d.py2) - 16) + ")  scale(0.5) "
+                })
 
 
                 $("#imgr2").attr("src", 'data:image/jpeg;base64,' + dato2[id].salR)
@@ -1587,10 +1612,10 @@
 
                 let im = $("#guessimg")
 
-                $("#contguessimg").css("background-image", "url(" + ("data:image/jpeg;base64," + tref[guessid].imgR) + " )")
+                $("#contguessimg").css("background-image", "url(" + ("data:image/jpeg;base64," + dato[guessid].imgR) + " )")
 
 
-                im.attr("src", "data:image/jpeg;base64," + tref[guessid].salR);
+                im.attr("src", "data:image/jpeg;base64," + dato[guessid].salR);
 
 
                 dato.sort((a, b) => {
@@ -1895,8 +1920,8 @@
                     if (euclidian_dist([loc_xscacle(d.lx1), loc_yscacle(d.ly1)], coords) < 25) {
 
                         if (!idSel.includes(d.id)) {
-                            const orr = 180 - (Math.atan2(proj_yscacle(d.py1) - proj_yscacle(d.py2), proj_xscacle(d.px1) - proj_xscacle(d.px2)) * (180 / Math.PI));
-                            const orr2 = 180 - (Math.atan2(loc_yscacle(d.ly1) - loc_yscacle(d.ly2), loc_xscacle(d.lx1) - loc_xscacle(d.lx2)) * (180 / Math.PI));
+                            const orr = -90 + (Math.atan2(proj_yscacle(d.py1) - proj_yscacle(d.py2), proj_xscacle(d.px1) - proj_xscacle(d.px2)) * (180 / Math.PI));
+                            const orr2 = -180 + d.lorr2
 
                             proj.append("path")
                                 .attr("class", "tbrm")
@@ -1904,16 +1929,18 @@
                                 .attr("num", d.id)
                                 .attr("fill", "steelblue")
                                 .attr("d", "m 20 20 a -6 6 7 0 1 14 0 l -7 23 l -7 -23")
-                                .attr("transform", "rotate(" + (orr) + " " + (proj_xscacle(d.px2) - 2) + " " + (proj_yscacle(d.py2) - 2) + ") translate(" + (proj_xscacle(d.px2) - 16) + "," + (proj_yscacle(d.py2) - 16) + ")  scale(0.5) ")
+                                .attr("transform", "rotate(" + (orr) + " " + (proj_xscacle(d.px2) - 2.5) + " " + (proj_yscacle(d.py2) - 2.5) + ") translate(" + (proj_xscacle(d.px2) - 24.5) + "," + (proj_yscacle(d.py2) - 21.5) + ")  scale(0.8) ")
 
                             loc.append("path")
                                 .attr("class", "tbrm")
                                 .attr("num", d.id)
                                 .attr("fill", "steelblue")
                                 .attr("d", "m 20 20 a -6 6 7 0 1 14 0 l -7 23 l -7 -23")
-                                .attr("transform", "rotate(" + (orr2) + " " + (loc_xscacle(d.lx2) - 2) + " " + (loc_yscacle(d.ly2) - 2) + ") translate(" + (loc_xscacle(d.lx2) - 16) + "," + (loc_yscacle(d.ly2) - 16) + ")  scale(0.5) ")
+                                .attr("transform", "rotate(" + (orr2) + " " + (loc_xscacle(d.lx2) - 2.5) + " " + (loc_yscacle(d.ly2) - 2.5) + ") translate(" + (loc_xscacle(d.lx2) - 24.5) + "," + (loc_yscacle(d.ly2) - 21.5) + ")  scale(0.8) ")
                             // .attr("transform", "rotate(180 64 62) translate(50 50) scale(0.5)")
 
+
+                            // "rotate(" + (orr2) + " " + (loc_xscacle(d.lx1) - 2.5) + " " + (loc_yscacle(d.ly1) - 2.5) + ") translate(" + (loc_xscacle(d.lx1) - 24.5) + "," + (loc_yscacle(d.ly1) - 21.5) + ")  scale(0.8) "
                             idSel.push(d.id)
 
                             let tpath = proj.append("line")
@@ -2091,33 +2118,36 @@
 
 
                 let inside = elements.filter(d => {
-                    return euclidian_dist([proj_xscacle(d.px1), proj_yscacle(d.py1)], coords) < 25 && d.id < curStep
+                    return euclidian_dist([proj_xscacle(d.px1), proj_yscacle(d.py1)], coords) < 25
                 });
                 inside.transition().duration(5).attr("fill", "purple");
 
                 let inside2 = elements2.filter(d => {
-                    return euclidian_dist([proj_xscacle(d.px1), proj_yscacle(d.py1)], coords) < 25 && d.id < curStep
+                    return euclidian_dist([proj_xscacle(d.px1), proj_yscacle(d.py1)], coords) < 25
                 });
                 inside2.transition().duration(5).attr("fill", "purple");
 
                 elements2.filter(d => {
-                    return euclidian_dist([proj_xscacle(d.px1), proj_yscacle(d.py1)], coords) > 24 && d.id < curStep
+                    return euclidian_dist([proj_xscacle(d.px1), proj_yscacle(d.py1)], coords) > 24
                 }).transition().duration(5).attr("fill", (d) => colscale(euclidian_dist([loc_xscacle(d.lx1), loc_yscacle(d.ly1)], [loc_xscacle(d.lx2), loc_yscacle(d.ly2)])))
 
 
                 elements.filter(d => {
-                    return euclidian_dist([proj_xscacle(d.px1), proj_yscacle(d.py1)], coords) > 24 && d.id < curStep
+                    return euclidian_dist([proj_xscacle(d.px1), proj_yscacle(d.py1)], coords) > 24
                 }).transition().attr("fill", (d) => colscale(euclidian_dist([proj_xscacle(d.px1), proj_yscacle(d.py1)], [proj_xscacle(d.px2), proj_yscacle(d.py2)])))
 
 
                 elements.each((d) => {
 
                     // console.log(d);
-                    if (euclidian_dist([proj_xscacle(d.px1), proj_yscacle(d.py1)], coords) < 25 && d.id < curStep) {
+                    if (euclidian_dist([proj_xscacle(d.px1), proj_yscacle(d.py1)], coords) < 25) {
 
                         if (!idSel.includes(d.id)) {
-                            const orr = 180 - (Math.atan2(proj_yscacle(d.py1) - proj_yscacle(d.py2), proj_xscacle(d.px1) - proj_xscacle(d.px2)) * (180 / Math.PI));
-                            const orr2 = 180 - (Math.atan2(loc_yscacle(d.ly1) - loc_yscacle(d.ly2), loc_xscacle(d.lx1) - loc_xscacle(d.lx2)) * (180 / Math.PI));
+                            const orr = -90 + (Math.atan2(proj_yscacle(d.py1) - proj_yscacle(d.py2), proj_xscacle(d.px1) - proj_xscacle(d.px2)) * (180 / Math.PI));
+                            const orr2 = -180 + d.lorr2;
+
+
+                            // proj.append("rect").attr("x",proj_xscacle(d.px2)).attr("y",proj_yscacle(d.py2)).attr("width",10).attr("height",10)
 
                             proj.append("path")
                                 .attr("class", "tbrm")
@@ -2125,14 +2155,17 @@
                                 .attr("num", d.id)
                                 .attr("fill", "steelblue")
                                 .attr("d", "m 20 20 a -6 6 7 0 1 14 0 l -7 23 l -7 -23")
-                                .attr("transform", "rotate(" + (orr) + " " + (proj_xscacle(d.px2) - 2) + " " + (proj_yscacle(d.py2) - 2) + ") translate(" + (proj_xscacle(d.px2) - 16) + "," + (proj_yscacle(d.py2) - 16) + ")  scale(0.5) ")
+                                .attr("transform", "rotate(" + (orr) + " " + (proj_xscacle(d.px2) - 2.5) + " " + (proj_yscacle(d.py2) - 2.5) + ") translate(" + (proj_xscacle(d.px2) - 24.5) + "," + (proj_yscacle(d.py2) - 21.5) + ")  scale(0.8) ")
 
                             loc.append("path")
                                 .attr("class", "tbrm")
                                 .attr("num", d.id)
                                 .attr("fill", "steelblue")
                                 .attr("d", "m 20 20 a -6 6 7 0 1 14 0 l -7 23 l -7 -23")
-                                .attr("transform", "rotate(" + (orr2) + " " + (loc_xscacle(d.lx2) - 2) + " " + (loc_yscacle(d.ly2) - 2) + ") translate(" + (loc_xscacle(d.lx2) - 16) + "," + (loc_yscacle(d.ly2) - 16) + ")  scale(0.5) ")
+                                .attr("transform", "rotate(" + (orr2) + " " + (loc_xscacle(d.lx2) - 2.5) + " " + (loc_yscacle(d.ly2) - 2.5) + ") translate(" + (loc_xscacle(d.lx2) - 24.5) + "," + (loc_yscacle(d.ly2) - 21.5) + ")  scale(0.8) ")
+
+
+                            // return "rotate(" + (orr) + " " + (proj_xscacle(d.px1) - 2.5) + " " + (proj_yscacle(d.py1) - 2.5) + ") translate(" + (proj_xscacle(d.px1) - 24.5) + "," + (proj_yscacle(d.py1) - 21.5) + ")  scale(0.8)"
                             // .attr("transform", "rotate(180 64 62) translate(50 50) scale(0.5)")
 
                             idSel.push(d.id)

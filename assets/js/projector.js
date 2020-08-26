@@ -65,8 +65,15 @@ function drawPoints(data, svg) {
         .attr("d", "m 20 20 a -6 6 7 0 1 14 0 l -7 23 l -7 -23")
         .attr("transform", d => {
             const orr = -90 + (Math.atan2(proj_yscacle(d.py2) - proj_yscacle(d.py1), proj_xscacle(d.px2) - proj_xscacle(d.px1)) * (180 / Math.PI));
-            return "rotate(" + (orr) + " " + (proj_xscacle(d.px1) - 2) + " " + (proj_yscacle(d.py1) - 2) + ") translate(" + (proj_xscacle(d.px2) - 16) + "," + (proj_yscacle(d.py2) - 16) + ")  scale(0.5) "
+            return "rotate(" + (orr) + " " + (proj_xscacle(d.px1) - 2.5) + " " + (proj_yscacle(d.py1) - 2.5) + ") translate(" + (proj_xscacle(d.px1) - 24.5) + "," + (proj_yscacle(d.py1) - 21.5) + ")  scale(0.8)"
+
+            // return "rotate(" + (orr2) + " " + (loc_xscacle(d.lx1) - 2.5) + " " + (loc_yscacle(d.ly1) - 2.5) + ") translate(" + (loc_xscacle(d.lx1) - 24.5) + "," + (loc_yscacle(d.ly1) - 21.5) + ")  scale(0.8) "
         })
+
+
+      /*  svg.selectAll("rect")
+        .data(data)
+        .enter().append("rect").attr("x", d =>proj_xscacle(d.px1)-5).attr("y",  d =>proj_yscacle(d.py1)-5).attr("width", 10).attr("height", 10).attr("fill","pink")*/
 }
 
 function euclidian_dist(a, b) {
