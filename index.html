@@ -147,14 +147,14 @@
             <h4 style="text-align: center"><span style="text-decoration:line-through rgba(0,0,0,0.4) ">Geo</span> Theo
                 Guesser </h4>
             <h5 style="font-size: 2.2rem;color: rgba(0,0,0,0.5);text-align: center">
-                If you wake up in Theo’s apartment could you guess where you are?
+                Could you beat an IA guessing where you are in Theo’s apartment?
             </h5>
 
 
             <!--            <h4 style="text-align: left"> Introduction </h4>-->
 
             <div style="font-style: italic;margin-top: 10%">
-                On the map on the right, try to pinpoint the point from which the observed image (shown left) has been
+                On the map on the right, try to pinpoint the location from which the observed image (shown left) has been
                 taken.
                 To do so, click on the corresponding location and then drag the appearing circle to configure the
                 orientation angle. After clicking on the "Guess" button, the ground truth appears in green, and a neural
@@ -277,8 +277,8 @@
                 <p style="position: absolute;top: 166px;left: 120px;text-align: left;font-weight: 800;font-style: italic;text-anchor: end">
                     Depth
                 </p>
-<!--                <span style="position: absolute;bottom: -75px;border: #333333 solid 1px;            border-radius: 4px;"
-                      class="actcl"> Click here for details on the model and it's training</span>-->
+                <!--                <span style="position: absolute;bottom: -75px;border: #333333 solid 1px;            border-radius: 4px;"
+                                      class="actcl"> Click here for details on the model and it's training</span>-->
 
             </div>
 
@@ -400,9 +400,9 @@
             <div style="display: inline-block;text-align: center;width: 100%">
             </div>
             <div style="position: relative;margin-top: 5%;text-decoration: #555555 underline">
-                <p style="position: absolute;left: 20%;top:-50px;width: 100px;text-decoration: #555555 underline">
+                <p style="position: absolute;left: 20%;top:-50px;width: 100px;">
                     Simulator</p>
-                <p style="position: absolute;right: 20%;top:-50px;;width: 100px;text-decoration: #555555 underline">
+                <p style="position: absolute;right: 20%;top:-50px;;width: 100px;">
                     Real</p>
             </div>
             <div style="display: inline;text-align: center">
@@ -448,9 +448,9 @@
     <div class="row">
         <div class="twelve columns" style="margin-top: -2%;position: relative;height: 130px">
             <div style="position: relative;margin-top: 2%;text-decoration: #555555 underline;text-align: center;margin-bottom: -10px">
-                <p style="position: absolute;right:348px ;top:120px;width: 100px;text-decoration: #555555 underline;text-anchor: middle">
+                <p style="position: absolute;right:348px ;top:120px;width: 100px;text-anchor: middle">
                     Simulator</p>
-                <p style="position: absolute;right: 90px;top:120px;width: 100px;text-decoration: #555555 underline;text-anchor: middle">
+                <p style="position: absolute;right: 90px;top:120px;width: 100px;text-anchor: middle">
                     Noise</p>
             </div>
             <img src="" height="128" width="128" id="imgr2" style="position: absolute;top:170px;right:395px">
@@ -523,9 +523,9 @@
             <div class="row">
                 <div class="twelve columns" style="margin-top: 8%;position: relative;height: 130px">
                     <div style="position: relative;margin-top: 2%;text-decoration: #555555 underline;text-align: center;margin-bottom: -10px">
-                        <p style="position: absolute;right:348px ;top:120px;width: 100px;text-decoration: #555555 underline;text-anchor: middle">
+                        <p style="position: absolute;right:348px ;top:120px;width: 100px;text-anchor: middle">
                             Simulator</p>
-                        <p style="position: absolute;right:90px ;top:120px;width: 100px;text-decoration: #555555 underline;text-anchor: middle">
+                        <p style="position: absolute;right:90px ;top:120px;width: 100px;text-anchor: middle">
                             Noise</p>
                     </div>
                     <img src="" height="128" width="128" id="imgr3" style="position: absolute;top:170px;right:395px">
@@ -850,8 +850,8 @@
 
                 if (rotSt) {
 
-                    d3.select("#guessLine").remove();
-                    d3.select("#guessCr").remove();
+                    // d3.select("#guessLine").remove();
+                    // d3.select("#guessCr").remove();
 
 
                     let txscale = d3.scaleLinear(simW, [50, 750])
@@ -1720,8 +1720,9 @@
                         loc3.selectAll("line").remove();*/
 
 
-                guessid = getRandomInt(0, tref.length - 1)
-                $("#guessimg").attr("src", "data:image/jpeg;base64," + tref[guessid].imgR)
+                // guessid = getRandomInt(0, tref.length - 1)
+                guessid = 0
+                $("#guessimg").attr("src", "data:image/jpeg;base64," + dato[guessid].imgR)
 
 
                 $("#timeline").attr("max", dato.length)
@@ -1781,12 +1782,10 @@
                 drawPoints(dato2, proj2);
                 drawElements(dato2, loc2);
 
-
                 elements3 = proj2.selectAll(".projDot");
                 elements4 = loc2.selectAll(".locDot");
 
             });
-
 
             // getData2("datasets/traj" + curTraj + "/" + curTraj + "_" + curNoise + ".json").then(function () {
             getData2("datasets/good/try2" + "_" + curNoise2 + ".json").then(function () {
