@@ -154,7 +154,8 @@
             <!--            <h4 style="text-align: left"> Introduction </h4>-->
 
             <div style="font-style: italic;margin-top: 10%">
-                On the map on the right, try to pinpoint the location from which the observed image (shown left) has been
+                On the map on the right, try to pinpoint the location from which the observed image (shown left) has
+                been
                 taken.
                 To do so, click on the corresponding location and then drag the appearing circle to configure the
                 orientation angle. After clicking on the "Guess" button, the ground truth appears in green, and a neural
@@ -773,6 +774,7 @@
             let dato2;
             let dato3;
 
+            let gwait = false;
             let hacl = false;
 
             let tref;
@@ -854,13 +856,13 @@
                     // d3.select("#guessCr").remove();
 
 
-                    let txscale = d3.scaleLinear(simW, [50, 750])
+                    let txscale = d3.scaleLinear(simW, [50, 780])
                     let tyscale = d3.scaleLinear(simH, [25, 545])
                     // const coords = d3.mouse(tsvg.node());
 
 
                     let pred_tx = txscale(tref[guessid].lx1);
-                    let pred_ty = tyscale(tref[guessid].lx2);
+                    let pred_ty = tyscale(tref[guessid].ly1);
                     let pred_torr = tref[guessid].lorr1;
 
 
@@ -887,7 +889,7 @@
                         .style("stroke-width", "2px")
                         .attr("d", "m 20 20 a -6 6 7 0 1 14 0 l -7 23 l -7 -23")
                         .attr("transform", d => {
-                                return "rotate(" + (180 - torr) + " " + (tx - 6) + " " + (ty - 6) + ") translate(" + (tx - 32) + "," + (ty - 32) + ") scale(1.5)"
+                                return "rotate(" + (-180 + torr) + " " + (tx - 2.5) + " " + (ty - 2.5) + ") translate(" + (tx - 43.2) + "," + (ty - 33.6) + ") scale(1.5)"
                             }
                         );
 
@@ -899,9 +901,10 @@
                         .style("stroke-width", "2px")
                         .attr("d", "m 20 20 a -6 6 7 0 1 14 0 l -7 23 l -7 -23")
                         .attr("transform", d => {
-                                return "rotate(" + (180 - pred_torr) + " " + (pred_tx - 6) + " " + (pred_ty - 6) + ") translate(" + (pred_tx - 32) + "," + (pred_ty - 32) + ") scale(1.5)"
+                                return "rotate(" + (-180 + pred_torr) + " " + (pred_tx - 2.5) + " " + (pred_ty - 2.5) + ") translate(" + (pred_tx - 43.2) + "," + (pred_ty - 33.6) + ") scale(1.5)"
                             }
                         );
+                    gwait = true
 
 
                     // tsvg.append("line")
@@ -917,13 +920,13 @@
                              .attr("id", "")*/
                     rotSt = false;
                 } else {
+                    gwait = false
 
+                    const introsvg = d3.select("#theo-guess");
 
-                    const introsvg = d3.select("#theo-guess")
-
-
-                    introsvg.selectAll("path").remove()
-                    introsvg.selectAll("line").remove()
+                    introsvg.selectAll("path").remove();
+                    introsvg.selectAll("line").remove();
+                    introsvg.selectAll("circle").remove();
 
                     // guessid = getRandomInt(0, tref.length - 1);
                     guessid = getRandomInt(0, tref.length - 1);
@@ -941,7 +944,7 @@
 
             tsvg.on("click", function (e) {
 
-                if (!rotSt) {
+                if (!rotSt && !gwait) {
                     // console.log(e);0
                     rotSt = true;
                     const coords = d3.mouse(tsvg.node());
@@ -1008,6 +1011,26 @@
 
                 }
             });
+
+
+            function selCur(id) {
+                let pelem = elements3.filter(d => d.id === id)
+                let lelem = elements4.filter(d => d.id === id)
+
+                console.log(lelem);
+
+                lelem.attr("fill", "purple")
+
+                /*
+                                lelem.attr("transform", d => {
+                                    console.log(d);
+                                    const orr2 = 180 - d.lorr1;
+                                        return "rotate(" + (orr2) + " " + (loc_xscacle(d.lx1) - 2) + " " + (loc_yscacle(d.ly1) - 2) + ") translate(" + (loc_xscacle(d.lx1) - 16) + "," + (loc_yscacle(d.ly1) - 16) + ")  scale(1.2) "
+                                    })
+                */
+
+
+            }
 
 
             function dragstarted(d) {
@@ -1759,7 +1782,9 @@
 
             getData1("datasets/bad/try" + "_" + curNoise + ".json").then(function () {
 
-                $("#timeline2").attr("max", dato2.length)
+                // $("#timeline2").attr("max", dato2.length)
+
+
                 dato2.sort((a, b) => {
 
                     if (a.id > b.id) {
