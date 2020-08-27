@@ -5,7 +5,7 @@
     <!-- Basic Page Needs
     –––––––––––––––––––––––––––––––––––––––––––––––––– -->
     <meta charset="utf-8">
-    <title>Projection</title>
+    <title>Theo Guesser</title>
     <meta name="description" content="">
     <meta name="author" content="Theo Jaunet, Romain Vuillemot, and Christian Wolf">
     <script src="https://d3js.org/d3.v5.min.js"></script>
@@ -316,12 +316,10 @@
 
 
             <p>
-                In the figure below (right side), we show a
-                trajectory starting in the living room, and ending in the laundry
-                – click on the play button to see the full animation of observed RGB and
+                In the figure below (right side), we show a collection of RGB and
                 depth images. Superimposed over the map image (below, right), we present the
                 predicted poses estimated by the deep neural network, drawn as oriented arrows.
-                The given trajectory is not part of the training set, the obtained error therefore
+                The given images are not part of the training set, the obtained error therefore
                 shows the sim2sim generalization performance, indicating whether the model can
                 perform well on unseen images in simulation.
 
@@ -391,8 +389,8 @@
         <div class="six columns" style="margin-top: 1%">
             <svg id="loc" style="width: 100%;height: 370px;     border: none;margin-top: 160px"></svg>
             <div style="text-align: center;color: rgba(0,0,0,0.5)">
-                Neural model's predictions of coordinates and orientation angles of given images sampled from a
-                trajectory in the simulator. The color of each arrow encodes how wrong a prediction is from low error
+                Neural model's predictions of coordinates and orientation angles of given images randomly sampled from
+                the simulator. The color of each arrow encodes how wrong a prediction is from low error
                 (green) to high error (red).
             </div>
 
@@ -490,7 +488,8 @@
                 blur</a>, the model predicts a location closer to furniture ahead. This may be due the fact that in the
                 noisy saliency map, the focus of the model seems to be on the chair and the table as opposed to the
                 floor in the noiseless input.
-                Overvall, the biggest disturbancies are caused by the <a class="interlink" onclick="selCur([-2.799999952316284,4.5,94],'pepper')">
+                Overvall, the biggest disturbancies are caused by the <a class="interlink"
+                                                                         onclick="selCur([-2.799999952316284,4.5,94],'pepper')">
                 pepper</a>, or
                 <a class="interlink" onclick="selCur([2,-0.699999988079071,57],'edge')"> edge-enhancing </a>. ne
                 hypothesis we came up with is that the model heavily relies on the depth channel, which is most impacted
@@ -498,12 +497,12 @@
                 As we can see below, most of the model's predictions are far from where they were sampled.
                 <!--                Despite being visually harder interpret (for humans), the model predicts a closer location.-->
 
-<!--
-                Changing noises types such as <a class="interlink" onclick="selCur(4,'pepper')"> pepper</a>, or
-                <a class="interlink" onclick="selCur(8,'edge')"> edge-enhancing </a> we
-                see that this makes the model fails most of its predictions, and sometimes mistake rooms like on. One
-                hypothesis we came up with is that the model heavily relies on the depth channel for its decisions, t
-                As we can see below, most of the model's predictions are far from where they were sampled.-->
+                <!--
+                                Changing noises types such as <a class="interlink" onclick="selCur(4,'pepper')"> pepper</a>, or
+                                <a class="interlink" onclick="selCur(8,'edge')"> edge-enhancing </a> we
+                                see that this makes the model fails most of its predictions, and sometimes mistake rooms like on. One
+                                hypothesis we came up with is that the model heavily relies on the depth channel for its decisions, t
+                                As we can see below, most of the model's predictions are far from where they were sampled.-->
 
         </div>
     </div>
