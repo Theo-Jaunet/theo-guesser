@@ -161,11 +161,58 @@
         }
 
 
+        path[class='tbrm'] {
+            stroke: #131313;
+            stroke-width: 1px
+        }
+
+        .locDot {
+            stroke: #131313;
+            stroke-width: 1px
+        }
+
+        .projDot {
+            stroke: #131313;
+            stroke-width: 1px
+        }
+
         .salcon {
             background-size: contain;
             width: 128px;
             height: 128px;
         }
+
+
+        .hoverable {
+            background-image: linear-gradient(to right, rgba(30, 174, 219, 1) 33%, rgba(30, 74, 219, 0) 0%);
+            background-position: bottom;
+            background-size: 6px 2px;
+            background-repeat: repeat-x;
+            color: #1EAEDB;
+            cursor: pointer;
+            background-color: transparent;
+        }
+
+        #def {
+
+            position: absolute;
+            background-color: rgba(250, 250, 250, 0.95);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            box-shadow: 0 0 7px rgba(0, 0, 0, 0.1);
+            box-sizing: border-box;
+            border-radius: 4px;
+            -webkit-backdrop-filter: blur(2px);
+            backdrop-filter: blur(2px);
+            padding: 15px 5px 2px 5px;
+            max-width: 250px;
+
+        }
+
+        #def p {
+
+
+        }
+
     </style>
 
 </head>
@@ -189,9 +236,17 @@
                 On the map on the right, try to pinpoint the location from which the observed image (shown left) has
                 been
                 taken.
-                To do so, click on the corresponding location and then drag the appearing circle to configure the
-                orientation angle. After clicking on the "Guess" button, the ground truth appears in green, and a neural
-                network prediction in purple. You can click on the saliency button to display/hide the AI's vision.
+                To do so, click on the corresponding location and then drag: <img
+                    style="border: none;width: 35px;margin-top: -4px;margin-bottom: -9px"
+                    src="assets/images/icons/blue.png"> to make adjustments, or drag it's arrow to configure the
+                orientation angle. After clicking on the <img
+                    style="border: none;width: 75px;margin-top: 2px;margin-bottom: -8px"
+                    src="assets/images/icons/guess.png"> button, the ground truth appears as: <img
+                    style="border: none;width: 35px;margin-top: -4px;margin-bottom: -9px"
+                    src="assets/images/icons/green.png">, and a neural
+                network prediction as: <img style="border: none;width: 35px;margin-top: -4px;margin-bottom: -9px"
+                                            src="assets/images/icons/purple.png">. You can click on the saliency button
+                to display/hide the AI's vision.
             </div>
         </div>
     </div>
@@ -261,7 +316,9 @@
                 The concrete application we target is robot localization, also called ego-pose estimation, which
                 requires to estimate the 3D position and orientation (angle) of a mobile robot navigating in a 3D
                 environment, in our case an apartment. At each time step t, the robot
-                observes two ego-centric images (an RGB image <span
+                observes two <span class="hoverable" onmouseenter="hoverDisp(this,0)" onmouseleave="hideDef()">ego-centric images</span>
+                (an RGB
+                image <span
                     style="font-style: italic;font-weight: 700">I<sub>t</sub></span> and a depth image <span
                     style="font-style: italic;font-weight: 700">D<sub>t</sub></span> ) from an onboard camera, from
                 which a convolutional neural network directly regresses the robot’s pose <span
@@ -276,8 +333,12 @@
 
                 This work is at the crossroads of three different fields and explores techniques of data visualization
                 to advance machine learning for robotics applications. We propose new techniques for the visualization
-                of the sim2real gap, which provide insights into the difference in performance obtained when neural
-                networks are applied out of distribution (OOD) in real settings. The objective is to pinpoint transfer
+                of the <span class="hoverable" onmouseenter="hoverDisp(this,1)"
+                             onmouseleave="hideDef()">sim2real gap</span>, which provide insights into the difference in
+                performance obtained when neural
+                networks are applied <span class="hoverable" onmouseenter="hoverDisp(this,2)" onmouseleave="hideDef()">out of distribution (OOD)</span>
+                in real settings. The
+                objective is to pinpoint transfer
                 problems and to assist researchers and engineers in the fields of machine learning for robotics to
                 design neural models which better transfer to real world scenarios.
                 <br/><br/>
@@ -334,9 +395,13 @@
             <p>
                 In the figure below (right side), we show a collection of RGB and
                 depth images. Superimposed over the map image (below, right), we present the
-                predicted poses estimated by the deep neural network, drawn as oriented arrows.
+                predicted poses estimated by the deep neural network, drawn as oriented arrows (<img
+                    style="border: none;width: 15px;margin: -8px -0.5px;" src="assets/images/icons/arrow.png">).
                 The given images are not part of the training set, the obtained error therefore
-                shows the sim2sim generalization performance, indicating whether the model can
+                shows the <span class="hoverable" onmouseenter="hoverDisp(this,3)"
+                                onmouseleave="hideDef()">sim2sim</span> generalization performance, indicating whether
+                the
+                model can
                 perform well on unseen images in simulation.
 
                 Hovering those arrows with the mouse
@@ -348,7 +413,8 @@
                 To the left, we provide a visualization of the feature representation used by the neural network in the
                 form of the activations of its last CNN layer (indicated in the <a class="focus"
                                                                                    onclick="focusRef('umapMarl')">figure
-                above</a>). We show a Umap projection
+                above</a>). We show a <span class="hoverable" onmouseenter="hoverDisp(this,4)" onmouseleave="hideDef()">Umap</span>
+                projection
                 of features extracted from
                 nearly 12000 previously unseen
                 images. The location of its dot represents the features of an image, and its color corresponds to the
@@ -494,7 +560,8 @@
                 affected than others by the gap. For instance, we can see that with the <a class="interlink"
                                                                                            onclick="selCur([2,-0.699999988079071,57],'gaussian')">input
                 #8</a> and Gaussian
-                noise, the model predicts the corresponding coordinates in an other room, despite having both features
+                noise, the model predicts the corresponding coordinates in an other room, despite having both
+                features
                 at the same location in Umap. With a <a
                     class="interlink" onclick="selCur([-4.599999904632568,3.0999999046325684,42],'pepper')">pepper
                 noise,
@@ -524,28 +591,28 @@
     </div>
 
     <div class="row">
-        <div class="twelve columns" style="margin-top: -1%;position: relative;height: 130px">
-            <div style="position: relative;margin-top: 2%;text-decoration: #555555 underline;text-align: center;margin-bottom: -10px">
-                <p style="position: absolute;right:348px ;top:120px;width: 100px;text-anchor: middle">
+        <div class="twelve columns" style="margin-top: -1%;position: relative;height: 3px">
+            <div style="position: relative;margin-top: 2%;text-decoration: #555555 underline;text-align: center;">
+                <p style="position: absolute;right:348px ;top:10px;width: 100px;text-anchor: middle">
                     Simulator</p>
-                <button class="button salbt" style="margin-top: 20px;position: absolute;right: 205px;top:85px">
+                <button class="button salbt" style="margin-top: 20px;position: absolute;right: 205px;top:-25px">
                     Saliency
                 </button>
-                <p style="position: absolute;right: 90px;top:120px;width: 100px;text-anchor: middle">
+                <p style="position: absolute;right: 90px;top:10px;width: 100px;text-anchor: middle">
                     Noise</p>
             </div>
 
 
-            <div class="salcon" style="position: absolute;top:172px;right:398px" id="imgrc2">
+            <div class="salcon" style="position: absolute;top:64px;right:398px" id="imgrc2">
                 <img src="" height="128" width="128" id="imgr2" class="salon">
             </div>
-            <img src="" height="128" width="128" id="depthr2" style="position: absolute;right:264px;top:170px ">
+            <img src="" height="128" width="128" id="depthr2" style="position: absolute;right:264px;top:62px ">
 
 
-            <div class="salcon" id="imgbc2" style="position: absolute;right: 0;top:172px">
+            <div class="salcon" id="imgbc2" style="position: absolute;right: 0;top:64px">
                 <img src="" height="128" width="128" id="imgb2" class="salon">
             </div>
-            <img src="" height="128" width="128" id="depthb2" style="position: absolute;right: 128px;top:170px">
+            <img src="" height="128" width="128" id="depthb2" style="position: absolute;right: 128px;top:62px">
 
             <!--            <div style="position: absolute;left:470px; top: 65px">
                             <label for="trajsel2">Trajectory</label>
@@ -585,7 +652,7 @@
 
     <div class="row">
         <div class="six columns" style="margin-top: 3%">
-            <div style="width: 100%;height: 532px;background-image: url('assets/bg.png');background-size: contain;">
+            <div style="width: 100%;height: 532px;background-image: url('assets/bg.png');background-size: cover;">
                 <div style="width: 100%;height: 532px;background-color:rgba(254,254,254,0.4);">
                     <svg id="proj2"
                          style="width: 100%;height: 530px;border: #555555 solid 1px;opacity: 1 !important;"></svg>
@@ -622,7 +689,7 @@
             </p>
 
             <div class="row">
-                <div class="twelve columns" style="margin-top: -8%;position: relative;height: 130px">
+                <div class="twelve columns" style="margin-top: -5.5%;position: relative;height: 130px">
                     <div style="position: relative;margin-top: 2%;text-decoration: #555555 underline;text-align: center;margin-bottom: -10px">
                         <p style="position: absolute;right:348px ;top:120px;width: 100px;text-anchor: middle">
                             Simulator</p>
@@ -681,7 +748,7 @@
 
     <div class="row">
         <div class="six columns" style="margin-top: 3%">
-            <div style="width: 100%;height: 532px;background-image: url('assets/bg.png');background-size: contain;">
+            <div style="width: 100%;height: 532px;background-image: url('assets/bg.png');background-size: cover;">
                 <div style="width: 100%;height: 532px;background-color:rgba(254,254,254,0.4);">
                     <svg id="proj3" style="width: 100%;height: 530px;border: #555555 solid 1px"></svg>
                 </div>
@@ -712,7 +779,7 @@
 
 
     <div class="row">
-        <div class="twelve column" style="margin-top: 8%">
+        <div class="twelve column" style="margin-top: -2%">
             <!--            <h4 style="text-align: left"> Using real-images</h4>-->
             <!-- <p>
                  Using backprogation of predictions, one can extract the gradient and build saliency maps which depicts
@@ -808,1387 +875,931 @@
             -->
 
 
-            <div class="row">
-                <div class="twelve columns" style="margin-top: 2%;display: inline-block">
+            <h5>Implementation</h5>
+            <p> This project uses the JavaScript library <a href="https://d3js.org/">d3</a> to display data
+                extracted from the Deep convolutional network implemented in Python using <a
+                        href="https://pytorch.org/">PyTorch</a>. The apartement simulated with <a
+                        href="https://aihabitat.org/">Habitat</a>.</p>
 
-                    <h5>Implementation</h5>
-                    <p> This project uses the JavaScript library <a href="https://d3js.org/">d3</a> to display data
-                        extracted from the Deep convolutional network implemented in Python using <a
-                                href="https://pytorch.org/">PyTorch</a>. The apartement simulated with <a
-                                href="https://aihabitat.org/">Habitat</a>.</p>
-
-                </div>
+        </div>
+    </div>
+    <div class="row" style="text-align: center">
+        <div class="twelve columns" style="margin-top: 2%;display: inline-block">
+            <div style=" text-align: left;margin-bottom: 50px">
+                <h5>Authors</h5>
+                <p><a href="https://theo-jaunet.github.io/">Théo Jaunet</a> (<a
+                        href="https://twitter.com/jaunet_theo">@jaunet_theo</a>),
+                    <a href="http://romain.vuillemot.net/">Romain
+                        Vuillemot</a> (<a href="https://twitter.com/romsson">@romsson</a>) and <a
+                            href="https://perso.liris.cnrs.fr/christian.wolf/">Christian Wolf </a>(<a
+                            href="https://twitter.com/chriswolfvision">@chriswolfvision</a>), at LIRIS
+                    lab Lyon
+                    -
+                    France.
+                </p>
+                This work takes place in Théo jaunet's Ph.D. which is supported by a French Ministry
+                Fellowship
+                and the
+                <a
+                        href="https://projet.liris.cnrs.fr/mi2/"> M2I project</a>,
             </div>
-            <div class="row" style="text-align: center">
-                <div class="twelve columns" style="margin-top: 2%;display: inline-block">
-                    <div style=" text-align: left;margin-bottom: 50px">
-                        <h5>Authors</h5>
-                        <p><a href="https://theo-jaunet.github.io/">Théo Jaunet</a> (<a
-                                href="https://twitter.com/jaunet_theo">@jaunet_theo</a>),
-                            <a href="http://romain.vuillemot.net/">Romain
-                                Vuillemot</a> (<a href="https://twitter.com/romsson">@romsson</a>) and <a
-                                    href="https://perso.liris.cnrs.fr/christian.wolf/">Christian Wolf </a>(<a
-                                    href="https://twitter.com/chriswolfvision">@chriswolfvision</a>), at LIRIS
-                            lab Lyon
-                            -
-                            France.
-                        </p>
-                        This work takes place in Théo jaunet's Ph.D. which is supported by a French Ministry
-                        Fellowship
-                        and the
-                        <a
-                                href="https://projet.liris.cnrs.fr/mi2/"> M2I project</a>,
+
+        </div>
+    </div>
+
+
+    <div class="row">
+        <h4>Citations</h4>
+    </div>
+    <div class="row">
+        <div class="ten columns">
+            <ol>
+                <li style="color: rgba(0,0,0,0.9);" id="ref1">
+                    Deep Reinforcement Learning on a Budget: 3D Control and Reasoning Without a
+                    Supercomputer
+                    [<a
+                        href="https://arxiv.org/abs/1904.01806">URL</a>].
+                    <div style="color: rgba(0,0,0,0.5);margin-left: 15px">
+                        Edward Beeching, Christian Wolf, Jilles Dibangoye and Olivier Simonin<br>
+                        International Conference on Pattern Recognition (ICPR), 2020<br>
                     </div>
+                </li>
 
-                </div>
-            </div>
-
-
-            <div class="row">
-                <h4>Citations</h4>
-            </div>
-            <div class="row">
-                <div class="ten columns">
-                    <ol>
-                        <li style="color: rgba(0,0,0,0.9);" id="ref1">
-                            Deep Reinforcement Learning on a Budget: 3D Control and Reasoning Without a
-                            Supercomputer
-                            [<a
-                                href="https://arxiv.org/abs/1904.01806">URL</a>].
-                            <div style="color: rgba(0,0,0,0.5);margin-left: 15px">
-                                Edward Beeching, Christian Wolf, Jilles Dibangoye and Olivier Simonin<br>
-                                International Conference on Pattern Recognition (ICPR), 2020<br>
-                            </div>
-                        </li>
-
-                        <li style="color: rgba(0,0,0,0.9);" id="ref2">
-                            Domain
-                            randomization for transferring deep neural networks from simulation to the real
-                            world [<a
-                                href="https://arxiv.org/abs/1703.06907">URL</a>]
-                            <div style="color: rgba(0,0,0,0.5);margin-left: 15px">
-                                Josh Tobin, Rachel Fong, Alex Ray, Jonas Schneider, Wojciech Zaremba, Pieter
-                                Abbeel
-                                <br/>
-                                IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS), 2017
-                            </div>
-                        </li>
+                <li style="color: rgba(0,0,0,0.9);" id="ref2">
+                    Domain
+                    randomization for transferring deep neural networks from simulation to the real
+                    world [<a
+                        href="https://arxiv.org/abs/1703.06907">URL</a>]
+                    <div style="color: rgba(0,0,0,0.5);margin-left: 15px">
+                        Josh Tobin, Rachel Fong, Alex Ray, Jonas Schneider, Wojciech Zaremba, Pieter
+                        Abbeel
+                        <br/>
+                        IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS), 2017
+                    </div>
+                </li>
 
 
-                        <li style="color: rgba(0,0,0,0.9);" id="ref3">
-                            Habitat: A Platform for Embodied AI Research [<a
-                                href="https://arxiv.org/abs/1904.01201">URL</a>]
-                            <div style="color: rgba(0,0,0,0.5);margin-left: 15px">
-                                Manolis Savva, Abhishek Kadian, Oleksandr Maksymets, Yili Zhao, Erik Wijmans,
-                                Bhavana Jain, Julian Straub, Jia Liu, Vladlen Koltun, Jitendra Malik, Devi
-                                Parikh, Dhruv
-                                Batra
-                                <br/>
-                                Proceedings of the IEEE/CVF International Conference on Computer Vision (ICCV),
-                                2019
-                            </div>
-                        </li>
+                <li style="color: rgba(0,0,0,0.9);" id="ref3">
+                    Habitat: A Platform for Embodied AI Research [<a
+                        href="https://arxiv.org/abs/1904.01201">URL</a>]
+                    <div style="color: rgba(0,0,0,0.5);margin-left: 15px">
+                        Manolis Savva, Abhishek Kadian, Oleksandr Maksymets, Yili Zhao, Erik Wijmans,
+                        Bhavana Jain, Julian Straub, Jia Liu, Vladlen Koltun, Jitendra Malik, Devi
+                        Parikh, Dhruv
+                        Batra
+                        <br/>
+                        Proceedings of the IEEE/CVF International Conference on Computer Vision (ICCV),
+                        2019
+                    </div>
+                </li>
 
-                        <li style="color: rgba(0,0,0,0.9);" id="ref4">
-                            Posenet: A convolutional network for real-time 6-dof camera relocalization [<a
-                                href="https://arxiv.org/abs/1505.07427">URL</a>]
-                            <div style="color: rgba(0,0,0,0.5);margin-left: 15px">
-                                Alex Kendall, Matthew Grimes, and Roberto Cipolla <br/>
-                                Proceedings of the IEEE international conference on computer vision (ICCV), 2015
-                            </div>
-                        </li>
+                <li style="color: rgba(0,0,0,0.9);" id="ref4">
+                    Posenet: A convolutional network for real-time 6-dof camera relocalization [<a
+                        href="https://arxiv.org/abs/1505.07427">URL</a>]
+                    <div style="color: rgba(0,0,0,0.5);margin-left: 15px">
+                        Alex Kendall, Matthew Grimes, and Roberto Cipolla <br/>
+                        Proceedings of the IEEE international conference on computer vision (ICCV), 2015
+                    </div>
+                </li>
 
 
-                    </ol>
-                </div>
-
-            </div>
+            </ol>
         </div>
 
+    </div>
+</div>
 
-        <script>
-            // const data = fakedata(200);
-            let dato;
-            let dat;
-            let dato2;
-            let dato3;
 
-            let gwait = false;
-            let hacl = false;
+<style>
 
-            let tref;
 
-            let dator;
-            let idSel = [];
+</style>
 
-            let elements;
-            let elements2;
 
-            let elements3;
-            let elements4;
+<div id="def"
+     style="">
 
-            let elements5;
-            let elements6;
+    <div>
+        <p id="defText">Some Text Some Text Some Text Some Text</p>
+    </div>
+    <p id="defSource" style="padding: 0;margin: 0;"></p>
+</div>
 
-            let curStep0 = 0;
+<script>
+    // const data = fakedata(200);
+    let dato;
+    let dat;
+    let dato2;
+    let dato3;
 
-            let curStep = 0;
-            let curTraj = "0";
-            let curNoise = "gaussian";
+    let gwait = false;
+    let hacl = false;
 
+    let tref;
 
-            let curStep2 = 0;
-            let curTraj2 = "0";
-            let curNoise2 = "gaussian";
+    let dator;
+    let idSel = [];
 
-            let pl = false;
-            let timer = null;
-            let timer2 = null;
-            let timer3 = null;
+    let elements;
+    let elements2;
 
-            let rotSt = false;
-            let guessid;
+    let elements3;
+    let elements4;
 
-            let nguess = 0
-            let avgDist = 0
-            let avgDist2 = 0
-            let avgOrr = 0
+    let elements5;
+    let elements6;
 
+    let curStep0 = 0;
 
-            let seldat = [
+    let curStep = 0;
+    let curTraj = "0";
+    let curNoise = "gaussian";
 
-                [6.5, 3.200000047683716, 153],
-                [4.300000190734863, 6, 144],
-                [-1.899999976158142, 1, 83],
-                [0.699999988079071, 0.800000011920929, 166],
-                [-2.799999952316284, 4.5, 94],
-                [1.7999999523162842, -0.30000001192092896, 53],
-                [-2.9000000953674316, 4, 125],
-                [3.700000047683716, 5.400000095367432, 124],
-                [-4.599999904632568, 3.0999999046325684, 42],
-                [2.799999952316284, 3.5, 91],
-                [4, 3.0999999046325684, 16],
-                [-1.7000000476837158, 3.799999952316284, 166],
-                [2, -0.699999988079071, 57],
-                [-2.799999952316284, 4, 97],
-                [2.9000000953674316, 1.7999999523162842, 151],
-                [-1.600000023841858, 2.0999999046325684, 62]
-            ];
 
+    let curStep2 = 0;
+    let curTraj2 = "0";
+    let curNoise2 = "gaussian";
 
-            let guessw = true
+    let pl = false;
+    let timer = null;
+    let timer2 = null;
+    let timer3 = null;
 
-            let salop = false;
+    let rotSt = false;
+    let guessid;
 
-            const proj = d3.select("#proj");
-            const loc = d3.select("#loc");
+    let nguess = 0
+    let avgDist = 0
+    let avgDist2 = 0
+    let avgOrr = 0
 
-            const proj2 = d3.select("#proj2");
-            const loc2 = d3.select("#loc2");
+    let endOrr = 0
 
 
-            const proj3 = d3.select("#proj3");
-            const loc3 = d3.select("#loc3");
+    let definitions = [
+        {
 
-            let p1 = [[-5.994728088378906, 16.698274612426758], [-4.038941860198975, 14.940378189086914]];
-            let proj_xscacle = d3.scaleLinear().domain(p1[0]).range([20, 515]); // Scale to Change based on SVG Size
-            let proj_yscacle = d3.scaleLinear().domain(p1[1]).range([20, 515]);
+            text: "In our case, an ego-centric image is an image sampled from the robot's point of view",
+            source: ""
 
-            let colscale = d3.scaleLinear().domain([0, 20]).range(['green', 'red']);
-            let colscaleizy = d3.scaleLinear().domain([0, 60]).range(['green', 'red']);
-            let tsvg = d3.select("#theo-guess");
+        },
+        {
+            text: " The sim2real transfer consists in ...",
+            source: ""
 
+        }
+        , {
 
-            function focusRef(id) {
-                console.log(id);
-                document.getElementById(id).scrollIntoView({block: 'center', behavior: 'smooth'})
-            }
+            text: "In machine learning, 'out of Distribution', indicates that a given sample (input) was not seen during the model's training. In addition, this type of input is not what the model is used to.",
+            source: ""
 
+        }, {
+            text: "In sim2sim ....",
+            source: ""
 
-            function handleAcl() {
+        }, {
+            text: "Umap is a multi-dimensional projection method that ...",
+            source: ""
 
-                hacl = !hacl
-            }
+        }
 
+    ]
 
-            $(".salbt").on("click", function () {
 
-                salop = !salop
+    let seldat = [
 
-                if (!salop) {
+        [6.5, 3.200000047683716, 153],
+        [4.300000190734863, 6, 144],
+        [-1.899999976158142, 1, 83],
+        [0.699999988079071, 0.800000011920929, 166],
+        [-2.799999952316284, 4.5, 94],
+        [1.7999999523162842, -0.30000001192092896, 53],
+        [-2.9000000953674316, 4, 125],
+        [3.700000047683716, 5.400000095367432, 124],
+        [-4.599999904632568, 3.0999999046325684, 42],
+        [2.799999952316284, 3.5, 91],
+        [4, 3.0999999046325684, 16],
+        [-1.7000000476837158, 3.799999952316284, 166],
+        [2, -0.699999988079071, 57],
+        [-2.799999952316284, 4, 97],
+        [2.9000000953674316, 1.7999999523162842, 151],
+        [-1.600000023841858, 2.0999999046325684, 62]
+    ];
 
-                    $(".salon").css("opacity", "0")
-                } else {
-                    $(".salon").css("opacity", "0.5")
-                }
-            })
 
-            $("#guesser").on("click", function () {
+    let guessw = true
 
-                if (rotSt) {
+    let salop = false;
 
-                    // d3.select("#guessLine").remove();
-                    // d3.select("#guessCr").remove();
+    const proj = d3.select("#proj");
+    const loc = d3.select("#loc");
 
+    const proj2 = d3.select("#proj2");
+    const loc2 = d3.select("#loc2");
 
-                    let txscale = d3.scaleLinear(simW, [50, 780])
-                    let tyscale = d3.scaleLinear(simH, [25, 545])
-                    // const coords = d3.mouse(tsvg.node());
 
+    const proj3 = d3.select("#proj3");
+    const loc3 = d3.select("#loc3");
 
-                    let pred_tx = txscale(tref[guessid].lx1);
-                    let pred_ty = tyscale(tref[guessid].ly1);
-                    let pred_torr = tref[guessid].lorr1;
+    let p1 = [[-5.994728088378906, 16.698274612426758], [-4.038941860198975, 14.940378189086914]];
+    let proj_xscacle = d3.scaleLinear().domain(p1[0]).range([20, 515]); // Scale to Change based on SVG Size
+    let proj_yscacle = d3.scaleLinear().domain(p1[1]).range([20, 515]);
 
+    let colscale = d3.scaleLinear().domain([0, 20]).range(['green', 'red']);
+    let colscaleizy = d3.scaleLinear().domain([0, 60]).range(['green', 'red']);
+    let tsvg = d3.select("#theo-guess");
 
-                    let tx = txscale(tref[guessid].tx);
-                    let ty = tyscale(tref[guessid].ty);
-                    let torr = tref[guessid].torr;
 
+    function focusRef(id) {
+        console.log(id);
+        document.getElementById(id).scrollIntoView({block: 'center', behavior: 'smooth'})
+    }
 
-                    nguess += 1;
 
-                    let el = $("#guess");
+    function handleAcl() {
 
-                    $("#guesser").html("Try again!")
-                    $("#nguess").html(nguess);
+        hacl = !hacl
+    }
 
-                    avgDist += euclidian_dist([tx, ty], [el.attr("ox"), el.attr("oy")]);
-                    avgDist2 += euclidian_dist([tx, ty], [pred_tx, pred_ty]);
-                    $("#avgDist").html(Math.round(avgDist / nguess));
-                    $("#avgDist2").html(Math.round(avgDist2 / nguess));
 
-                    ty -= 33;
-                    tsvg.append("path")
-                        .attr("id", "gtpath")
-                        .attr("fill", "green")
-                        .style("stroke", "rgba(0,0,0,0.6)")
-                        .style("stroke-width", "2px")
-                        .attr("d", "m 20 20 a -6 6 7 0 1 14 0 l -7 23 l -7 -23")
-                        .attr("transform", d => {
-                                return "rotate(" + (0) + " " + (tx - 2.5) + " " + (ty - 2.5) + ") translate(" + (tx - 37.4) + "," + (ty - 28.2) + ") scale(1.3)"
-                            }
-                        );
+    $(".salbt").on("click", function () {
 
+        salop = !salop
 
-                    tsvg.append("circle")
-                        // .attr("id", "guessCr2")
-                        .attr("cx", tx - 2.4)
-                        .attr("cy", ty - 1)
-                        .attr("r", 4)
-                        .style("cursor", "grab")
-                        .attr("fill", "#333333")
+        if (!salop) {
 
-                    /* ---------------- Bordel 1 ---------------------------- */
+            $(".salon").css("opacity", "0")
+        } else {
+            $(".salon").css("opacity", "0.5")
+        }
+    })
 
 
-                    let g = tsvg.append('g').attr('id', 'pointar2');
+    function hideDef() {
+        $("#def").css("display", "none")
+    }
 
-                    ty += 33
+    function hoverDisp(elem, id) {
 
-                    let tpath2 = g.append('line')
-                        .attr('class', 'pointli2')
-                        .attr('x1', 10)
-                        .attr('x2', 10)
-                        .attr('y1', 2.5)
-                        .attr('y2', 40)
-                        .attr('stroke', 'rgba(0,0,0,0.8)')
-                        .attr("stroke-linejoin", "round")
-                        .attr('stroke_width', '12');
+        let cont = $("#def");
 
-                    tpath2 = g.append('line')
-                        .attr('class', 'pointli2')
-                        .attr('x1', 13)
-                        .attr('x2', -2.5)
-                        .attr('y1', 2.5)
-                        .attr('y2', 11.5)
-                        .attr('stroke', 'black')
-                        .attr("stroke-linejoin", "round")
-                        .attr('stroke_width', '4');
 
-                    tpath2 = g.append('line')
-                        .attr('class', 'pointli2')
-                        .attr('x1', 7.5)
-                        .attr('x2', 22)
-                        .attr('y1', 2.5)
-                        .attr('y2', 11.5)
-                        .attr("stroke-linejoin", "round")
-                        .attr('stroke', 'black')
-                        .attr('stroke_width', '4');
+        console.log(id);
 
+        let coords = getOffset(elem)
 
-                    let tpath = g.append('line')
-                        .attr('class', 'pointli')
-                        .attr('x1', 10)
-                        .attr('x2', 10)
-                        .attr('y1', 2.5)
-                        .attr('y2', 40)
-                        .attr('stroke', 'green')
-                        .attr("stroke-linejoin", "round")
-                        .attr('stroke_width', '10');
-/*
+        cont.css("display", "block")
 
+        cont.css("left", coords.left)
+        cont.css("top", coords.top + 22)
 
-                    let totalLength = tpath.node().getTotalLength();
 
-                    tpath.attr("stroke-dasharray", totalLength + " " + totalLength)
-                        .attr("stroke-dashoffset", totalLength)
-                        .transition()
-                        .duration(1000)
-                        .attr("stroke-dashoffset", 0);
+        if (definitions[id].source !== "") {
+
+            $("#defSource").html(definitions[id].source)
+
+        }
+
+        $("#defText").html(definitions[id].text)
+    }
+
+
+    function getOffset(el) {
+        var _x = 0;
+        var _y = 0;
+        while (el && !isNaN(el.offsetLeft) && !isNaN(el.offsetTop)) {
+            _x += el.offsetLeft - el.scrollLeft;
+            _y += el.offsetTop - el.scrollTop;
+            el = el.offsetParent;
+        }
+        return {top: _y, left: _x};
+    }
+
+
+    $("#guesser").on("click", function () {
+
+        if (rotSt) {
+
+            // d3.select("#guessLine").remove();
+            // d3.select("#guessCr").remove();
+
+
+            let txscale = d3.scaleLinear(simW, [50, 780])
+            let tyscale = d3.scaleLinear(simH, [25, 545])
+            // const coords = d3.mouse(tsvg.node());
+
+
+            let pred_tx = txscale(tref[guessid].lx1);
+            let pred_ty = tyscale(tref[guessid].ly1);
+            let pred_torr = tref[guessid].lorr1;
+
+
+            let tx = txscale(tref[guessid].tx);
+            let ty = tyscale(tref[guessid].ty);
+            let torr = tref[guessid].torr;
+
+
+            nguess += 1;
+
+            let scScale = d3.scaleLinear([250, 800, 900], [0, 70, 95]).clamp(true);
+            let angScale = d3.scaleLinear([0, 180], [0, 5]).clamp(true);
+
+            let aiAngle = angScale(180 - angleDiff(pred_torr, torr))
+
+            let humAngle = angScale(180 - angleDiff(endOrr, torr))
+
+            /*        console.log("----- Angles");
+                    console.log(torr)
+                    console.log(endOrr + "--" + humAngle);
+                    console.log(pred_torr + "--" + aiAngle);
 */
 
-
-                    tpath = g.append('line')
-                        .attr('class', 'pointli')
-                        .attr('x1', 12)
-                        .attr('x2', -2)
-                        .attr('y1', 2.5)
-                        .attr('y2', 11.5)
-                        .attr('stroke', 'green')
-                        .attr("stroke-linejoin", "round")
-                        .attr('stroke_width', '4');
-
-
-/*                    tpath.attr("stroke-dasharray", totalLength + " " + totalLength)
-                        .attr("stroke-dashoffset", totalLength - 3)
-                        .transition()
-                        .duration(2000)
-                        .attr("stroke-dashoffset", 0);*/
-
-                    tpath = g.append('line')
-                        .attr('class', 'pointli')
-                        .attr('x1', 8)
-                        .attr('x2', 22)
-                        .attr('y1', 2.5)
-                        .attr('y2', 11.5)
-                        .attr("stroke-linejoin", "round")
-                        .attr('stroke', 'green')
-                        .attr('stroke_width', '4');
-
-
-/*                    tpath.attr("stroke-dasharray", totalLength + " " + totalLength)
-                        .attr("stroke-dashoffset", totalLength - 3)
-                        .transition()
-                        .duration(2000)
-                        .attr("stroke-dashoffset", 0);*/
-
-
-                    g.attr('transform', 'translate(' + (tx - 12) + ',' + (ty - 41.5) + ') rotate(' + (torr) + ' ' + 9.6 + ' ' + 39 + ')')
-
-
-                    tsvg.append("circle")
-                        // .attr("id", "guessCr")
-                        .attr("cx", tx - 2.6)
-                        .attr("cy", ty - 3)
-                        .attr("r", 6)
-                        // .style("cursor", "grab")
-                        .attr("fill", "green")
-
-                    /* ---------------- Bordel 2 ---------------------------- */
-
-
-                    tsvg.append("path")
-                        // .attr("id", "gtpath")
-                        .attr("fill", "purple")
-                        .style("stroke", "rgba(0,0,0,0.6)")
-                        .style("stroke-width", "2px")
-                        .attr("d", "m 20 20 a -6 6 7 0 1 14 0 l -7 23 l -7 -23")
-                        .attr("transform", d => {
-                                return "rotate(" + (0) + " " + (pred_tx - 2.5) + " " + (pred_ty - 2.5) + ") translate(" + (pred_tx - 37.4) + "," + (pred_ty - 28.2) + ") scale(1.3)"
-
-                                // return "rotate(" + (0) + " " + (tx - 2.5) + " " + (ty - 2.5) + ") translate(" + (tx - 37.4) + "," + (ty - 28.2) + ") scale(1.3)"
-                            }
-                        );
-
-
-                    tsvg.append("circle")
-                        // .attr("id", "guessCr2")
-                        .attr("cx", pred_tx - 2.4)
-                        .attr("cy", pred_ty - 1)
-                        .attr("r", 4)
-                        .style("cursor", "grab")
-                        .attr("fill", "#333333")
-
-
-                    g = tsvg.append('g').attr('id', 'pointar3');
-
-                    ty += 33
-
-                    tpath2 = g.append('line')
-                        .attr('class', 'pointli2')
-                        .attr('x1', 10)
-                        .attr('x2', 10)
-                        .attr('y1', 2.5)
-                        .attr('y2', 40)
-                        .attr('stroke', 'rgba(0,0,0,0.8)')
-                        .attr("stroke-linejoin", "round")
-                        .attr('stroke_width', '12');
-
-                    tpath2 = g.append('line')
-                        .attr('class', 'pointli2')
-                        .attr('x1', 13)
-                        .attr('x2', -2.5)
-                        .attr('y1', 2.5)
-                        .attr('y2', 11.5)
-                        .attr('stroke', 'black')
-                        .attr("stroke-linejoin", "round")
-                        .attr('stroke_width', '4');
-
-                    tpath2 = g.append('line')
-                        .attr('class', 'pointli2')
-                        .attr('x1', 7.5)
-                        .attr('x2', 22)
-                        .attr('y1', 2.5)
-                        .attr('y2', 11.5)
-                        .attr("stroke-linejoin", "round")
-                        .attr('stroke', 'black')
-                        .attr('stroke_width', '4');
-
-
-                    tpath = g.append('line')
-                        .attr('class', 'pointli')
-                        .attr('x1', 10)
-                        .attr('x2', 10)
-                        .attr('y1', 2.5)
-                        .attr('y2', 40)
-                        .attr('stroke', 'purple')
-                        .attr("stroke-linejoin", "round")
-                        .attr('stroke_width', '10');
-
-/*
-
-                    totalLength = tpath.node().getTotalLength();
-
-                    tpath.attr("stroke-dasharray", totalLength + " " + totalLength)
-                        .attr("stroke-dashoffset", totalLength)
-                        .transition()
-                        .duration(1000)
-                        .attr("stroke-dashoffset", 0);
-*/
-
-
-                    tpath = g.append('line')
-                        .attr('class', 'pointli')
-                        .attr('x1', 12)
-                        .attr('x2', -2)
-                        .attr('y1', 2.5)
-                        .attr('y2', 11.5)
-                        .attr('stroke', 'purple')
-                        .attr("stroke-linejoin", "round")
-                        .attr('stroke_width', '4');
-
-/*
-
-                    tpath.attr("stroke-dasharray", totalLength + " " + totalLength)
-                        .attr("stroke-dashoffset", totalLength - 3)
-                        .transition()
-                        .duration(2000)
-                        .attr("stroke-dashoffset", 0);
-*/
-
-                    tpath = g.append('line')
-                        .attr('class', 'pointli')
-                        .attr('x1', 8)
-                        .attr('x2', 22)
-                        .attr('y1', 2.5)
-                        .attr('y2', 11.5)
-                        .attr("stroke-linejoin", "round")
-                        .attr('stroke', 'purple')
-                        .attr('stroke_width', '4');
-
-
-/*                    tpath.attr("stroke-dasharray", totalLength + " " + totalLength)
-                        .attr("stroke-dashoffset", totalLength - 3)
-                        .transition()
-                        .duration(2000)
-                        .attr("stroke-dashoffset", 0);*/
-
-                    pred_ty += 33
-
-
-                    g.attr('transform', 'translate(' + (pred_tx - 12) + ',' + (pred_ty - 41.5) + ') rotate(' + (pred_torr) + ' ' + 9.6 + ' ' + 39 + ')')
-
-                    tsvg.append("circle")
-                        // .attr("id", "guessCr")
-                        .attr("cx", pred_tx - 2.6)
-                        .attr("cy", pred_ty - 3)
-                        .attr("r", 6)
-                        // .style("cursor", "grab")
-                        .attr("fill", "purple")
-
-
-                    gwait = true
-
-
-                    // tsvg.append("line")
-                    //     .attr("x1", tx - 5)
-                    //     .attr("x2", el.attr("ox") - 5)
-                    //     .attr("y2", el.attr("oy") - 5)
-                    //     .attr("y1", ty - 5)
-                    //     .attr("stroke", "#333333")
-                    //     .attr("stroke-width", "2")
-                    //     .attr("stroke-dasharray", "6,2")
-
-                    /*     d3.select("#guess").transition().duration(100).style("fill", "#333333")
-                             .attr("id", "")*/
-                    rotSt = false;
-                } else {
-                    gwait = false
-
-                    const introsvg = d3.select("#theo-guess");
-
-                    introsvg.selectAll("path").remove();
-                    introsvg.selectAll("line").remove();
-                    introsvg.selectAll("circle").remove();
-                    introsvg.selectAll("#pointar").remove();
-                    introsvg.selectAll("#pointar2").remove();
-                    introsvg.selectAll("#pointar3").remove();
-
-                    // guessid = getRandomInt(0, tref.length - 1);
-                    guessid = getRandomInt(0, tref.length - 1);
-                    //
-                    // .
-                    //     attr("src", ("data:image/jpeg;base64," + tref[guessid].imgR));
-
-                    let im = $("#guessimg")
-
-                    $("#contguessimg").css("background-image", "url(" + ("data:image/jpeg;base64," + tref[guessid].imgR) + " )")
-
-
-                    im.attr("src", "data:image/jpeg;base64," + tref[guessid].salR);
-
-                    $("#guesser").html("Guess")
-
-                }
-
-                /*
-
-                                    opacity: 0.4;
-                    filter: contrast(1.55) brightness(23);*/
-            });
-
-
-            tsvg.on("click", function (e) {
-
-                if (!rotSt && !gwait) {
-                    // console.log(e);0
-                    rotSt = true;
-                    const coords = d3.mouse(tsvg.node());
-
-                    //
-                    // tsvg.append("circle")
-                    //     .attr("id", "guess")
-                    //     .attr("cx", coords[0])
-                    //     .attr("cy", coords[1])
-                    //     .attr("ty", coords[1])
-                    //     .attr("tx", coords[0])
-                    //     .attr("r", "5")
-                    //     .attr("fill", "steelblue")
-
-                    /*
-
-                                        tsvg.append("line")
-                                            .attr("id", "guessLine")
-                                            .attr("x1", coords[0])
-                                            .attr("x2", coords[0] - 3)
-                                            .attr("y1", coords[1] - 8)
-                                            .attr("y2", coords[1] + 40)
-                                            .attr("stroke", 'red')
-                                            .attr("stroke-width", "3")
-                                            .attr("stroke-dasharray", "6,2");
-
-                    */
-
-
-                    let g = tsvg.append('g').attr('id', 'pointar');
-
-                    let y = coords[1] + 33
-
-                    let x = coords[0];
-
-
-                    g.call(d3.drag()
-                        .on("start", dragstarted3)
-                        .on("drag", dragged3)
-                        .on("end", dragended3));
-
-
-                    let tpath2 = g.append('line')
-                        .attr('class', 'pointli2')
-                        .attr('x1', 10)
-                        .attr('x2', 10)
-                        .attr('y1', 2.5)
-                        .attr('y2', 40)
-                        .attr('stroke', 'rgba(0,0,0,0.8)')
-                        .attr("stroke-linejoin", "round")
-                        .attr('stroke_width', '12');
-
-                    tpath2 = g.append('line')
-                        .attr('class', 'pointli2')
-                        .attr('x1', 13)
-                        .attr('x2', -2.5)
-                        .attr('y1', 2.5)
-                        .attr('y2', 11.5)
-                        .attr('stroke', 'black')
-                        .attr("stroke-linejoin", "round")
-                        .attr('stroke_width', '4');
-
-                    tpath2 = g.append('line')
-                        .attr('class', 'pointli2')
-                        .attr('x1', 7.5)
-                        .attr('x2', 22)
-                        .attr('y1', 2.5)
-                        .attr('y2', 11.5)
-                        .attr("stroke-linejoin", "round")
-                        .attr('stroke', 'black')
-                        .attr('stroke_width', '4');
-
-
-                    let tpath = g.append('line')
-                        .attr('class', 'pointli')
-                        .attr('x1', 10)
-                        .attr('x2', 10)
-                        .attr('y1', 2.5)
-                        .attr('y2', 40)
-                        .attr('stroke', 'steelblue')
-                        .attr("stroke-linejoin", "round")
-                        .attr('stroke_width', '10');
-
-/*
-                    let totalLength = tpath.node().getTotalLength();
-
-                    tpath.attr("stroke-dasharray", totalLength + " " + totalLength)
-                        .attr("stroke-dashoffset", totalLength)
-                        .transition()
-                        .duration(1000)
-                        .attr("stroke-dashoffset", 0);*/
-
-
-                    tpath = g.append('line')
-                        .attr('class', 'pointli')
-                        .attr('x1', 12)
-                        .attr('x2', -2)
-                        .attr('y1', 2.5)
-                        .attr('y2', 11.5)
-                        .attr('stroke', 'steelblue')
-                        .attr("stroke-linejoin", "round")
-                        .attr('stroke_width', '4');
-
-/*
-
-                    tpath.attr("stroke-dasharray", totalLength + " " + totalLength)
-                        .attr("stroke-dashoffset", totalLength - 3)
-                        .transition()
-                        .duration(2000)
-                        .attr("stroke-dashoffset", 0);
-*/
-
-
-                    tpath = g.append('line')
-                        .attr('class', 'pointli')
-                        .attr('x1', 8)
-                        .attr('x2', 22)
-                        .attr('y1', 2.5)
-                        .attr('y2', 11.5)
-                        .attr("stroke-linejoin", "round")
-                        .attr('stroke', 'steelblue')
-                        .attr('stroke_width', '4');
-
-
-/*                    tpath.attr("stroke-dasharray", totalLength + " " + totalLength)
-                        .attr("stroke-dashoffset", totalLength - 3)
-                        .transition()
-                        .duration(2000)
-                        .attr("stroke-dashoffset", 0);*/
-
-
-                    g.attr('transform', 'translate(' + (x - 12) + ',' + (y - 41.5) + ') rotate(' + 270 + ' ' + 9.6 + ' ' + 39 + ')')
-
-
-                    tsvg.append("circle")
-                        .attr("id", "guessCr")
-                        .attr("cx", coords[0] - 2.6)
-                        .attr("cy", coords[1] + 30)
-                        .attr("r", 6)
-                        .style("cursor", "grab")
-                        .attr("fill", "steelblue")
-
-
-                    tsvg.append("path")
-                        .attr("id", "guess")
-                        .attr("num", 0)
-                        .attr("tx", coords[0])
-                        .attr("ty", coords[1])
-                        .attr("ox", coords[0])
-                        .attr("oy", coords[1])
-                        .attr("thor", 0)
-                        .attr("tr", 0)
-                        .style("stroke", "rgba(0,0,0,0.6)")
-                        .style("stroke-width", "2px")
-                        .style("cursor", "grab")
-                        .attr("fill", "steelblue")
-                        .attr("d", "m 20 20 a -6 6 7 0 1 14 0 l -7 23 l -7 -23")
-                        .attr("transform", "rotate(" + (0) + " " + (coords[0] - 2.5) + " " + (coords[1] - 2.5) + ") translate(" + (coords[0] - 37.4) + "," + (coords[1] - 28.2) + ")  scale(1.3)")
-                        .call(d3.drag()
-                            .on("start", dragstarted)
-                            .on("drag", dragged)
-                            .on("end", dragended));
-
-
-                    tsvg.append("circle")
-                        .attr("id", "guessCr2")
-                        .attr("cx", coords[0] - 2.4)
-                        .attr("cy", coords[1] - 1)
-                        .attr("r", 4)
-                        .style("cursor", "grab")
-                        .attr("fill", "#333333")
-
-
-                    /*            .attr("stroke", 'red')
-                            .attr("stroke-width", "3")
-                            .attr("stroke-dasharray", "6,2")*/
-
-
-                    //-----------------------------------------------------------//
-
-
-                    // d3.select("#pointar").transition().duration(15).attr('transform', 'translate(' + (parseFloat(path.attr("ox"))-12)+ ',' + (parseFloat(path.attr("oy")) -41.5) + ') rotate(' + (orr) + ' ' + 9.6 + ' ' + 39 + ')')
-
-                }
-            });
-
-
-            function selit(id) {
-
-
-                let pelem = elements3.filter(d => d.torr === id[2] && d.tx === id[0] && d.ty === id[1])
-                let lelem = elements4.filter(d => d.torr === id[2] && d.tx === id[0] && d.ty === id[1])
-
-                console.log(lelem);
-
-                // lelem.attr("fill", "purple")
-
-                lelem.attr("transform", d => {
-                    const orr2 = (-180 + d.lorr1);
-
-                    $("#imgr2").attr("src", 'data:image/jpeg;base64,' + d.salR)
-                    $("#imgrc2").css("background-image", "url(" + ("data:image/jpeg;base64," + d.imgR) + " )")
-
-                    $("#imgb2").attr("src", 'data:image/jpeg;base64,' + d.salB)
-                    $("#imgbc2").css("background-image", "url(" + ("data:image/jpeg;base64," + d.imgB) + " )")
-
-                    $("#depthr2").attr("src", 'data:image/jpeg;base64,' + d.depthR)
-                    $("#depthb2").attr("src", 'data:image/jpeg;base64,' + d.depthB)
-
-
-                    return "rotate(" + (orr2) + " " + (loc_xscacle(d.lx1) - 2.5) + " " + (loc_yscacle(d.ly1) - 2.5) + ") translate(" + (loc_xscacle(d.lx1) - 26.8) + "," + (loc_yscacle(d.ly1) - 35.2) + ")  scale(1.2) "
-                }).attr("stroke", "#888888")
-                    .attr("stroke-width", "1px").attr('fill', 'purple')
-
-
-                pelem.attr("transform", d => {
-                    const orr = -90 + (Math.atan2(proj_yscacle(d.py2) - proj_yscacle(d.py1), proj_xscacle(d.px2) - proj_xscacle(d.px1)) * (180 / Math.PI));
-                    return "rotate(" + (orr) + " " + (proj_xscacle(d.px2) - 2) + " " + (proj_yscacle(d.py2) - 2) + ") translate(" + (proj_xscacle(d.px2) - 16) + "," + (proj_yscacle(d.py2) - 16) + ")  scale(0.5) "
-                })
-            }
-
-            function selCur(id, noise) {
-
-                if (noise === curNoise) {
-
-
-                    proj2.selectAll("path").remove();
-                    proj2.selectAll("line").remove();
-                    loc2.selectAll("path").remove();
-                    loc2.selectAll("line").remove();
-
-
-                    drawPoints(dato2, proj2);
-                    drawElements(dato2, loc2);
-
-                    elements3 = proj2.selectAll(".projDot");
-                    elements4 = loc2.selectAll(".locDot");
-
-
-                    selit(id)
-                } else {
-
-                    curNoise = noise;
-
-                    getData1("datasets/bad/try" + "_" + curNoise + ".json").then(function () {
-
-
-                        proj2.selectAll("path").remove();
-                        proj2.selectAll("line").remove();
-                        loc2.selectAll("path").remove();
-                        loc2.selectAll("line").remove();
-
-                        dato2.sort((a, b) => {
-
-                            if (a.id > b.id) {
-                                return 1
-                            } else {
-                                return -1
-                            }
-
-                        });
-
-                        drawPoints(dato2, proj2);
-                        drawElements(dato2, loc2);
-
-                        elements3 = proj2.selectAll(".projDot");
-                        elements4 = loc2.selectAll(".locDot");
-
-                        selit(id)
-
-                        // $("#timeline2").attr("max", dato2.length - 1)
-
-                    });
-
-                }
-
-            }
-
-
-            function dragstarted(d) {
-                d3.select(this).raise().attr("stroke", "black");
-            }
-
-
-            function dragstarted3(d) {
-                d3.select(this).raise().attr("stroke", "black");
-            }
-
-            function dragged3(d) {
-
-                const point = d3.mouse(tsvg.node());
-
-                let path = d3.select("#guess");
-                let line = d3.select("#guessLine");
-
-                let deltax = parseFloat(point[0] - path.attr("ox"));
-                let deltay = parseFloat(point[1] - path.attr("oy"));
-
-
-                const orr = 90 + (Math.atan2(point[1] - (parseFloat(path.attr("oy")) + 33), (point[0] - parseFloat(path.attr("ox")))) * (180 / Math.PI));
-
-                console.log(orr);
-
-
-                d3.select("#pointar").transition().duration(15).attr('transform', 'translate(' + (parseFloat(path.attr("ox")) - 12) + ',' + (parseFloat(path.attr("oy")) - 41.5 + 33) + ') rotate(' + (orr) + ' ' + 9.6 + ' ' + 39 + ')')
-
-
-                // d3.select("#pointar")
-            }
-
-
-            function dragended3(d) {
-                d3.select(this).attr("stroke", null);
-            }
-
-
-            function dragged(d) {
-                const point = d3.mouse(tsvg.node());
-
-
-                let path = d3.select("#guess");
-                let line = d3.select("#pointar");
-                let circle = d3.select("#guessCr");
-                let circle2 = d3.select("#guessCr2");
-
-                // console.log(point);
-
-
-                let deltax = parseFloat(point[0] - path.attr("ox"));
-                let deltay = parseFloat(point[1] - path.attr("oy"));
-
-                path.attr("ox", point[0]);
-                path.attr("oy", point[1]);
-
-                path.transition().duration(15).attr("transform", "rotate(" + (path.attr("thor")) + " " + (point[0] - 2.5) + " " + (point[1] - 2.5) + ") translate(" + (point[0] - 37.4) + "," + (point[1] - 28.2) + ") scale(1.3) ")
-
-                circle.attr("cx", parseFloat(circle.attr("cx")) + deltax);
-                circle.attr("cy", parseFloat(circle.attr("cy")) + deltay);
-
-
-                circle2.attr("cx", parseFloat(circle2.attr("cx")) + deltax);
-                circle2.attr("cy", parseFloat(circle2.attr("cy")) + deltay);
-
-                circle2.raise()
-
-
-                line.transition().duration(15).attr("x2", parseFloat(circle.attr("cx")) + deltax).attr("y2", parseFloat(circle.attr("cy")) + deltay).attr("x1", point[0] - 3).attr("y1", point[1] - 8)
-
-
-                const orr = (Math.atan2(point[1] - (path.attr("oy") + 33), (point[0] - path.attr("ox"))) * (180 / Math.PI));
-
-                d3.select("#pointar").transition().duration(15).attr('transform', 'translate(' + (parseFloat(path.attr("ox")) - 12) + ',' + (parseFloat(path.attr("oy")) - 41.5 + 33) + ') rotate(' + (orr) + ' ' + 9.6 + ' ' + 39 + ')')
-
-
-                // if ((point[0] > 0 && point[0] < 340) && (point[1] > 0 && point[1] < 340))
-                //     circle.attr("cx", point[0]).attr("cy", point[1]);
-            }
-
-            function dragended(d) {
-                d3.select(this).attr("stroke", null);
-            }
-
-
-            function dragstarted2(d) {
-                d3.select(this).raise().attr("stroke", "black");
-            }
-
-            function dragged2(d) {
-                const point = d3.mouse(tsvg.node());
-
-                let path = d3.select("#guess");
-                let line = d3.select("#guessLine");
-                let circle = d3.select("#guessCr");
-
-
-                // let deltax = parseFloat(point[0] - path.attr("ox"));
-                // let deltay = parseFloat(point[1] - path.attr("oy"));
-
-                //
-                // path.attr("ox", point[0])
-                // path.attr("oy", point[1])
-
-
-                const orr = -90 + (Math.atan2(point[1] - (path.attr("oy") + 30), (point[0] - path.attr("ox"))) * (180 / Math.PI));
-
-                path.attr("thor", orr)
-
-                path.transition().duration(15).attr("transform", "rotate(" + (orr) + " " + (path.attr("ox") - 2.5) + " " + (path.attr("oy") - 2.5) + ") translate(" + (path.attr("ox") - 37.4) + "," + (path.attr("oy") - 28.2) + ") scale(1.3)  ")
-                circle.transition().duration(15).attr("cx", parseFloat(point[0])).attr("cy", parseFloat(point[1]));
-                line.transition().duration(15).attr("x2", parseFloat(point[0]) - 2).attr("y2", parseFloat(point[1]));
-                // circle.transition().duration(15)
-
-                // if ((point[0] > 0 && point[0] < 340) && (point[1] > 0 && point[1] < 340))
-                //     circle.attr("cx", point[0]).attr("cy", point[1]);
-            }
-
-            function dragended2(d) {
-                d3.select(this).attr("stroke", null);
-            }
-
-
-            loadmap(d3.select("#theo-guess"), 'assets/images/map.jpg');
-            // loadmap(d3.select("#saliency"), 'assets/images/map.jpg');
-            /*            loadmap(d3.select("#loc2"), 'assets/images/map.jpg');
-                        loadmap(d3.select("#loc3"), 'assets/images/map.jpg');*/
-
-            /*
-                        $("#timeline").on("input", function () {
-
-                            let step = $(this).val();
-                            let ell = dato[step];
-                            curStep0 = parseInt(step);
-
-                            $("#imgr").attr("src", 'data:image/jpeg;base64,' + ell.imgR)
-                            $("#depthr").attr("src", 'data:image/jpeg;base64,' + ell.depthR)
-
-                            $("#imgb").attr("src", 'data:image/jpeg;base64,' + ell.imgB)
-                            $("#depthb").attr("src", 'data:image/jpeg;base64,' + ell.depthB)
-
-                            $("#timelineTxt").html(step)
-
-                            update_time();
-
-                            let inside = d3.selectAll("path")
-
-                            inside.filter(d => {
-                                return d.id > curStep0
-                            }).transition().duration(20).style("opacity", '0.1');
-
-
-                            inside.filter(d => {
-                                return d.id <= curStep0
-                            }).transition().duration(20).style("opacity", '1')
-
-                        });
-            */
-
-
-            /*            $('#play1').on('click', function () {
-
-                            pl = !pl;
-                            if (pl) {
-                                if (curStep0 >= dato.length)
-                                    curStep0 = 0
-                                $(this).attr('src', 'assets/round-pause-button.svg');
-
-                                timer = setInterval(step, 115);
-                                step()
-                            } else {
-                                $(this).attr('src', 'assets/play-sign.svg');
-                                clearInterval(timer);
-                                timer = null
-                            }
-                        });*/
-
-
-            /*
-                        function update_time() {
-
-                            let tbar = $('#timeline');
-
-                            let val = (tbar.val() - tbar.attr('min')) / (tbar.attr('max') - tbar.attr('min'));
-
-                            tbar.css('background-image',
-                                '-webkit-gradient(linear, left top, right top, '
-                                + 'color-stop(' + val + ', #233E34), '
-                                + 'color-stop(' + val + ', #C5C5C5)'
-                                + ')'
-                            );
-                        }
-            */
-
-
-            /*    function step() {
-
-                    curStep0 += 1;
-                    let ell = dato[curStep0];
-
-
-                    if (ell) {
-                        $("#imgr").attr("src", 'data:image/jpeg;base64,' + ell.imgR)
-                        $("#depthr").attr("src", 'data:image/jpeg;base64,' + ell.depthR)
-
-                        $("#imgb2").attr("src", 'data:image/jpeg;base64,' + ell.imgB)
-                        $("#depthb2").attr("src", 'data:image/jpeg;base64,' + ell.depthB)
-
-                        $("#timelineTxt").html(curStep0)
-
-                        $("#timeline").val(curStep0);
-
-                        update_time()
-
-
-                        let inside = d3.selectAll("path")
-
-
-                        inside.filter(d => {
-                            return d.id > curStep0
-                        }).transition().duration(20).style("opacity", '0.1')
-
-
-                        inside.filter(d => {
-                            return d.id <= curStep0
-                        }).transition().duration(20).style("opacity", '1')
-
-                    } else {
-                        pl = false;
-                        $('#play1').attr('src', 'assets/play-sign.svg');
-                        curStep0 = 0;
-                        clearInterval(timer);
-                        timer = null
+            let el = $("#pointar");
+
+            $("#guesser").html("Try again!")
+            $("#nguess").html(nguess);
+
+            /*             console.log('dist');
+                         console.log(euclidian_dist([tx, parseFloat(el.attr("x2"))], [ty, parseFloat(el.attr("y2"))]));
+                         // console.log("data");
+                         console.log([tx, ty]);
+                         console.log([el.attr("x2"), el.attr("y2")]);
+                         console.log([pred_tx, pred_ty]);*/
+
+
+            avgDist += scScale(900 - euclidian_dist([tx, ty], [parseFloat(el.attr("x2")), parseFloat(el.attr("y2"))])) + humAngle
+            avgDist2 += scScale(900 - euclidian_dist([tx, ty], [pred_tx, pred_ty])) + aiAngle
+
+
+            $("#avgDist").html(Math.round(avgDist / nguess));
+            $("#avgDist2").html(Math.round(avgDist2 / nguess));
+
+            ty -= 33;
+            tsvg.append("path")
+                .attr("id", "gtpath")
+                .attr("fill", "green")
+                .style("stroke", "rgba(0,0,0,0.6)")
+                .style("stroke-width", "2px")
+                .attr("d", "m 20 20 a -6 6 7 0 1 14 0 l -7 23 l -7 -23")
+                .attr("transform", d => {
+                        return "rotate(" + (0) + " " + (tx - 2.5) + " " + (ty - 2.5) + ") translate(" + (tx - 37.4) + "," + (ty - 28.2) + ") scale(1.3)"
                     }
-
-                }
-    */
-            //
-            // const cirhov = proj.append("circle")
-            //     .attr("id", "projHov")
-            //     .attr("stroke", "#333333")
-            //     .attr("stroke-width", "1")
-            //     .attr("fill", "none")
-            //     .attr("r", "24");
-
-            const cirhov2 = loc.append("circle")
-                .attr("id", "locHov")
-                .attr("stroke", "#333333")
-                .attr("stroke-width", "1")
-                .attr("fill", "none")
-                .attr("r", "24");
-
-
-            const cirhov3 = proj2.append("circle")
-                .attr("id", "locHov")
-                .attr("stroke", "#333333")
-                .attr("stroke-width", "1")
-                .attr("fill", "none")
-                .attr("r", "24");
-
-            const cirhov4 = loc2.append("circle")
-                .attr("id", "locHov")
-                .attr("stroke", "#333333")
-                .attr("stroke-width", "1")
-                .attr("fill", "none")
-                .attr("r", "24");
-
-            const cirhov5 = proj3.append("circle")
-                .attr("id", "locHov")
-                .attr("stroke", "#333333")
-                .attr("stroke-width", "1")
-                .attr("fill", "none")
-                .attr("r", "24");
-
-            const cirhov6 = loc3.append("circle")
-                .attr("id", "locHov")
-                .attr("stroke", "#333333")
-                .attr("stroke-width", "1")
-                .attr("fill", "none")
-                .attr("r", "24");
-
-
-            /*   $("#noisel2").on("change", function () {
-
-                   // console.log($("#trajsel").val());
-
-                   curNoise = $("#noisel2").val();
-
-                   getData1("datasets/bad/try" + "_" + curNoise + ".json").then(function () {
-
-
-                       proj2.selectAll("path").remove();
-                       proj2.selectAll("line").remove();
-                       loc2.selectAll("path").remove();
-                       loc2.selectAll("line").remove();
-
-                       dato2.sort((a, b) => {
-
-                           if (a.id > b.id) {
-                               return 1
-                           } else {
-                               return -1
-                           }
-
-                       });
-
-
-                       let elem = dato2.filter(d => d.id === 0)[0];
-
-
-                       $("#imgr2").attr("src", 'data:image/jpeg;base64,' + elem.imgR);
-                       $("#depthr2").attr("src", 'data:image/jpeg;base64,' + elem.depthR);
-
-                       $("#imgb2").attr("src", 'data:image/jpeg;base64,' + elem.imgB);
-                       $("#depthb2").attr("src", 'data:image/jpeg;base64,' + elem.depthB);
-
-
-                       drawPoints(dato2, proj2);
-                       drawElements(dato2, loc2);
-
-                       elements3 = proj2.selectAll(".projDot");
-                       elements4 = loc2.selectAll(".locDot");
-                       // $("#timeline2").attr("max", dato2.length - 1)
-
-                   });
-               })*/
-
-
-            function selit2(id) {
-
-
-                let pelem = elements5.filter(d => d.torr === id[2] && d.tx === id[0] && d.ty === id[1])
-                let lelem = elements6.filter(d => d.torr === id[2] && d.tx === id[0] && d.ty === id[1])
-
-                console.log(lelem);
-
-                // lelem.attr("fill", "purple")
-
-                lelem.attr("transform", d => {
-                    const orr2 = (-180 + d.lorr1);
-
-                    $("#imgr3").attr("src", 'data:image/jpeg;base64,' + d.salR)
-                    $("#imgrc3").css("background-image", "url(" + ("data:image/jpeg;base64," + d.imgR) + " )")
-
-                    $("#imgb3").attr("src", 'data:image/jpeg;base64,' + d.salB)
-                    $("#imgbc3").css("background-image", "url(" + ("data:image/jpeg;base64," + d.imgB) + " )")
-
-                    $("#depthr3").attr("src", 'data:image/jpeg;base64,' + d.depthR)
-                    $("#depthb3").attr("src", 'data:image/jpeg;base64,' + d.depthB)
-
-
-                    return "rotate(" + (orr2) + " " + (loc_xscacle(d.lx1) - 2.5) + " " + (loc_yscacle(d.ly1) - 2.5) + ") translate(" + (loc_xscacle(d.lx1) - 26.8) + "," + (loc_yscacle(d.ly1) - 35.2) + ")  scale(1.2) "
-                }).attr("stroke", "#888888")
-                    .attr("stroke-width", "1px").attr('fill', 'purple')
-
-
-                pelem.attr("transform", d => {
-                    const orr = -90 + (Math.atan2(proj_yscacle(d.py2) - proj_yscacle(d.py1), proj_xscacle(d.px2) - proj_xscacle(d.px1)) * (180 / Math.PI));
-                    return "rotate(" + (orr) + " " + (proj_xscacle(d.px2) - 2) + " " + (proj_yscacle(d.py2) - 2) + ") translate(" + (proj_xscacle(d.px2) - 16) + "," + (proj_yscacle(d.py2) - 16) + ")  scale(0.5) "
-                })
-            }
-
-            function selCur2(id, noise) {
-
-                if (noise === curNoise2) {
-                    proj3.selectAll("path").remove();
-                    proj3.selectAll("line").remove();
-                    loc3.selectAll("path").remove();
-                    loc3.selectAll("line").remove();
-                    drawPoints(dato3, proj3);
-                    drawElements(dato3, loc3);
-                    elements5 = proj3.selectAll(".projDot");
-                    elements6 = loc3.selectAll(".locDot");
-
-
-                    selit2(id)
-                } else {
-
-                    curNoise2 = noise;
-
-                    getData2("datasets/good/try2" + "_" + curNoise2 + ".json").then(function () {
-
-
-                        proj3.selectAll("path").remove();
-                        proj3.selectAll("line").remove();
-                        loc3.selectAll("path").remove();
-                        loc3.selectAll("line").remove();
-
-
-                        drawPoints(dato3, proj3);
-                        drawElements(dato3, loc3);
-
-                        elements5 = proj3.selectAll(".projDot");
-                        elements6 = loc3.selectAll(".locDot");
-
-                        selit2(id)
-
-                        $("#timeline3").attr("max", dato3.length - 1)
-
-                    });
-
-                }
-
-            }
-
-            function update_time() {
-
-                let tbar = $('#timeline3');
-
-                let val = (tbar.val() - tbar.attr('min')) / (tbar.attr('max') - tbar.attr('min'));
-
-                tbar.css('background-image',
-                    '-webkit-gradient(linear, left top, right top, '
-                    + 'color-stop(' + val + ', #233E34), '
-                    + 'color-stop(' + val + ', #C5C5C5)'
-                    + ')'
                 );
-            }
 
 
-            $("#timeline3").on("input", function () {
+            tsvg.append("circle")
+                // .attr("id", "guessCr2")
+                .attr("cx", tx - 2.4)
+                .attr("cy", ty - 1)
+                .attr("r", 4)
+                .style("cursor", "grab")
+                .attr("fill", "#333333")
 
-                curStep2 = $(this).val()
-
-                update_time()
-
-                $("#timelineTxt3").html(curStep2)
-                curNoise2 = $("#noisel3").val();
-                selCur2(seldat[curStep2], curNoise2)
-
-            })
+            /* ---------------- Bordel 1 ---------------------------- */
 
 
-            $("#noisel3").on("change", function () {
+            let g = tsvg.append('g').attr('id', 'pointar2');
 
-                // console.log($("#trajsel").val());
+            ty += 33
 
-                // curNoise2 = ;
-                curStep2 = $("#timeline3").val()
-                console.log('LALALA');
-                selCur2(seldat[curStep2], $("#noisel3").val())
-            })
+            let tpath2 = g.append('line')
+                .attr('class', 'pointli2')
+                .attr('x1', 10)
+                .attr('x2', 10)
+                .attr('y1', 2.5)
+                .attr('y2', 40)
+                .attr('stroke', 'rgba(0,0,0,0.8)')
+                .attr("stroke-linejoin", "round")
+                .attr('stroke_width', '12');
 
+            tpath2 = g.append('line')
+                .attr('class', 'pointli2')
+                .attr('x1', 13)
+                .attr('x2', -2.5)
+                .attr('y1', 2.5)
+                .attr('y2', 11.5)
+                .attr('stroke', 'black')
+                .attr("stroke-linejoin", "round")
+                .attr('stroke_width', '4');
 
-            function getRandomInt(min, max) {
-                min = Math.ceil(min);
-                max = Math.floor(max);
-                return Math.floor(Math.random() * (max - min + 1)) + min;
-            }
-
-
-            getRef("datasets/bad/try_gaussian.json").then(function () {
-                // console.log(dat);
-
-                guessid = getRandomInt(0, tref.length - 1)
-                let im = $("#guessimg")
-
-                $("#contguessimg").css("background-image", "url(" + ("data:image/jpeg;base64," + tref[guessid].imgR) + " )");
-                im.attr("src", "data:image/jpeg;base64," + tref[guessid].salR);
-
-
-            })
-
-            /*    getDatatry("datasets/try_gaussian.json").then(function () {
-
-
-                    tsvg
-
-                    console.log(dat);
-
-                })*/
-
-            // getData0("datasets/traj" + curTraj + "/" + curTraj + "_" + curNoise + ".json").then(function () {
-            getData0("datasets/bad/try_gaussian.json").then(function () {
-
-                /*
-                        proj2.selectAll("path").remove();
-                        proj2.selectAll("line").remove();
-                        loc2.selectAll("path").remove();
-                        loc2.selectAll("line").remove();
+            tpath2 = g.append('line')
+                .attr('class', 'pointli2')
+                .attr('x1', 7.5)
+                .attr('x2', 22)
+                .attr('y1', 2.5)
+                .attr('y2', 11.5)
+                .attr("stroke-linejoin", "round")
+                .attr('stroke', 'black')
+                .attr('stroke_width', '4');
 
 
-                        proj3.selectAll("path").remove();
-                        proj3.selectAll("line").remove();
-                        loc3.selectAll("path").remove();
-                        loc3.selectAll("line").remove();*/
+            let tpath = g.append('line')
+                .attr('class', 'pointli')
+                .attr('x1', 10)
+                .attr('x2', 10)
+                .attr('y1', 2.5)
+                .attr('y2', 40)
+                .attr('stroke', 'green')
+                .attr("stroke-linejoin", "round")
+                .attr('stroke_width', '10');
+            /*
 
 
-                // guessid = getRandomInt(0, tref.length - 1)
-                guessid = 0
+                                let totalLength = tpath.node().getTotalLength();
+
+                                tpath.attr("stroke-dasharray", totalLength + " " + totalLength)
+                                    .attr("stroke-dashoffset", totalLength)
+                                    .transition()
+                                    .duration(1000)
+                                    .attr("stroke-dashoffset", 0);
+            */
 
 
-                let im = $("#guessimg")
+            tpath = g.append('line')
+                .attr('class', 'pointli')
+                .attr('x1', 12)
+                .attr('x2', -2)
+                .attr('y1', 2.5)
+                .attr('y2', 11.5)
+                .attr('stroke', 'green')
+                .attr("stroke-linejoin", "round")
+                .attr('stroke_width', '4');
 
-                $("#contguessimg").css("background-image", "url(" + ("data:image/jpeg;base64," + dato[guessid].imgR) + " )")
+
+            /*                    tpath.attr("stroke-dasharray", totalLength + " " + totalLength)
+                                    .attr("stroke-dashoffset", totalLength - 3)
+                                    .transition()
+                                    .duration(2000)
+                                    .attr("stroke-dashoffset", 0);*/
+
+            tpath = g.append('line')
+                .attr('class', 'pointli')
+                .attr('x1', 8)
+                .attr('x2', 22)
+                .attr('y1', 2.5)
+                .attr('y2', 11.5)
+                .attr("stroke-linejoin", "round")
+                .attr('stroke', 'green')
+                .attr('stroke_width', '4');
 
 
-                im.attr("src", "data:image/jpeg;base64," + dato[guessid].salR);
+            /*                    tpath.attr("stroke-dasharray", totalLength + " " + totalLength)
+                                    .attr("stroke-dashoffset", totalLength - 3)
+                                    .transition()
+                                    .duration(2000)
+                                    .attr("stroke-dashoffset", 0);*/
 
 
-                dato.sort((a, b) => {
+            g.attr('transform', 'translate(' + (tx - 12) + ',' + (ty - 41.5) + ') rotate(' + (torr) + ' ' + 9.6 + ' ' + 39 + ')')
 
-                    if (a.id > b.id) {
-                        return 1
-                    } else {
-                        return -1
+
+            tsvg.append("circle")
+                // .attr("id", "guessCr")
+                .attr("cx", tx - 2.6)
+                .attr("cy", ty - 3)
+                .attr("r", 6)
+                // .style("cursor", "grab")
+                .attr("fill", "green")
+
+            /* ---------------- Bordel 2 ---------------------------- */
+
+
+            tsvg.append("path")
+                // .attr("id", "gtpath")
+                .attr("fill", "purple")
+                .style("stroke", "rgba(0,0,0,0.6)")
+                .style("stroke-width", "2px")
+                .attr("d", "m 20 20 a -6 6 7 0 1 14 0 l -7 23 l -7 -23")
+                .attr("transform", d => {
+                        return "rotate(" + (0) + " " + (pred_tx - 2.5) + " " + (pred_ty - 2.5) + ") translate(" + (pred_tx - 37.4) + "," + (pred_ty - 28.2) + ") scale(1.3)"
+
+                        // return "rotate(" + (0) + " " + (tx - 2.5) + " " + (ty - 2.5) + ") translate(" + (tx - 37.4) + "," + (ty - 28.2) + ") scale(1.3)"
                     }
-                });
-
-                let elem = dato.filter(d => d.id === 0)[0];
-
-                console.log(elem);
+                );
 
 
-                $("#imgr").attr("src", 'data:image/jpeg;base64,' + elem.salR)
-                $("#imgrc").css("background-image", "url(" + ("data:image/jpeg;base64," + elem.imgR) + " )")
+            tsvg.append("circle")
+                // .attr("id", "guessCr2")
+                .attr("cx", pred_tx - 2.4)
+                .attr("cy", pred_ty - 1)
+                .attr("r", 4)
+                .style("cursor", "grab")
+                .attr("fill", "#333333")
 
 
-                $("#depthr").attr("src", 'data:image/jpeg;base64,' + elem.depthR)
-                // $("#salr").attr("src", 'data:image/jpeg;base64,' + elem.salR)
+            g = tsvg.append('g').attr('id', 'pointar3');
 
-                // $("#imgb").attr("src", 'data:image/jpeg;base64,' + elem.imgB)
-                // $("#depthb").attr("src", 'data:image/jpeg;base64,' + elem.depthB)
+            ty += 33
+
+            tpath2 = g.append('line')
+                .attr('class', 'pointli2')
+                .attr('x1', 10)
+                .attr('x2', 10)
+                .attr('y1', 2.5)
+                .attr('y2', 40)
+                .attr('stroke', 'rgba(0,0,0,0.8)')
+                .attr("stroke-linejoin", "round")
+                .attr('stroke_width', '12');
+
+            tpath2 = g.append('line')
+                .attr('class', 'pointli2')
+                .attr('x1', 13)
+                .attr('x2', -2.5)
+                .attr('y1', 2.5)
+                .attr('y2', 11.5)
+                .attr('stroke', 'black')
+                .attr("stroke-linejoin", "round")
+                .attr('stroke_width', '4');
+
+            tpath2 = g.append('line')
+                .attr('class', 'pointli2')
+                .attr('x1', 7.5)
+                .attr('x2', 22)
+                .attr('y1', 2.5)
+                .attr('y2', 11.5)
+                .attr("stroke-linejoin", "round")
+                .attr('stroke', 'black')
+                .attr('stroke_width', '4');
 
 
-                drawPoints(dato, proj);
-                drawElementsBad(dato, loc);
+            tpath = g.append('line')
+                .attr('class', 'pointli')
+                .attr('x1', 10)
+                .attr('x2', 10)
+                .attr('y1', 2.5)
+                .attr('y2', 40)
+                .attr('stroke', 'purple')
+                .attr("stroke-linejoin", "round")
+                .attr('stroke_width', '10');
 
-                elements = loc.selectAll(".locDot");
-                elements2 = loc.selectAll(".locDot");
+            /*
+
+                                totalLength = tpath.node().getTotalLength();
+
+                                tpath.attr("stroke-dasharray", totalLength + " " + totalLength)
+                                    .attr("stroke-dashoffset", totalLength)
+                                    .transition()
+                                    .duration(1000)
+                                    .attr("stroke-dashoffset", 0);
+            */
 
 
-            });
+            tpath = g.append('line')
+                .attr('class', 'pointli')
+                .attr('x1', 12)
+                .attr('x2', -2)
+                .attr('y1', 2.5)
+                .attr('y2', 11.5)
+                .attr('stroke', 'purple')
+                .attr("stroke-linejoin", "round")
+                .attr('stroke_width', '4');
 
+            /*
+
+                                tpath.attr("stroke-dasharray", totalLength + " " + totalLength)
+                                    .attr("stroke-dashoffset", totalLength - 3)
+                                    .transition()
+                                    .duration(2000)
+                                    .attr("stroke-dashoffset", 0);
+            */
+
+            tpath = g.append('line')
+                .attr('class', 'pointli')
+                .attr('x1', 8)
+                .attr('x2', 22)
+                .attr('y1', 2.5)
+                .attr('y2', 11.5)
+                .attr("stroke-linejoin", "round")
+                .attr('stroke', 'purple')
+                .attr('stroke_width', '4');
+
+
+            /*                    tpath.attr("stroke-dasharray", totalLength + " " + totalLength)
+                                    .attr("stroke-dashoffset", totalLength - 3)
+                                    .transition()
+                                    .duration(2000)
+                                    .attr("stroke-dashoffset", 0);*/
+
+            pred_ty += 33
+
+
+            g.attr('transform', 'translate(' + (pred_tx - 12) + ',' + (pred_ty - 41.5) + ') rotate(' + (pred_torr) + ' ' + 9.6 + ' ' + 39 + ')')
+
+            tsvg.append("circle")
+                // .attr("id", "guessCr")
+                .attr("cx", pred_tx - 2.6)
+                .attr("cy", pred_ty - 3)
+                .attr("r", 6)
+                // .style("cursor", "grab")
+                .attr("fill", "purple")
+
+
+            gwait = true
+
+
+            // tsvg.append("line")
+            //     .attr("x1", tx - 5)
+            //     .attr("x2", el.attr("ox") - 5)
+            //     .attr("y2", el.attr("oy") - 5)
+            //     .attr("y1", ty - 5)
+            //     .attr("stroke", "#333333")
+            //     .attr("stroke-width", "2")
+            //     .attr("stroke-dasharray", "6,2")
+
+            /*     d3.select("#guess").transition().duration(100).style("fill", "#333333")
+                     .attr("id", "")*/
+            rotSt = false;
+        } else {
+            gwait = false
+
+            const introsvg = d3.select("#theo-guess");
+
+            introsvg.selectAll("path").remove();
+            introsvg.selectAll("line").remove();
+            introsvg.selectAll("circle").remove();
+            introsvg.selectAll("#pointar").remove();
+            introsvg.selectAll("#pointar2").remove();
+            introsvg.selectAll("#pointar3").remove();
+
+            // guessid = getRandomInt(0, tref.length - 1);
+            guessid = getRandomInt(0, tref.length - 1);
+            //
+            // .
+            //     attr("src", ("data:image/jpeg;base64," + tref[guessid].imgR));
+
+            let im = $("#guessimg")
+
+            $("#contguessimg").css("background-image", "url(" + ("data:image/jpeg;base64," + tref[guessid].imgR) + " )")
+
+
+            im.attr("src", "data:image/jpeg;base64," + tref[guessid].salR);
+
+            $("#guesser").html("Guess")
+
+        }
+
+        /*
+
+                            opacity: 0.4;
+            filter: contrast(1.55) brightness(23);*/
+    });
+
+
+    tsvg.on("click", function (e) {
+
+        if (!rotSt && !gwait) {
+            // console.log(e);0
+            rotSt = true;
+            const coords = d3.mouse(tsvg.node());
+
+            //
+            // tsvg.append("circle")
+            //     .attr("id", "guess")
+            //     .attr("cx", coords[0])
+            //     .attr("cy", coords[1])
+            //     .attr("ty", coords[1])
+            //     .attr("tx", coords[0])
+            //     .attr("r", "5")
+            //     .attr("fill", "steelblue")
+
+            /*
+
+                                tsvg.append("line")
+                                    .attr("id", "guessLine")
+                                    .attr("x1", coords[0])
+                                    .attr("x2", coords[0] - 3)
+                                    .attr("y1", coords[1] - 8)
+                                    .attr("y2", coords[1] + 40)
+                                    .attr("stroke", 'red')
+                                    .attr("stroke-width", "3")
+                                    .attr("stroke-dasharray", "6,2");
+
+            */
+
+
+            let g = tsvg.append('g').attr('id', 'pointar');
+
+            let y = coords[1]
+
+            let x = coords[0];
+
+
+            g.call(d3.drag()
+                .on("start", dragstarted3)
+                .on("drag", dragged3)
+                .on("end", dragended3));
+
+
+            let tpath2 = g.append('line')
+                .attr('class', 'pointli2')
+                .attr('x1', 10)
+                .attr('x2', 10)
+                .attr('y1', 2.5)
+                .attr('y2', 40)
+                .attr('stroke', 'rgba(0,0,0,0.8)')
+                .attr("stroke-linejoin", "round")
+                .attr('stroke_width', '12');
+
+            tpath2 = g.append('line')
+                .attr('class', 'pointli2')
+                .attr('x1', 13)
+                .attr('x2', -2.5)
+                .attr('y1', 2.5)
+                .attr('y2', 11.5)
+                .attr('stroke', 'black')
+                .attr("stroke-linejoin", "round")
+                .attr('stroke_width', '4');
+
+            tpath2 = g.append('line')
+                .attr('class', 'pointli2')
+                .attr('x1', 7.5)
+                .attr('x2', 22)
+                .attr('y1', 2.5)
+                .attr('y2', 11.5)
+                .attr("stroke-linejoin", "round")
+                .attr('stroke', 'black')
+                .attr('stroke_width', '4');
+
+
+            let tpath = g.append('line')
+                .attr('class', 'pointli')
+                .attr('x1', 10)
+                .attr('x2', 10)
+                .attr('y1', 2.5)
+                .attr('y2', 40)
+                .attr('stroke', 'steelblue')
+                .attr("stroke-linejoin", "round")
+                .attr('stroke_width', '10');
+
+            /*
+                                let totalLength = tpath.node().getTotalLength();
+
+                                tpath.attr("stroke-dasharray", totalLength + " " + totalLength)
+                                    .attr("stroke-dashoffset", totalLength)
+                                    .transition()
+                                    .duration(1000)
+                                    .attr("stroke-dashoffset", 0);*/
+
+
+            tpath = g.append('line')
+                .attr('class', 'pointli')
+                .attr('x1', 12)
+                .attr('x2', -2)
+                .attr('y1', 2.5)
+                .attr('y2', 11.5)
+                .attr('stroke', 'steelblue')
+                .attr("stroke-linejoin", "round")
+                .attr('stroke_width', '4');
+
+            /*
+
+                                tpath.attr("stroke-dasharray", totalLength + " " + totalLength)
+                                    .attr("stroke-dashoffset", totalLength - 3)
+                                    .transition()
+                                    .duration(2000)
+                                    .attr("stroke-dashoffset", 0);
+            */
+
+
+            tpath = g.append('line')
+                .attr('class', 'pointli')
+                .attr('x1', 8)
+                .attr('x2', 22)
+                .attr('y1', 2.5)
+                .attr('y2', 11.5)
+                .attr("stroke-linejoin", "round")
+                .attr('stroke', 'steelblue')
+                .attr('stroke_width', '4');
+
+
+            /*                    tpath.attr("stroke-dasharray", totalLength + " " + totalLength)
+                                    .attr("stroke-dashoffset", totalLength - 3)
+                                    .transition()
+                                    .duration(2000)
+                                    .attr("stroke-dashoffset", 0);*/
+
+
+            g.attr('transform', 'translate(' + (x - 12) + ',' + (y - 41.5) + ') rotate(' + 270 + ' ' + 9.6 + ' ' + 39 + ')')
+
+
+            tsvg.append("circle")
+                .attr("id", "guessCr")
+                .attr("cx", coords[0] - 2.6)
+                .attr("cy", coords[1])
+                .attr("r", 6)
+                .style("cursor", "grab")
+                .attr("fill", "steelblue");
+
+            endOrr = -90;
+
+            tsvg.append("path")
+                .attr("id", "guess")
+                .attr("num", 0)
+                .attr("tx", coords[0])
+                .attr("ty", coords[1])
+                .attr("ox", coords[0])
+                .attr("oy", coords[1] - 30)
+                .attr("thor", 0)
+                .attr("tr", 0)
+                .style("stroke", "rgba(0,0,0,0.6)")
+                .style("stroke-width", "2px")
+                .style("cursor", "grab")
+                .attr("fill", "steelblue")
+                .attr("d", "m 20 20 a -6 6 7 0 1 14 0 l -7 23 l -7 -23")
+                .attr("transform", "rotate(" + (0) + " " + (coords[0] - 2.5) + " " + (coords[1] - 2.5) + ") translate(" + (coords[0] - 37.4) + "," + (coords[1] - 58.2) + ")  scale(1.3)")
+                .call(d3.drag()
+                    .on("start", dragstarted)
+                    .on("drag", dragged)
+                    .on("end", dragended));
+
+
+            circle = tsvg.append("circle")
+                .attr("id", "guessCr2")
+                .attr("cx", coords[0] - 2.4)
+                .attr("cy", coords[1] - 31)
+                .attr("r", 4)
+                .style("cursor", "grab")
+                .attr("fill", "#333333")
+
+
+            /*            .attr("stroke", 'red')
+                    .attr("stroke-width", "3")
+                    .attr("stroke-dasharray", "6,2")*/
+
+
+            //-----------------------------------------------------------//
+
+            g.attr("x2", parseFloat(circle.attr("cx"))).attr("y2", parseFloat(circle.attr("cy")))
+            // d3.select("#pointar").transition().duration(15).attr('transform', 'translate(' + (parseFloat(path.attr("ox"))-12)+ ',' + (parseFloat(path.attr("oy")) -41.5) + ') rotate(' + (orr) + ' ' + 9.6 + ' ' + 39 + ')')
+
+        }
+    });
+
+
+    function selit(id) {
+
+
+        let pelem = elements3.filter(d => d.torr === id[2] && d.tx === id[0] && d.ty === id[1])
+        let lelem = elements4.filter(d => d.torr === id[2] && d.tx === id[0] && d.ty === id[1])
+
+        console.log(lelem);
+
+        // lelem.attr("fill", "purple")
+
+        lelem.attr("transform", d => {
+            const orr2 = (-180 + d.lorr1);
+
+            $("#imgr2").attr("src", 'data:image/jpeg;base64,' + d.salR)
+            $("#imgrc2").css("background-image", "url(" + ("data:image/jpeg;base64," + d.imgR) + " )")
+
+            $("#imgb2").attr("src", 'data:image/jpeg;base64,' + d.salB)
+            $("#imgbc2").css("background-image", "url(" + ("data:image/jpeg;base64," + d.imgB) + " )")
+
+            $("#depthr2").attr("src", 'data:image/jpeg;base64,' + d.depthR)
+            $("#depthb2").attr("src", 'data:image/jpeg;base64,' + d.depthB)
+
+
+            return "rotate(" + (orr2) + " " + (loc_xscacle(d.lx1) - 2.5) + " " + (loc_yscacle(d.ly1) - 2.5) + ") translate(" + (loc_xscacle(d.lx1) - 26.8) + "," + (loc_yscacle(d.ly1) - 35.2) + ")  scale(1.2) "
+        }).attr("stroke", "#888888")
+            .attr("stroke-width", "1px").attr('fill', 'purple')
+
+
+        pelem.attr("transform", d => {
+            const orr = -90 + (Math.atan2(proj_yscacle(d.py2) - proj_yscacle(d.py1), proj_xscacle(d.px2) - proj_xscacle(d.px1)) * (180 / Math.PI));
+            return "rotate(" + (orr) + " " + (proj_xscacle(d.px2) - 2) + " " + (proj_yscacle(d.py2) - 2) + ") translate(" + (proj_xscacle(d.px2) - 16) + "," + (proj_yscacle(d.py2) - 16) + ")  scale(0.5) "
+        })
+    }
+
+    function selCur(id, noise) {
+
+        if (noise === curNoise) {
+
+
+            proj2.selectAll("path").remove();
+            proj2.selectAll("line").remove();
+            loc2.selectAll("path").remove();
+            loc2.selectAll("line").remove();
+
+
+            drawPoints(dato2, proj2);
+            drawElements(dato2, loc2);
+
+            elements3 = proj2.selectAll(".projDot");
+            elements4 = loc2.selectAll(".locDot");
+
+
+            selit(id)
+        } else {
+
+            curNoise = noise;
 
             getData1("datasets/bad/try" + "_" + curNoise + ".json").then(function () {
 
-                // $("#timeline2").attr("max", dato2.length)
 
+                proj2.selectAll("path").remove();
+                proj2.selectAll("line").remove();
+                loc2.selectAll("path").remove();
+                loc2.selectAll("line").remove();
 
                 dato2.sort((a, b) => {
 
@@ -2197,30 +1808,8 @@
                     } else {
                         return -1
                     }
+
                 });
-
-
-                let elem = dato2.filter(d => d.id === 0)[0];
-
-
-                $("#imgr2").attr("src", 'data:image/jpeg;base64,' + elem.salR)
-                $("#imgrc2").css("background-image", "url(" + ("data:image/jpeg;base64," + elem.imgR) + " )")
-
-
-                $("#imgb2").attr("src", 'data:image/jpeg;base64,' + elem.salB)
-                $("#imgbc2").css("background-image", "url(" + ("data:image/jpeg;base64," + elem.imgB) + " )")
-                $("#depthr2").attr("src", 'data:image/jpeg;base64,' + elem.depthR);
-                $("#depthb2").attr("src", 'data:image/jpeg;base64,' + elem.depthR);
-
-                /*
-
-                                $("#imgr2").attr("src", 'data:image/jpeg;base64,' + elem.imgR);
-                                $("#depthr2").attr("src", 'data:image/jpeg;base64,' + elem.depthR);
-
-                                $("#imgb2").attr("src", 'data:image/jpeg;base64,' + elem.imgB);
-                                $("#depthb2").attr("src", 'data:image/jpeg;base64,' + elem.depthB);
-                */
-
 
                 drawPoints(dato2, proj2);
                 drawElements(dato2, loc2);
@@ -2228,32 +1817,406 @@
                 elements3 = proj2.selectAll(".projDot");
                 elements4 = loc2.selectAll(".locDot");
 
+                selit(id)
+
+                // $("#timeline2").attr("max", dato2.length - 1)
+
             });
 
-            // getData2("datasets/traj" + curTraj + "/" + curTraj + "_" + curNoise + ".json").then(function () {
+        }
+
+    }
+
+
+    function dragstarted(d) {
+        d3.select(this).raise().attr("stroke", "black");
+    }
+
+
+    function dragstarted3(d) {
+        d3.select(this).raise().attr("stroke", "black");
+    }
+
+    function dragged3(d) {
+
+        const point = d3.mouse(tsvg.node());
+
+        let path = d3.select("#guess");
+        let line = d3.select("#guessLine");
+
+        let deltax = parseFloat(point[0] - path.attr("ox"));
+        let deltay = parseFloat(point[1] - path.attr("oy"));
+
+
+        const orr = 90 + (Math.atan2(point[1] - (parseFloat(path.attr("oy")) + 33), (point[0] - parseFloat(path.attr("ox")))) * (180 / Math.PI));
+
+        // console.log(orr);
+
+
+        endOrr = orr;
+
+
+        d3.select("#pointar").transition().duration(15).attr('transform', 'translate(' + (parseFloat(path.attr("ox")) - 12) + ',' + (parseFloat(path.attr("oy")) - 41.5 + 33) + ') rotate(' + (orr) + ' ' + 9.6 + ' ' + 39 + ')')
+
+
+        // d3.select("#pointar")
+    }
+
+
+    function dragended3(d) {
+        d3.select(this).attr("stroke", null);
+    }
+
+
+    function dragged(d) {
+        const point = d3.mouse(tsvg.node());
+
+
+        let path = d3.select("#guess");
+        let line = d3.select("#pointar");
+        let circle = d3.select("#guessCr");
+        let circle2 = d3.select("#guessCr2");
+
+        // console.log(point);
+
+
+        let deltax = parseFloat(point[0] - path.attr("ox"));
+        let deltay = parseFloat(point[1] - path.attr("oy"));
+
+        path.attr("ox", point[0]);
+        path.attr("oy", point[1]);
+
+        path.transition().duration(15).attr("transform", "rotate(" + (path.attr("thor")) + " " + (point[0] - 2.5) + " " + (point[1] - 2.5) + ") translate(" + (point[0] - 37.4) + "," + (point[1] - 28.2) + ") scale(1.3) ")
+
+        circle.attr("cx", parseFloat(circle.attr("cx")) + deltax);
+        circle.attr("cy", parseFloat(circle.attr("cy")) + (deltay));
+
+
+        circle2.attr("cx", parseFloat(circle2.attr("cx")) + deltax);
+        circle2.attr("cy", parseFloat(circle2.attr("cy")) + (deltay));
+
+        circle2.raise()
+
+
+        line.transition().duration(15).attr("x2", parseFloat(circle.attr("cx")) + deltax).attr("y2", parseFloat(circle.attr("cy")) + deltay).attr("x1", point[0] - 3).attr("y1", point[1] - 8)
+
+
+        const orr = (Math.atan2(point[1] - (path.attr("oy") + 33), (point[0] - path.attr("ox"))) * (180 / Math.PI));
+
+        d3.select("#pointar").transition().duration(15).attr('transform', 'translate(' + (parseFloat(path.attr("ox")) - 12) + ',' + (parseFloat(path.attr("oy")) - 41.5 + 33) + ') rotate(' + (endOrr) + ' ' + 9.6 + ' ' + 39 + ')')
+
+
+        // if ((point[0] > 0 && point[0] < 340) && (point[1] > 0 && point[1] < 340))
+        //     circle.attr("cx", point[0]).attr("cy", point[1]);
+    }
+
+    function dragended(d) {
+        d3.select(this).attr("stroke", null);
+    }
+
+
+    function dragstarted2(d) {
+        d3.select(this).raise().attr("stroke", "black");
+    }
+
+    function dragged2(d) {
+        const point = d3.mouse(tsvg.node());
+
+        let path = d3.select("#guess");
+        let line = d3.select("#guessLine");
+        let circle = d3.select("#guessCr");
+
+
+        // let deltax = parseFloat(point[0] - path.attr("ox"));
+        // let deltay = parseFloat(point[1] - path.attr("oy"));
+
+        //
+        // path.attr("ox", point[0])
+        // path.attr("oy", point[1])
+
+
+        const orr = -90 + (Math.atan2(point[1] - (path.attr("oy") + 30), (point[0] - path.attr("ox"))) * (180 / Math.PI));
+
+        path.attr("thor", orr)
+
+        path.transition().duration(15).attr("transform", "rotate(" + (orr) + " " + (path.attr("ox") - 2.5) + " " + (path.attr("oy") - 2.5) + ") translate(" + (path.attr("ox") - 37.4) + "," + (path.attr("oy") - 28.2) + ") scale(1.3)  ")
+        circle.transition().duration(15).attr("cx", parseFloat(point[0])).attr("cy", parseFloat(point[1]));
+        line.transition().duration(15).attr("x2", parseFloat(point[0]) - 2).attr("y2", parseFloat(point[1]));
+        // circle.transition().duration(15)
+
+        // if ((point[0] > 0 && point[0] < 340) && (point[1] > 0 && point[1] < 340))
+        //     circle.attr("cx", point[0]).attr("cy", point[1]);
+    }
+
+    function dragended2(d) {
+        d3.select(this).attr("stroke", null);
+    }
+
+
+    loadmap(d3.select("#theo-guess"), 'assets/images/map.jpg');
+    // loadmap(d3.select("#saliency"), 'assets/images/map.jpg');
+    /*            loadmap(d3.select("#loc2"), 'assets/images/map.jpg');
+                loadmap(d3.select("#loc3"), 'assets/images/map.jpg');*/
+
+    /*
+                $("#timeline").on("input", function () {
+
+                    let step = $(this).val();
+                    let ell = dato[step];
+                    curStep0 = parseInt(step);
+
+                    $("#imgr").attr("src", 'data:image/jpeg;base64,' + ell.imgR)
+                    $("#depthr").attr("src", 'data:image/jpeg;base64,' + ell.depthR)
+
+                    $("#imgb").attr("src", 'data:image/jpeg;base64,' + ell.imgB)
+                    $("#depthb").attr("src", 'data:image/jpeg;base64,' + ell.depthB)
+
+                    $("#timelineTxt").html(step)
+
+                    update_time();
+
+                    let inside = d3.selectAll("path")
+
+                    inside.filter(d => {
+                        return d.id > curStep0
+                    }).transition().duration(20).style("opacity", '0.1');
+
+
+                    inside.filter(d => {
+                        return d.id <= curStep0
+                    }).transition().duration(20).style("opacity", '1')
+
+                });
+    */
+
+
+    /*            $('#play1').on('click', function () {
+
+                    pl = !pl;
+                    if (pl) {
+                        if (curStep0 >= dato.length)
+                            curStep0 = 0
+                        $(this).attr('src', 'assets/round-pause-button.svg');
+
+                        timer = setInterval(step, 115);
+                        step()
+                    } else {
+                        $(this).attr('src', 'assets/play-sign.svg');
+                        clearInterval(timer);
+                        timer = null
+                    }
+                });*/
+
+
+    /*
+                function update_time() {
+
+                    let tbar = $('#timeline');
+
+                    let val = (tbar.val() - tbar.attr('min')) / (tbar.attr('max') - tbar.attr('min'));
+
+                    tbar.css('background-image',
+                        '-webkit-gradient(linear, left top, right top, '
+                        + 'color-stop(' + val + ', #233E34), '
+                        + 'color-stop(' + val + ', #C5C5C5)'
+                        + ')'
+                    );
+                }
+    */
+
+
+    /*    function step() {
+
+            curStep0 += 1;
+            let ell = dato[curStep0];
+
+
+            if (ell) {
+                $("#imgr").attr("src", 'data:image/jpeg;base64,' + ell.imgR)
+                $("#depthr").attr("src", 'data:image/jpeg;base64,' + ell.depthR)
+
+                $("#imgb2").attr("src", 'data:image/jpeg;base64,' + ell.imgB)
+                $("#depthb2").attr("src", 'data:image/jpeg;base64,' + ell.depthB)
+
+                $("#timelineTxt").html(curStep0)
+
+                $("#timeline").val(curStep0);
+
+                update_time()
+
+
+                let inside = d3.selectAll("path")
+
+
+                inside.filter(d => {
+                    return d.id > curStep0
+                }).transition().duration(20).style("opacity", '0.1')
+
+
+                inside.filter(d => {
+                    return d.id <= curStep0
+                }).transition().duration(20).style("opacity", '1')
+
+            } else {
+                pl = false;
+                $('#play1').attr('src', 'assets/play-sign.svg');
+                curStep0 = 0;
+                clearInterval(timer);
+                timer = null
+            }
+
+        }
+*/
+    //
+    // const cirhov = proj.append("circle")
+    //     .attr("id", "projHov")
+    //     .attr("stroke", "#333333")
+    //     .attr("stroke-width", "1")
+    //     .attr("fill", "none")
+    //     .attr("r", "24");
+
+    const cirhov2 = loc.append("circle")
+        .attr("id", "locHov")
+        .attr("stroke", "#333333")
+        .attr("stroke-width", "1")
+        .attr("fill", "none")
+        .attr("r", "24");
+
+
+    const cirhov3 = proj2.append("circle")
+        .attr("id", "locHov")
+        .attr("stroke", "#333333")
+        .attr("stroke-width", "1")
+        .attr("fill", "none")
+        .attr("r", "24");
+
+    const cirhov4 = loc2.append("circle")
+        .attr("id", "locHov")
+        .attr("stroke", "#333333")
+        .attr("stroke-width", "1")
+        .attr("fill", "none")
+        .attr("r", "24");
+
+    const cirhov5 = proj3.append("circle")
+        .attr("id", "locHov")
+        .attr("stroke", "#333333")
+        .attr("stroke-width", "1")
+        .attr("fill", "none")
+        .attr("r", "24");
+
+    const cirhov6 = loc3.append("circle")
+        .attr("id", "locHov")
+        .attr("stroke", "#333333")
+        .attr("stroke-width", "1")
+        .attr("fill", "none")
+        .attr("r", "24");
+
+
+    /*   $("#noisel2").on("change", function () {
+
+           // console.log($("#trajsel").val());
+
+           curNoise = $("#noisel2").val();
+
+           getData1("datasets/bad/try" + "_" + curNoise + ".json").then(function () {
+
+
+               proj2.selectAll("path").remove();
+               proj2.selectAll("line").remove();
+               loc2.selectAll("path").remove();
+               loc2.selectAll("line").remove();
+
+               dato2.sort((a, b) => {
+
+                   if (a.id > b.id) {
+                       return 1
+                   } else {
+                       return -1
+                   }
+
+               });
+
+
+               let elem = dato2.filter(d => d.id === 0)[0];
+
+
+               $("#imgr2").attr("src", 'data:image/jpeg;base64,' + elem.imgR);
+               $("#depthr2").attr("src", 'data:image/jpeg;base64,' + elem.depthR);
+
+               $("#imgb2").attr("src", 'data:image/jpeg;base64,' + elem.imgB);
+               $("#depthb2").attr("src", 'data:image/jpeg;base64,' + elem.depthB);
+
+
+               drawPoints(dato2, proj2);
+               drawElements(dato2, loc2);
+
+               elements3 = proj2.selectAll(".projDot");
+               elements4 = loc2.selectAll(".locDot");
+               // $("#timeline2").attr("max", dato2.length - 1)
+
+           });
+       })*/
+
+
+    function selit2(id) {
+
+
+        let pelem = elements5.filter(d => d.torr === id[2] && d.tx === id[0] && d.ty === id[1])
+        let lelem = elements6.filter(d => d.torr === id[2] && d.tx === id[0] && d.ty === id[1])
+
+        console.log(lelem);
+
+        // lelem.attr("fill", "purple")
+
+        lelem.attr("transform", d => {
+            const orr2 = (-180 + d.lorr1);
+
+            $("#imgr3").attr("src", 'data:image/jpeg;base64,' + d.salR)
+            $("#imgrc3").css("background-image", "url(" + ("data:image/jpeg;base64," + d.imgR) + " )")
+
+            $("#imgb3").attr("src", 'data:image/jpeg;base64,' + d.salB)
+            $("#imgbc3").css("background-image", "url(" + ("data:image/jpeg;base64," + d.imgB) + " )")
+
+            $("#depthr3").attr("src", 'data:image/jpeg;base64,' + d.depthR)
+            $("#depthb3").attr("src", 'data:image/jpeg;base64,' + d.depthB)
+
+
+            return "rotate(" + (orr2) + " " + (loc_xscacle(d.lx1) - 2.5) + " " + (loc_yscacle(d.ly1) - 2.5) + ") translate(" + (loc_xscacle(d.lx1) - 26.8) + "," + (loc_yscacle(d.ly1) - 35.2) + ")  scale(1.2) "
+        }).attr("stroke", "#888888")
+            .attr("stroke-width", "1px").attr('fill', 'purple')
+
+
+        pelem.attr("transform", d => {
+            const orr = -90 + (Math.atan2(proj_yscacle(d.py2) - proj_yscacle(d.py1), proj_xscacle(d.px2) - proj_xscacle(d.px1)) * (180 / Math.PI));
+            return "rotate(" + (orr) + " " + (proj_xscacle(d.px2) - 2) + " " + (proj_yscacle(d.py2) - 2) + ") translate(" + (proj_xscacle(d.px2) - 16) + "," + (proj_yscacle(d.py2) - 16) + ")  scale(0.5) "
+        })
+    }
+
+    function selCur2(id, noise) {
+
+        if (noise === curNoise2) {
+            proj3.selectAll("path").remove();
+            proj3.selectAll("line").remove();
+            loc3.selectAll("path").remove();
+            loc3.selectAll("line").remove();
+            drawPoints(dato3, proj3);
+            drawElements(dato3, loc3);
+            elements5 = proj3.selectAll(".projDot");
+            elements6 = loc3.selectAll(".locDot");
+
+
+            selit2(id)
+        } else {
+
+            curNoise2 = noise;
+
             getData2("datasets/good/try2" + "_" + curNoise2 + ".json").then(function () {
 
-                $("#timeline3").attr("max", dato3.length - 1)
-                dato3.sort((a, b) => {
 
-                    if (a.id > b.id) {
-                        return 1
-                    } else {
-                        return -1
-                    }
-                });
-
-
-                let elem = dato3.filter(d => d.id === 0)[0];
-
-                $("#imgr3").attr("src", 'data:image/jpeg;base64,' + elem.salR)
-                $("#imgrc3").css("background-image", "url(" + ("data:image/jpeg;base64," + elem.imgR) + " )")
-
-
-                $("#imgb3").attr("src", 'data:image/jpeg;base64,' + elem.salB)
-                $("#imgbc3").css("background-image", "url(" + ("data:image/jpeg;base64," + elem.imgB) + " )")
-                $("#depthr3").attr("src", 'data:image/jpeg;base64,' + elem.depthR);
-                $("#depthb3").attr("src", 'data:image/jpeg;base64,' + elem.depthR);
+                proj3.selectAll("path").remove();
+                proj3.selectAll("line").remove();
+                loc3.selectAll("path").remove();
+                loc3.selectAll("line").remove();
 
 
                 drawPoints(dato3, proj3);
@@ -2262,529 +2225,754 @@
                 elements5 = proj3.selectAll(".projDot");
                 elements6 = loc3.selectAll(".locDot");
 
+                selit2(id)
+
+                $("#timeline3").attr("max", dato3.length - 1)
 
             });
 
+        }
 
-            // debugInit();
+    }
+
+    function update_time() {
+
+        let tbar = $('#timeline3');
+
+        let val = (tbar.val() - tbar.attr('min')) / (tbar.attr('max') - tbar.attr('min'));
+
+        tbar.css('background-image',
+            '-webkit-gradient(linear, left top, right top, '
+            + 'color-stop(' + val + ', #233E34), '
+            + 'color-stop(' + val + ', #C5C5C5)'
+            + ')'
+        );
+    }
 
 
-            function debugInit() {
-                loadmap(loc, 'assets/images/map.jpg');
-                drawPoints(data, proj);
-                drawElements(data, d3.select("#loc"));
+    $("#timeline3").on("input", function () {
+
+        curStep2 = $(this).val()
+
+        update_time()
+
+        $("#timelineTxt3").html(curStep2)
+        curNoise2 = $("#noisel3").val();
+        selCur2(seldat[curStep2], curNoise2)
+
+    })
+
+
+    $("#noisel3").on("change", function () {
+
+        // console.log($("#trajsel").val());
+
+        // curNoise2 = ;
+        curStep2 = $("#timeline3").val()
+        console.log('LALALA');
+        selCur2(seldat[curStep2], $("#noisel3").val())
+    })
+
+
+    function getRandomInt(min, max) {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+
+    getRef("datasets/bad/try_gaussian.json").then(function () {
+        // console.log(dat);
+
+        guessid = getRandomInt(0, tref.length - 1)
+        let im = $("#guessimg")
+
+        $("#contguessimg").css("background-image", "url(" + ("data:image/jpeg;base64," + tref[guessid].imgR) + " )");
+        im.attr("src", "data:image/jpeg;base64," + tref[guessid].salR);
+
+
+    })
+
+    /*    getDatatry("datasets/try_gaussian.json").then(function () {
+
+
+            tsvg
+
+            console.log(dat);
+
+        })*/
+
+    // getData0("datasets/traj" + curTraj + "/" + curTraj + "_" + curNoise + ".json").then(function () {
+    getData0("datasets/bad/try_gaussian.json").then(function () {
+
+        /*
+                proj2.selectAll("path").remove();
+                proj2.selectAll("line").remove();
+                loc2.selectAll("path").remove();
+                loc2.selectAll("line").remove();
+
+
+                proj3.selectAll("path").remove();
+                proj3.selectAll("line").remove();
+                loc3.selectAll("path").remove();
+                loc3.selectAll("line").remove();*/
+
+
+        // guessid = getRandomInt(0, tref.length - 1)
+        guessid = 0
+
+
+        let im = $("#guessimg")
+
+        $("#contguessimg").css("background-image", "url(" + ("data:image/jpeg;base64," + dato[guessid].imgR) + " )")
+
+
+        im.attr("src", "data:image/jpeg;base64," + dato[guessid].salR);
+
+
+        dato.sort((a, b) => {
+
+            if (a.id > b.id) {
+                return 1
+            } else {
+                return -1
+            }
+        });
+
+        let elem = dato.filter(d => d.id === 0)[0];
+
+        console.log(elem);
+
+
+        $("#imgr").attr("src", 'data:image/jpeg;base64,' + elem.salR)
+        $("#imgrc").css("background-image", "url(" + ("data:image/jpeg;base64," + elem.imgR) + " )")
+
+
+        $("#depthr").attr("src", 'data:image/jpeg;base64,' + elem.depthR)
+        // $("#salr").attr("src", 'data:image/jpeg;base64,' + elem.salR)
+
+        // $("#imgb").attr("src", 'data:image/jpeg;base64,' + elem.imgB)
+        // $("#depthb").attr("src", 'data:image/jpeg;base64,' + elem.depthB)
+
+
+        drawPoints(dato, proj);
+        drawElementsBad(dato, loc);
+
+        elements = loc.selectAll(".locDot");
+        elements2 = loc.selectAll(".locDot");
+
+
+    });
+
+
+    getData1("datasets/bad/try" + "_" + curNoise + ".json").then(function () {
+
+        // $("#timeline2").attr("max", dato2.length)
+
+
+        dato2.sort((a, b) => {
+
+            if (a.id > b.id) {
+                return 1
+            } else {
+                return -1
+            }
+        });
+
+
+        let elem = dato2.filter(d => d.id === 0)[0];
+
+
+        $("#imgr2").attr("src", 'data:image/jpeg;base64,' + elem.salR)
+        $("#imgrc2").css("background-image", "url(" + ("data:image/jpeg;base64," + elem.imgR) + " )")
+
+
+        $("#imgb2").attr("src", 'data:image/jpeg;base64,' + elem.salB)
+        $("#imgbc2").css("background-image", "url(" + ("data:image/jpeg;base64," + elem.imgB) + " )")
+        $("#depthr2").attr("src", 'data:image/jpeg;base64,' + elem.depthR);
+        $("#depthb2").attr("src", 'data:image/jpeg;base64,' + elem.depthR);
+
+        /*
+
+                        $("#imgr2").attr("src", 'data:image/jpeg;base64,' + elem.imgR);
+                        $("#depthr2").attr("src", 'data:image/jpeg;base64,' + elem.depthR);
+
+                        $("#imgb2").attr("src", 'data:image/jpeg;base64,' + elem.imgB);
+                        $("#depthb2").attr("src", 'data:image/jpeg;base64,' + elem.depthB);
+        */
+
+
+        drawPoints(dato2, proj2);
+        drawElements(dato2, loc2);
+
+        elements3 = proj2.selectAll(".projDot");
+        elements4 = loc2.selectAll(".locDot");
+
+    });
+
+    // getData2("datasets/traj" + curTraj + "/" + curTraj + "_" + curNoise + ".json").then(function () {
+    getData2("datasets/good/try2" + "_" + curNoise2 + ".json").then(function () {
+
+        $("#timeline3").attr("max", dato3.length - 1)
+        dato3.sort((a, b) => {
+
+            if (a.id > b.id) {
+                return 1
+            } else {
+                return -1
+            }
+        });
+
+
+        let elem = dato3.filter(d => d.id === 0)[0];
+
+        $("#imgr3").attr("src", 'data:image/jpeg;base64,' + elem.salR)
+        $("#imgrc3").css("background-image", "url(" + ("data:image/jpeg;base64," + elem.imgR) + " )")
+
+
+        $("#imgb3").attr("src", 'data:image/jpeg;base64,' + elem.salB)
+        $("#imgbc3").css("background-image", "url(" + ("data:image/jpeg;base64," + elem.imgB) + " )")
+        $("#depthr3").attr("src", 'data:image/jpeg;base64,' + elem.depthR);
+        $("#depthb3").attr("src", 'data:image/jpeg;base64,' + elem.depthR);
+
+
+        drawPoints(dato3, proj3);
+        drawElements(dato3, loc3);
+
+        elements5 = proj3.selectAll(".projDot");
+        elements6 = loc3.selectAll(".locDot");
+
+
+    });
+
+
+    // debugInit();
+
+
+    function debugInit() {
+        loadmap(loc, 'assets/images/map.jpg');
+        drawPoints(data, proj);
+        drawElements(data, d3.select("#loc"));
+    }
+
+    async function getDatatry(url) {
+        dat = await d3.json(url).then(d => {
+            return JSON.parse(d.replace(/'/g, '"'))
+        });
+    }
+
+
+    async function getData0(url) {
+        dato = await d3.json(url).then(d => {
+            return JSON.parse(d.replace(/'/g, '"'))
+        });
+    }
+
+    async function getData1(url) {
+        dato2 = await d3.json(url).then(d => {
+            return JSON.parse(d.replace(/'/g, '"'))
+        });
+    }
+
+    async function getData2(url) {
+        dato3 = await d3.json(url).then(d => {
+            return JSON.parse(d.replace(/'/g, '"'))
+        });
+    }
+
+
+    async function getRef(url) {
+        tref = await d3.json(url).then(d => {
+            return JSON.parse(d.replace(/'/g, '"'))
+        });
+    }
+
+
+    async function getUmap(url) {
+        dator = await d3.json(url).then(d => {
+            return JSON.parse(d.replace(/'/g, '"'))
+        });
+    }
+
+
+    getUmap("umapout.json").then(function () {
+            var color = d3.scaleOrdinal(d3.schemeCategory10);
+
+            // p1 = [d3.extent(dator["umap"].map(d => d[0])), d3.extent(dator["umap"].map(d => d[1]))];
+
+
+            console.log([d3.extent(dator["umap"].map(d => d[0])), d3.extent(dator["umap"].map(d => d[1]))]);
+
+            console.log(p1);
+
+            let tbo = d3.select("#allProj")
+
+            let dxscale = d3.scaleLinear().domain(p1[0]).range([20, 515]); // Scale to Change based on SVG Size
+            let dyscale = d3.scaleLinear().domain(p1[1]).range([20, 515]);
+
+            let rooms = ["Uncertain", "RoomTheo", "RoomMate", "LivingRoom", "Laundry", "Kitchen", "Corridor", "Bathroom", "Hall"]
+
+            console.log(dator["umap"].length);
+
+            for (let i = 0; i < dator["umap"].length; i++) {
+
+                tbo.append("circle")
+                    .attr("cx", dxscale(dator["umap"][i][0]))
+                    .attr("cy", dyscale(dator["umap"][i][1]))
+                    .attr("r", 2)
+                    .attr('fill', color(dator["rooms"][i]))
             }
 
-            async function getDatatry(url) {
-                dat = await d3.json(url).then(d => {
-                    return JSON.parse(d.replace(/'/g, '"'))
-                });
+            for (let i = 0; i < 9; i++) {
+
+                tbo.append("circle")
+                    .attr("cx", 500)
+                    .attr("cy", 345 + (20 * i))
+                    .attr("r", 5)
+                    .attr("fill", color(i));
+
+                tbo.append("text")
+                    .attr("text-anchor", "end")
+                    .attr("x", 487)
+                    .attr("y", 350 + (20 * i))
+                    .text(rooms[i])
+
             }
 
-
-            async function getData0(url) {
-                dato = await d3.json(url).then(d => {
-                    return JSON.parse(d.replace(/'/g, '"'))
-                });
-            }
-
-            async function getData1(url) {
-                dato2 = await d3.json(url).then(d => {
-                    return JSON.parse(d.replace(/'/g, '"'))
-                });
-            }
-
-            async function getData2(url) {
-                dato3 = await d3.json(url).then(d => {
-                    return JSON.parse(d.replace(/'/g, '"'))
-                });
-            }
+        }
+    )
 
 
-            async function getRef(url) {
-                tref = await d3.json(url).then(d => {
-                    return JSON.parse(d.replace(/'/g, '"'))
-                });
-            }
+    /* getUmap("umapout.json").then(function () {
+
+         var color = d3.scaleOrdinal(d3.schemeCategory10);
+
+         let p1 = [d3.extent(dator["umap"].map(d => d[0])), d3.extent(dator["umap"].map(d => d[1]))];
+
+         let tbo2 = d3.select("#allProj2")
+
+         let dxscale2 = d3.scaleLinear().domain(p1[0]).range([20, 515]); // Scale to Change based on SVG Size
+         let dyscale2 = d3.scaleLinear().domain(p1[1]).range([20, 515]);
 
 
-            async function getUmap(url) {
-                dator = await d3.json(url).then(d => {
-                    return JSON.parse(d.replace(/'/g, '"'))
-                });
-            }
+         let rooms = ["Uncertain", "RoomTheo", "RoomMate", "LivingRoom", "Laundry", "Kitchen", "Corridor", "Bathroom", "Hall"]
+
+         console.log(dator);
+
+         for (let i = 0; i < dator["umap"].length; i++) {
+
+             tbo2.append("circle")
+                 .attr("cx", dxscale2(dator["umap"][i][0]))
+                 .attr("cy", dyscale2(dator["umap"][i][1]))
+                 .attr("r", 2)
+                 .attr('fill', color(dator["rooms"][i]))
+         }
 
 
-            getUmap("umapout.json").then(function () {
-                    var color = d3.scaleOrdinal(d3.schemeCategory10);
+         for (let i = 0; i < 9; i++) {
 
-                    // p1 = [d3.extent(dator["umap"].map(d => d[0])), d3.extent(dator["umap"].map(d => d[1]))];
+             tbo2.append("circle")
+                 .attr("cx", 510)
+                 .attr("cy", (510) - (20 * i))
+                 .attr("r", 5)
+                 .attr("fill", color(i));
+
+             tbo2.append("text")
+                 .attr("text-anchor", "end")
+                 .attr("x", 500)
+                 .attr("y", (515) - (20 * i))
+                 .text(rooms[i])
+         }
+     });
+ */
+
+    function loadmap(svg, map) {
+
+        svg.append('image')
+            .attr('xlink:href', map)
+            .attr('x', -40)
+            .attr('y', -15)
+            .style('width', '110%').moveToBack()
+    }
+
+    function handleCirHovSyncLoc(cirhov, coords, elements, elements2, loc, proj) {
+
+        cirhov.transition().duration(25).attr("transform", "translate(" + coords[0] + ", " + coords[1] + ")")
+        if (elements2) {
+            let inside = elements2.filter(d => {
+                return euclidian_dist([loc_xscacle(d.lx1), loc_yscacle(d.ly1)], coords) < 25
+            });
+
+            inside.transition().duration(5).attr("fill", "purple");
+            elements2.filter(d => {
+                return euclidian_dist([loc_xscacle(d.lx1), loc_yscacle(d.ly1)], coords) > 24
+            }).transition().duration(5).attr("fill", (d) => colscale(euclidian_dist([loc_xscacle(d.lx1), loc_yscacle(d.ly1)], [loc_xscacle(d.lx2), loc_yscacle(d.ly2)])))
+
+        }
+
+        // console.log(inside);
 
 
-                    console.log([d3.extent(dator["umap"].map(d => d[0])), d3.extent(dator["umap"].map(d => d[1]))]);
+        let inside2 = elements.filter(d => {
+            return euclidian_dist([loc_xscacle(d.lx1), loc_yscacle(d.ly1)], coords) < 25
+        });
 
-                    console.log(p1);
+        // console.log(elements2);
+        inside2.transition().duration(5).attr("fill", "purple");
 
-                    let tbo = d3.select("#allProj")
 
-                    let dxscale = d3.scaleLinear().domain(p1[0]).range([20, 515]); // Scale to Change based on SVG Size
-                    let dyscale = d3.scaleLinear().domain(p1[1]).range([20, 515]);
+        elements.filter(d => {
+            return euclidian_dist([loc_xscacle(d.px1), loc_yscacle(d.py1)], coords) > 24
+        }).transition().duration(5).attr("fill", (d) => colscale(euclidian_dist([proj_xscacle(d.px1), proj_yscacle(d.py1)], [proj_xscacle(d.px2), proj_yscacle(d.py2)])))
 
-                    let rooms = ["Uncertain", "RoomTheo", "RoomMate", "LivingRoom", "Laundry", "Kitchen", "Corridor", "Bathroom", "Hall"]
 
-                    console.log(dator["umap"].length);
+        elements.each((d) => {
 
-                    for (let i = 0; i < dator["umap"].length; i++) {
+            // console.log(d);
+            if (euclidian_dist([loc_xscacle(d.lx1), loc_yscacle(d.ly1)], coords) < 25) {
 
-                        tbo.append("circle")
-                            .attr("cx", dxscale(dator["umap"][i][0]))
-                            .attr("cy", dyscale(dator["umap"][i][1]))
-                            .attr("r", 2)
-                            .attr('fill', color(dator["rooms"][i]))
-                    }
+                if (!idSel.includes(d.id)) {
+                    const orr = -90 + (Math.atan2(proj_yscacle(d.py1) - proj_yscacle(d.py2), proj_xscacle(d.px1) - proj_xscacle(d.px2)) * (180 / Math.PI));
+                    const orr2 = -180 + d.lorr2
 
-                    for (let i = 0; i < 9; i++) {
+                    proj.append("path")
+                        .attr("class", "tbrm")
+                        // .style("transform-origin", "50% 50%")
+                        .attr("num", d.id)
+                        .attr("fill", "steelblue")
+                        .attr("d", "m 20 20 a -6 6 7 0 1 14 0 l -7 23 l -7 -23")
+                        .attr("transform", "rotate(" + (orr) + " " + (proj_xscacle(d.px2) - 2.5) + " " + (proj_yscacle(d.py2) - 2.5) + ") translate(" + (proj_xscacle(d.px2) - 24.5) + "," + (proj_yscacle(d.py2) - 21.5) + ")  scale(0.8) ")
 
-                        tbo.append("circle")
-                            .attr("cx", 500)
-                            .attr("cy", 345 + (20 * i))
-                            .attr("r", 5)
-                            .attr("fill", color(i));
+                    loc.append("path")
+                        .attr("class", "tbrm")
+                        .attr("num", d.id)
+                        .attr("fill", "steelblue")
+                        .attr("d", "m 20 20 a -6 6 7 0 1 14 0 l -7 23 l -7 -23")
+                        .attr("transform", "rotate(" + (orr2) + " " + (loc_xscacle(d.lx2) - 2.5) + " " + (loc_yscacle(d.ly2) - 2.5) + ") translate(" + (loc_xscacle(d.lx2) - 24.5) + "," + (loc_yscacle(d.ly2) - 21.5) + ")  scale(0.8) ")
+                    // .attr("transform", "rotate(180 64 62) translate(50 50) scale(0.5)")
 
-                        tbo.append("text")
-                            .attr("text-anchor", "end")
-                            .attr("x", 487)
-                            .attr("y", 350 + (20 * i))
-                            .text(rooms[i])
 
-                    }
+                    // "rotate(" + (orr2) + " " + (loc_xscacle(d.lx1) - 2.5) + " " + (loc_yscacle(d.ly1) - 2.5) + ") translate(" + (loc_xscacle(d.lx1) - 24.5) + "," + (loc_yscacle(d.ly1) - 21.5) + ")  scale(0.8) "
+                    idSel.push(d.id)
+
+                    let tpath = proj.append("line")
+                        .attr("class", "tbrm")
+                        .attr("num", d.id)
+                        .attr("x1", proj_xscacle(d.px1))
+                        .attr("y1", proj_yscacle(d.py1))
+                        .attr("x2", proj_xscacle(d.px2))
+                        .attr("y2", proj_yscacle(d.py2))
+                        .attr('stroke', 'steelblue')
+                        .style('stroke-width', '3px')
+
+                    let totalLength = tpath.node().getTotalLength();
+
+                    tpath.attr("stroke-dasharray", totalLength + " " + totalLength)
+                        .attr("stroke-dashoffset", totalLength)
+                        .transition()
+                        .duration(250)
+                        .attr("stroke-dashoffset", 0);
+
+
+                    let tpath2 = loc.append("line")
+                        .attr("class", "tbrm")
+                        .attr("num", d.id)
+                        .attr("x1", loc_xscacle(d.lx1))
+                        .attr("y1", loc_yscacle(d.ly1))
+                        .attr("x2", loc_xscacle(d.lx2))
+                        .attr("y2", loc_yscacle(d.ly2))
+                        .attr('stroke', 'steelblue')
+                        .style('stroke-width', '3px')
+
+                    let totalLength2 = tpath2.node().getTotalLength();
+
+                    tpath2.attr("stroke-dasharray", totalLength2 + " " + totalLength2)
+                        .attr("stroke-dashoffset", totalLength2)
+                        .transition()
+                        .duration(250)
+                        .attr("stroke-dashoffset", 0)
 
                 }
-            )
-
-
-            /* getUmap("umapout.json").then(function () {
-
-                 var color = d3.scaleOrdinal(d3.schemeCategory10);
-
-                 let p1 = [d3.extent(dator["umap"].map(d => d[0])), d3.extent(dator["umap"].map(d => d[1]))];
-
-                 let tbo2 = d3.select("#allProj2")
-
-                 let dxscale2 = d3.scaleLinear().domain(p1[0]).range([20, 515]); // Scale to Change based on SVG Size
-                 let dyscale2 = d3.scaleLinear().domain(p1[1]).range([20, 515]);
-
-
-                 let rooms = ["Uncertain", "RoomTheo", "RoomMate", "LivingRoom", "Laundry", "Kitchen", "Corridor", "Bathroom", "Hall"]
-
-                 console.log(dator);
-
-                 for (let i = 0; i < dator["umap"].length; i++) {
-
-                     tbo2.append("circle")
-                         .attr("cx", dxscale2(dator["umap"][i][0]))
-                         .attr("cy", dyscale2(dator["umap"][i][1]))
-                         .attr("r", 2)
-                         .attr('fill', color(dator["rooms"][i]))
-                 }
-
-
-                 for (let i = 0; i < 9; i++) {
-
-                     tbo2.append("circle")
-                         .attr("cx", 510)
-                         .attr("cy", (510) - (20 * i))
-                         .attr("r", 5)
-                         .attr("fill", color(i));
-
-                     tbo2.append("text")
-                         .attr("text-anchor", "end")
-                         .attr("x", 500)
-                         .attr("y", (515) - (20 * i))
-                         .text(rooms[i])
-                 }
-             });
-         */
-
-            function loadmap(svg, map) {
-
-                svg.append('image')
-                    .attr('xlink:href', map)
-                    .attr('x', -40)
-                    .attr('y', -15)
-                    .style('width', '110%').moveToBack()
-            }
-
-            function handleCirHovSyncLoc(cirhov, coords, elements, elements2, loc, proj) {
-
-                cirhov.transition().duration(25).attr("transform", "translate(" + coords[0] + ", " + coords[1] + ")")
-                if (elements2) {
-                    let inside = elements2.filter(d => {
-                        return euclidian_dist([loc_xscacle(d.lx1), loc_yscacle(d.ly1)], coords) < 25
-                    });
-
-                    inside.transition().duration(5).attr("fill", "purple");
-                    elements2.filter(d => {
-                        return euclidian_dist([loc_xscacle(d.lx1), loc_yscacle(d.ly1)], coords) > 24
-                    }).transition().duration(5).attr("fill", (d) => colscale(euclidian_dist([loc_xscacle(d.lx1), loc_yscacle(d.ly1)], [loc_xscacle(d.lx2), loc_yscacle(d.ly2)])))
+            } else {
+                let tid = idSel.indexOf(d.id);
+                if (tid) {
+                    idSel.splice(tid)
+                    d3.selectAll('.tbrm[num="' + d.id + '"]').remove()
 
                 }
 
-                // console.log(inside);
+            }
+        })
+    }
 
 
-                let inside2 = elements.filter(d => {
+    function handleCirHovSingleLoc(cirhov, coords, elements, elements2, loc, proj) {
+
+        cirhov.transition().duration(25).attr("transform", "translate(" + coords[0] + ", " + coords[1] + ")")
+
+        if (elements2) {
+            let inside = elements2.filter(d => {
+                return euclidian_dist([loc_xscacle(d.lx1), loc_yscacle(d.ly1)], coords) < 25
+            });
+
+            inside.transition().duration(5).attr("fill", "purple");
+            elements2.filter(d => {
+                return euclidian_dist([loc_xscacle(d.lx1), loc_yscacle(d.ly1)], coords) > 24
+            }).transition().duration(5).attr("fill", (d) => colscale(euclidian_dist([loc_xscacle(d.lx1), loc_yscacle(d.ly1)], [loc_xscacle(d.tx), loc_yscacle(d.ty)])))
+
+        }
+
+        // console.log(inside);
+
+
+        /*        let inside2 = elements.filter(d => {
                     return euclidian_dist([loc_xscacle(d.lx1), loc_yscacle(d.ly1)], coords) < 25
                 });
-
-                // console.log(elements2);
-                inside2.transition().duration(5).attr("fill", "purple");
-
-
-                elements.filter(d => {
-                    return euclidian_dist([loc_xscacle(d.px1), loc_yscacle(d.py1)], coords) > 24
-                }).transition().duration(5).attr("fill", (d) => colscale(euclidian_dist([proj_xscacle(d.px1), proj_yscacle(d.py1)], [proj_xscacle(d.px2), proj_yscacle(d.py2)])))
+*/
+        // console.log(elements2);
+        // inside2.transition().duration(5).attr("fill", "purple");
 
 
-                elements.each((d) => {
-
-                    // console.log(d);
-                    if (euclidian_dist([loc_xscacle(d.lx1), loc_yscacle(d.ly1)], coords) < 25) {
-
-                        if (!idSel.includes(d.id)) {
-                            const orr = -90 + (Math.atan2(proj_yscacle(d.py1) - proj_yscacle(d.py2), proj_xscacle(d.px1) - proj_xscacle(d.px2)) * (180 / Math.PI));
-                            const orr2 = -180 + d.lorr2
-
-                            proj.append("path")
-                                .attr("class", "tbrm")
-                                // .style("transform-origin", "50% 50%")
-                                .attr("num", d.id)
-                                .attr("fill", "steelblue")
-                                .attr("d", "m 20 20 a -6 6 7 0 1 14 0 l -7 23 l -7 -23")
-                                .attr("transform", "rotate(" + (orr) + " " + (proj_xscacle(d.px2) - 2.5) + " " + (proj_yscacle(d.py2) - 2.5) + ") translate(" + (proj_xscacle(d.px2) - 24.5) + "," + (proj_yscacle(d.py2) - 21.5) + ")  scale(0.8) ")
-
-                            loc.append("path")
-                                .attr("class", "tbrm")
-                                .attr("num", d.id)
-                                .attr("fill", "steelblue")
-                                .attr("d", "m 20 20 a -6 6 7 0 1 14 0 l -7 23 l -7 -23")
-                                .attr("transform", "rotate(" + (orr2) + " " + (loc_xscacle(d.lx2) - 2.5) + " " + (loc_yscacle(d.ly2) - 2.5) + ") translate(" + (loc_xscacle(d.lx2) - 24.5) + "," + (loc_yscacle(d.ly2) - 21.5) + ")  scale(0.8) ")
-                            // .attr("transform", "rotate(180 64 62) translate(50 50) scale(0.5)")
+        /*
+                        elements.filter(d => {
+                            return euclidian_dist([loc_xscacle(d.px1), loc_yscacle(d.py1)], coords) > 24
+                        }).transition().duration(5).attr("fill", (d) => colscale(euclidian_dist([proj_xscacle(d.px1), proj_yscacle(d.py1)], [proj_xscacle(d.px2), proj_yscacle(d.py2)])))
+        */
 
 
-                            // "rotate(" + (orr2) + " " + (loc_xscacle(d.lx1) - 2.5) + " " + (loc_yscacle(d.ly1) - 2.5) + ") translate(" + (loc_xscacle(d.lx1) - 24.5) + "," + (loc_yscacle(d.ly1) - 21.5) + ")  scale(0.8) "
-                            idSel.push(d.id)
+        elements.each((d) => {
 
-                            let tpath = proj.append("line")
-                                .attr("class", "tbrm")
-                                .attr("num", d.id)
-                                .attr("x1", proj_xscacle(d.px1))
-                                .attr("y1", proj_yscacle(d.py1))
-                                .attr("x2", proj_xscacle(d.px2))
-                                .attr("y2", proj_yscacle(d.py2))
-                                .attr('stroke', 'steelblue')
-                                .style('stroke-width', '3px')
+            // console.log(d);
+            if (euclidian_dist([loc_xscacle(d.lx1), loc_yscacle(d.ly1)], coords) < 25) {
 
-                            let totalLength = tpath.node().getTotalLength();
+                if (!idSel.includes(d.id)) {
+                    const orr = 180 - (Math.atan2(proj_yscacle(d.py1) - proj_yscacle(d.py2), proj_xscacle(d.px1) - proj_xscacle(d.px2)) * (180 / Math.PI));
+                    // const orr2 = 180 - (Math.atan2(loc_yscacle(d.ly1) - loc_yscacle(d.ly2), loc_xscacle(d.lx1) - loc_xscacle(d.lx2)) * (180 / Math.PI));
+                    const orr2 = (-180 + d.torr)
+                    /*
 
-                            tpath.attr("stroke-dasharray", totalLength + " " + totalLength)
-                                .attr("stroke-dashoffset", totalLength)
-                                .transition()
-                                .duration(250)
-                                .attr("stroke-dashoffset", 0);
+                                                proj.append("path")
+                                                    .attr("class", "tbrm")
+                                                    // .style("transform-origin", "50% 50%")
+                                                    .attr("num", d.id)
+                                                    .attr("fill", "steelblue")
+                                                    .attr("d", "m 20 20 a -6 6 7 0 1 14 0 l -7 23 l -7 -23")
+                                                    .attr("transform", "rotate(" + (orr) + " " + (proj_xscacle(d.px2) - 2) + " " + (proj_yscacle(d.py2) - 2) + ") translate(" + (proj_xscacle(d.px2) - 16) + "," + (proj_yscacle(d.py2) - 16) + ")  scale(0.5) ")
+                    */
 
+                    loc.append("path")
+                        .attr("class", "tbrm")
+                        .attr("num", d.id)
+                        .attr("fill", "steelblue")
+                        .attr("d", "m 20 20 a -6 6 7 0 1 14 0 l -7 23 l -7 -23")
+                        .attr("transform", "rotate(" + (orr2) + " " + (loc_xscacle(d.tx) - 2) + " " + (loc_yscacle(d.ty) - 2) + ") translate(" + (loc_xscacle(d.tx) - 21.5) + "," + (loc_yscacle(d.ty) - 24.5) + ")  scale(0.8) ")
+                    // .attr("transform", "rotate(180 64 62) translate(50 50) scale(0.5)")
 
-                            let tpath2 = loc.append("line")
-                                .attr("class", "tbrm")
-                                .attr("num", d.id)
-                                .attr("x1", loc_xscacle(d.lx1))
-                                .attr("y1", loc_yscacle(d.ly1))
-                                .attr("x2", loc_xscacle(d.lx2))
-                                .attr("y2", loc_yscacle(d.ly2))
-                                .attr('stroke', 'steelblue')
-                                .style('stroke-width', '3px')
+                    // return "rotate(" + (orr2) + " " + (loc_xscacle(d.lx1) - 2) + " " + (loc_yscacle(d.ly1) - 2) + ") translate(" + (loc_xscacle(d.lx1) - 21.5) + "," + (loc_yscacle(d.ly1) - 24.5) + ")  scale(0.8) "
 
-                            let totalLength2 = tpath2.node().getTotalLength();
+                    idSel.push(d.id)
 
-                            tpath2.attr("stroke-dasharray", totalLength2 + " " + totalLength2)
-                                .attr("stroke-dashoffset", totalLength2)
-                                .transition()
-                                .duration(250)
-                                .attr("stroke-dashoffset", 0)
+                    /*  let tpath = proj.append("line")
+                          .attr("class", "tbrm")
+                          .attr("num", d.id)
+                          .attr("x1", proj_xscacle(d.px1))
+                          .attr("y1", proj_yscacle(d.py1))
+                          .attr("x2", proj_xscacle(d.px2))
+                          .attr("y2", proj_yscacle(d.py2))
+                          .attr('stroke', 'steelblue')
+                          .style('stroke-width', '3px')
 
-                        }
-                    } else {
-                        let tid = idSel.indexOf(d.id);
-                        if (tid) {
-                            idSel.splice(tid)
-                            d3.selectAll('.tbrm[num="' + d.id + '"]').remove()
+                      let totalLength = tpath.node().getTotalLength();
 
-                        }
+                      tpath.attr("stroke-dasharray", totalLength + " " + totalLength)
+                          .attr("stroke-dashoffset", totalLength)
+                          .transition()
+                          .duration(250)
+                          .attr("stroke-dashoffset", 0);
+*/
 
-                    }
-                })
-            }
+                    let tpath2 = loc.append("line")
+                        .attr("class", "tbrm")
+                        .attr("num", d.id)
+                        .attr("x1", loc_xscacle(d.lx1))
+                        .attr("y1", loc_yscacle(d.ly1))
+                        .attr("x2", loc_xscacle(d.tx))
+                        .attr("y2", loc_yscacle(d.ty))
+                        .attr('stroke', 'steelblue')
+                        .style('stroke-width', '3px')
 
+                    let totalLength2 = tpath2.node().getTotalLength();
 
-            function handleCirHovSingleLoc(cirhov, coords, elements, elements2, loc, proj) {
+                    tpath2.attr("stroke-dasharray", totalLength2 + " " + totalLength2)
+                        .attr("stroke-dashoffset", totalLength2)
+                        .transition()
+                        .duration(250)
+                        .attr("stroke-dashoffset", 0)
 
-                cirhov.transition().duration(25).attr("transform", "translate(" + coords[0] + ", " + coords[1] + ")")
-
-                if (elements2) {
-                    let inside = elements2.filter(d => {
-                        return euclidian_dist([loc_xscacle(d.lx1), loc_yscacle(d.ly1)], coords) < 25
-                    });
-
-                    inside.transition().duration(5).attr("fill", "purple");
-                    elements2.filter(d => {
-                        return euclidian_dist([loc_xscacle(d.lx1), loc_yscacle(d.ly1)], coords) > 24
-                    }).transition().duration(5).attr("fill", (d) => colscale(euclidian_dist([loc_xscacle(d.lx1), loc_yscacle(d.ly1)], [loc_xscacle(d.tx), loc_yscacle(d.ty)])))
+                }
+            } else {
+                let tid = idSel.indexOf(d.id);
+                if (tid) {
+                    idSel.splice(tid)
+                    d3.selectAll('.tbrm[num="' + d.id + '"]').remove()
 
                 }
 
-                // console.log(inside);
-
-
-                /*        let inside2 = elements.filter(d => {
-                            return euclidian_dist([loc_xscacle(d.lx1), loc_yscacle(d.ly1)], coords) < 25
-                        });
-        */
-                // console.log(elements2);
-                // inside2.transition().duration(5).attr("fill", "purple");
-
-
-                /*
-                                elements.filter(d => {
-                                    return euclidian_dist([loc_xscacle(d.px1), loc_yscacle(d.py1)], coords) > 24
-                                }).transition().duration(5).attr("fill", (d) => colscale(euclidian_dist([proj_xscacle(d.px1), proj_yscacle(d.py1)], [proj_xscacle(d.px2), proj_yscacle(d.py2)])))
-                */
-
-
-                elements.each((d) => {
-
-                    // console.log(d);
-                    if (euclidian_dist([loc_xscacle(d.lx1), loc_yscacle(d.ly1)], coords) < 25) {
-
-                        if (!idSel.includes(d.id)) {
-                            const orr = 180 - (Math.atan2(proj_yscacle(d.py1) - proj_yscacle(d.py2), proj_xscacle(d.px1) - proj_xscacle(d.px2)) * (180 / Math.PI));
-                            // const orr2 = 180 - (Math.atan2(loc_yscacle(d.ly1) - loc_yscacle(d.ly2), loc_xscacle(d.lx1) - loc_xscacle(d.lx2)) * (180 / Math.PI));
-                            const orr2 = (-180 + d.torr)
-                            /*
-
-                                                        proj.append("path")
-                                                            .attr("class", "tbrm")
-                                                            // .style("transform-origin", "50% 50%")
-                                                            .attr("num", d.id)
-                                                            .attr("fill", "steelblue")
-                                                            .attr("d", "m 20 20 a -6 6 7 0 1 14 0 l -7 23 l -7 -23")
-                                                            .attr("transform", "rotate(" + (orr) + " " + (proj_xscacle(d.px2) - 2) + " " + (proj_yscacle(d.py2) - 2) + ") translate(" + (proj_xscacle(d.px2) - 16) + "," + (proj_yscacle(d.py2) - 16) + ")  scale(0.5) ")
-                            */
-
-                            loc.append("path")
-                                .attr("class", "tbrm")
-                                .attr("num", d.id)
-                                .attr("fill", "steelblue")
-                                .attr("d", "m 20 20 a -6 6 7 0 1 14 0 l -7 23 l -7 -23")
-                                .attr("transform", "rotate(" + (orr2) + " " + (loc_xscacle(d.tx) - 2) + " " + (loc_yscacle(d.ty) - 2) + ") translate(" + (loc_xscacle(d.tx) - 21.5) + "," + (loc_yscacle(d.ty) - 24.5) + ")  scale(0.8) ")
-                            // .attr("transform", "rotate(180 64 62) translate(50 50) scale(0.5)")
-
-                            // return "rotate(" + (orr2) + " " + (loc_xscacle(d.lx1) - 2) + " " + (loc_yscacle(d.ly1) - 2) + ") translate(" + (loc_xscacle(d.lx1) - 21.5) + "," + (loc_yscacle(d.ly1) - 24.5) + ")  scale(0.8) "
-
-                            idSel.push(d.id)
-
-                            /*  let tpath = proj.append("line")
-                                  .attr("class", "tbrm")
-                                  .attr("num", d.id)
-                                  .attr("x1", proj_xscacle(d.px1))
-                                  .attr("y1", proj_yscacle(d.py1))
-                                  .attr("x2", proj_xscacle(d.px2))
-                                  .attr("y2", proj_yscacle(d.py2))
-                                  .attr('stroke', 'steelblue')
-                                  .style('stroke-width', '3px')
-
-                              let totalLength = tpath.node().getTotalLength();
-
-                              tpath.attr("stroke-dasharray", totalLength + " " + totalLength)
-                                  .attr("stroke-dashoffset", totalLength)
-                                  .transition()
-                                  .duration(250)
-                                  .attr("stroke-dashoffset", 0);
-  */
-
-                            let tpath2 = loc.append("line")
-                                .attr("class", "tbrm")
-                                .attr("num", d.id)
-                                .attr("x1", loc_xscacle(d.lx1))
-                                .attr("y1", loc_yscacle(d.ly1))
-                                .attr("x2", loc_xscacle(d.tx))
-                                .attr("y2", loc_yscacle(d.ty))
-                                .attr('stroke', 'steelblue')
-                                .style('stroke-width', '3px')
-
-                            let totalLength2 = tpath2.node().getTotalLength();
-
-                            tpath2.attr("stroke-dasharray", totalLength2 + " " + totalLength2)
-                                .attr("stroke-dashoffset", totalLength2)
-                                .transition()
-                                .duration(250)
-                                .attr("stroke-dashoffset", 0)
-
-                        }
-                    } else {
-                        let tid = idSel.indexOf(d.id);
-                        if (tid) {
-                            idSel.splice(tid)
-                            d3.selectAll('.tbrm[num="' + d.id + '"]').remove()
-
-                        }
-
-                    }
-                })
             }
+        })
+    }
 
 
-            function handleCirHovSyncProj(cirhov, coords, elements, elements2, loc, proj) {
+    function handleCirHovSyncProj(cirhov, coords, elements, elements2, loc, proj) {
 
 
-                cirhov.transition().duration(25).attr("transform", "translate(" + coords[0] + ", " + coords[1] + ")")
+        cirhov.transition().duration(25).attr("transform", "translate(" + coords[0] + ", " + coords[1] + ")")
 
 
-                let inside = elements.filter(d => {
-                    return euclidian_dist([proj_xscacle(d.px1), proj_yscacle(d.py1)], coords) < 25
-                });
-                inside.transition().duration(5).attr("fill", "purple");
+        let inside = elements.filter(d => {
+            return euclidian_dist([proj_xscacle(d.px1), proj_yscacle(d.py1)], coords) < 25
+        });
+        inside.transition().duration(5).attr("fill", "purple");
 
-                let inside2 = elements2.filter(d => {
-                    return euclidian_dist([proj_xscacle(d.px1), proj_yscacle(d.py1)], coords) < 25
-                });
-                inside2.transition().duration(5).attr("fill", "purple");
+        let inside2 = elements2.filter(d => {
+            return euclidian_dist([proj_xscacle(d.px1), proj_yscacle(d.py1)], coords) < 25
+        });
+        inside2.transition().duration(5).attr("fill", "purple");
 
-                elements2.filter(d => {
-                    return euclidian_dist([proj_xscacle(d.px1), proj_yscacle(d.py1)], coords) > 24
-                }).transition().duration(5).attr("fill", (d) => colscale(euclidian_dist([loc_xscacle(d.lx1), loc_yscacle(d.ly1)], [loc_xscacle(d.lx2), loc_yscacle(d.ly2)])))
-
-
-                elements.filter(d => {
-                    return euclidian_dist([proj_xscacle(d.px1), proj_yscacle(d.py1)], coords) > 24
-                }).transition().attr("fill", (d) => colscale(euclidian_dist([proj_xscacle(d.px1), proj_yscacle(d.py1)], [proj_xscacle(d.px2), proj_yscacle(d.py2)])))
+        elements2.filter(d => {
+            return euclidian_dist([proj_xscacle(d.px1), proj_yscacle(d.py1)], coords) > 24
+        }).transition().duration(5).attr("fill", (d) => colscale(euclidian_dist([loc_xscacle(d.lx1), loc_yscacle(d.ly1)], [loc_xscacle(d.lx2), loc_yscacle(d.ly2)])))
 
 
-                elements.each((d) => {
-
-                    // console.log(d);
-                    if (euclidian_dist([proj_xscacle(d.px1), proj_yscacle(d.py1)], coords) < 25) {
-
-                        if (!idSel.includes(d.id)) {
-                            const orr = -90 + (Math.atan2(proj_yscacle(d.py1) - proj_yscacle(d.py2), proj_xscacle(d.px1) - proj_xscacle(d.px2)) * (180 / Math.PI));
-                            const orr2 = -180 + d.lorr2;
+        elements.filter(d => {
+            return euclidian_dist([proj_xscacle(d.px1), proj_yscacle(d.py1)], coords) > 24
+        }).transition().attr("fill", (d) => colscale(euclidian_dist([proj_xscacle(d.px1), proj_yscacle(d.py1)], [proj_xscacle(d.px2), proj_yscacle(d.py2)])))
 
 
-                            // proj.append("rect").attr("x",proj_xscacle(d.px2)).attr("y",proj_yscacle(d.py2)).attr("width",10).attr("height",10)
+        elements.each((d) => {
 
-                            proj.append("path")
-                                .attr("class", "tbrm")
-                                // .style("transform-origin", "50% 50%")
-                                .attr("num", d.id)
-                                .attr("fill", "steelblue")
-                                .attr("d", "m 20 20 a -6 6 7 0 1 14 0 l -7 23 l -7 -23")
-                                .attr("transform", "rotate(" + (orr) + " " + (proj_xscacle(d.px2) - 2.5) + " " + (proj_yscacle(d.py2) - 2.5) + ") translate(" + (proj_xscacle(d.px2) - 24.5) + "," + (proj_yscacle(d.py2) - 21.5) + ")  scale(0.8) ")
+            // console.log(d);
+            if (euclidian_dist([proj_xscacle(d.px1), proj_yscacle(d.py1)], coords) < 25) {
 
-                            loc.append("path")
-                                .attr("class", "tbrm")
-                                .attr("num", d.id)
-                                .attr("fill", "steelblue")
-                                .attr("d", "m 20 20 a -6 6 7 0 1 14 0 l -7 23 l -7 -23")
-                                .attr("transform", "rotate(" + (orr2) + " " + (loc_xscacle(d.lx2) - 2.5) + " " + (loc_yscacle(d.ly2) - 2.5) + ") translate(" + (loc_xscacle(d.lx2) - 24.5) + "," + (loc_yscacle(d.ly2) - 21.5) + ")  scale(0.8) ")
+                if (!idSel.includes(d.id)) {
+                    const orr = -90 + (Math.atan2(proj_yscacle(d.py1) - proj_yscacle(d.py2), proj_xscacle(d.px1) - proj_xscacle(d.px2)) * (180 / Math.PI));
+                    const orr2 = -180 + d.lorr2;
 
 
-                            // return "rotate(" + (orr) + " " + (proj_xscacle(d.px1) - 2.5) + " " + (proj_yscacle(d.py1) - 2.5) + ") translate(" + (proj_xscacle(d.px1) - 24.5) + "," + (proj_yscacle(d.py1) - 21.5) + ")  scale(0.8)"
-                            // .attr("transform", "rotate(180 64 62) translate(50 50) scale(0.5)")
+                    // proj.append("rect").attr("x",proj_xscacle(d.px2)).attr("y",proj_yscacle(d.py2)).attr("width",10).attr("height",10)
 
-                            idSel.push(d.id)
+                    proj.append("path")
+                        .attr("class", "tbrm")
+                        // .style("transform-origin", "50% 50%")
+                        .attr("num", d.id)
+                        .attr("fill", "steelblue")
+                        .attr("d", "m 20 20 a -6 6 7 0 1 14 0 l -7 23 l -7 -23")
+                        .attr("transform", "rotate(" + (orr) + " " + (proj_xscacle(d.px2) - 2.5) + " " + (proj_yscacle(d.py2) - 2.5) + ") translate(" + (proj_xscacle(d.px2) - 24.5) + "," + (proj_yscacle(d.py2) - 21.5) + ")  scale(0.8) ")
 
-                            let tpath = proj.append("line")
-                                .attr("class", "tbrm")
-                                .attr("num", d.id)
-                                .attr("x1", proj_xscacle(d.px1))
-                                .attr("y1", proj_yscacle(d.py1))
-                                .attr("x2", proj_xscacle(d.px2))
-                                .attr("y2", proj_yscacle(d.py2))
-                                .attr('stroke', 'steelblue')
-                                .style('stroke-width', '3px');
-
-                            let totalLength = tpath.node().getTotalLength();
-
-                            tpath.attr("stroke-dasharray", totalLength + " " + totalLength)
-                                .attr("stroke-dashoffset", totalLength)
-                                .transition()
-                                .duration(250)
-                                .attr("stroke-dashoffset", 0);
+                    loc.append("path")
+                        .attr("class", "tbrm")
+                        .attr("num", d.id)
+                        .attr("fill", "steelblue")
+                        .attr("d", "m 20 20 a -6 6 7 0 1 14 0 l -7 23 l -7 -23")
+                        .attr("transform", "rotate(" + (orr2) + " " + (loc_xscacle(d.lx2) - 2.5) + " " + (loc_yscacle(d.ly2) - 2.5) + ") translate(" + (loc_xscacle(d.lx2) - 24.5) + "," + (loc_yscacle(d.ly2) - 21.5) + ")  scale(0.8) ")
 
 
-                            let tpath2 = loc.append("line")
-                                .attr("class", "tbrm")
-                                .attr("num", d.id)
-                                .attr("x1", loc_xscacle(d.lx1))
-                                .attr("y1", loc_yscacle(d.ly1))
-                                .attr("x2", loc_xscacle(d.lx2))
-                                .attr("y2", loc_yscacle(d.ly2))
-                                .attr('stroke', 'steelblue')
-                                .style('stroke-width', '3px')
+                    // return "rotate(" + (orr) + " " + (proj_xscacle(d.px1) - 2.5) + " " + (proj_yscacle(d.py1) - 2.5) + ") translate(" + (proj_xscacle(d.px1) - 24.5) + "," + (proj_yscacle(d.py1) - 21.5) + ")  scale(0.8)"
+                    // .attr("transform", "rotate(180 64 62) translate(50 50) scale(0.5)")
 
-                            let totalLength2 = tpath2.node().getTotalLength();
+                    idSel.push(d.id)
 
-                            tpath2.attr("stroke-dasharray", totalLength2 + " " + totalLength2)
-                                .attr("stroke-dashoffset", totalLength2)
-                                .transition()
-                                .duration(250)
-                                .attr("stroke-dashoffset", 0)
+                    let tpath = proj.append("line")
+                        .attr("class", "tbrm")
+                        .attr("num", d.id)
+                        .attr("x1", proj_xscacle(d.px1))
+                        .attr("y1", proj_yscacle(d.py1))
+                        .attr("x2", proj_xscacle(d.px2))
+                        .attr("y2", proj_yscacle(d.py2))
+                        .attr('stroke', 'steelblue')
+                        .style('stroke-width', '3px');
 
-                        }
-                    } else {
-                        let tid = idSel.indexOf(d.id);
-                        if (tid) {
-                            idSel.splice(tid)
-                            d3.selectAll('.tbrm[num="' + d.id + '"]').remove()
-                        }
-                    }
-                })
+                    let totalLength = tpath.node().getTotalLength();
+
+                    tpath.attr("stroke-dasharray", totalLength + " " + totalLength)
+                        .attr("stroke-dashoffset", totalLength)
+                        .transition()
+                        .duration(250)
+                        .attr("stroke-dashoffset", 0);
+
+
+                    let tpath2 = loc.append("line")
+                        .attr("class", "tbrm")
+                        .attr("num", d.id)
+                        .attr("x1", loc_xscacle(d.lx1))
+                        .attr("y1", loc_yscacle(d.ly1))
+                        .attr("x2", loc_xscacle(d.lx2))
+                        .attr("y2", loc_yscacle(d.ly2))
+                        .attr('stroke', 'steelblue')
+                        .style('stroke-width', '3px')
+
+                    let totalLength2 = tpath2.node().getTotalLength();
+
+                    tpath2.attr("stroke-dasharray", totalLength2 + " " + totalLength2)
+                        .attr("stroke-dashoffset", totalLength2)
+                        .transition()
+                        .duration(250)
+                        .attr("stroke-dashoffset", 0)
+
+                }
+            } else {
+                let tid = idSel.indexOf(d.id);
+                if (tid) {
+                    idSel.splice(tid)
+                    d3.selectAll('.tbrm[num="' + d.id + '"]').remove()
+                }
             }
+        })
+    }
 
 
-            loc2.on('mousemove', function () {
-                const coords = d3.mouse(loc2.node());
-                handleCirHovSyncLoc(cirhov4, coords, elements3, elements4, loc2, proj2);
-            })
+    loc2.on('mousemove', function () {
+        const coords = d3.mouse(loc2.node());
+        handleCirHovSyncLoc(cirhov4, coords, elements3, elements4, loc2, proj2);
+    })
 
 
-            proj2.on('mousemove', function () {
-                const coords = d3.mouse(proj2.node());
-                handleCirHovSyncProj(cirhov3, coords, elements3, elements4, loc2, proj2);
-            })
+    proj2.on('mousemove', function () {
+        const coords = d3.mouse(proj2.node());
+        handleCirHovSyncProj(cirhov3, coords, elements3, elements4, loc2, proj2);
+    })
 
 
-            loc3.on('mousemove', function () {
-                const coords = d3.mouse(loc3.node());
-                handleCirHovSyncLoc(cirhov6, coords, elements5, elements6, loc3, proj3);
-            })
+    loc3.on('mousemove', function () {
+        const coords = d3.mouse(loc3.node());
+        handleCirHovSyncLoc(cirhov6, coords, elements5, elements6, loc3, proj3);
+    })
 
 
-            proj3.on('mousemove', function () {
-                const coords = d3.mouse(proj3.node());
-                handleCirHovSyncProj(cirhov5, coords, elements5, elements6, loc3, proj3);
-            })
+    proj3.on('mousemove', function () {
+        const coords = d3.mouse(proj3.node());
+        handleCirHovSyncProj(cirhov5, coords, elements5, elements6, loc3, proj3);
+    })
 
 
-            loc.on('mousemove', function () {
+    loc.on('mousemove', function () {
 
-                const coords = d3.mouse(loc.node());
-                // console.log('Lalalaa');
-                handleCirHovSingleLoc(cirhov2, coords, elements, elements2, loc, proj);
+        const coords = d3.mouse(loc.node());
+        // console.log('Lalalaa');
+        handleCirHovSingleLoc(cirhov2, coords, elements, elements2, loc, proj);
 
-            });
+    });
 
 
-        </script>
+    function angleDiff(angle, angle2) {
+
+
+        let diff = ((angle2 - angle + 180) % 360) - 180;
+        return Math.abs(diff < -180 ? diff + 360 : diff);
+
+    }
+
+</script>
 
 
 </body>

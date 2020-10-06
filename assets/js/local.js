@@ -2,8 +2,8 @@ let simW = [-6.1, 7.1];
 let simH = [-2.15, 6.5];
 
 
-let loc_xscacle
-let loc_yscacle
+let loc_xscacle;
+let loc_yscacle;
 
 d3.selection.prototype.moveToBack = function () {
     return this.each(function () {
@@ -28,6 +28,8 @@ function drawElementsBad(data, svg) {
         .attr("class", "locDot")
         .attr("id", d => d.id)
         .attr("fill", (d) => colscale(euclidian_dist([loc_xscacle(d.lx1), loc_yscacle(d.ly1)], [loc_xscacle(d.tx), loc_yscacle(d.ty)])))
+        .attr("stroke", "#555555")
+        .style("stroke-width", "1px")
         .attr("d", "m 20 20 a -6 6 7 0 1 14 0 l -7 23 l -7 -23")
         .attr("transform", d => {
             const orr2 = (-180 + d.lorr1)// + (Math.atan2(loc_yscacle(d.ly2) - loc_yscacle(d.ly1), loc_xscacle(d.lx2) - loc_xscacle(d.lx1)) * (180 / Math.PI));
@@ -92,6 +94,8 @@ function drawElements(data, svg) {
         .attr("id", d => d.id)
         .attr("fill", (d) => colscale(euclidian_dist([loc_xscacle(d.lx1), loc_yscacle(d.ly1)], [loc_xscacle(d.lx2), loc_yscacle(d.ly2)])))
         .attr("d", "m 20 20 a -6 6 7 0 1 14 0 l -7 23 l -7 -23")
+        .attr("stroke", "#555555")
+        .style("stroke-width", "1px")
         .attr("transform", d => {
             const orr2 = (-180 + d.lorr1)
             // const orr2 = (Math.atan2(loc_yscacle(d.ly2) - loc_yscacle(d.ly1), loc_xscacle(d.lx2) - loc_xscacle(d.lx1)) * (180 / Math.PI));
