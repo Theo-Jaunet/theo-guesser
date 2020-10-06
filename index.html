@@ -343,6 +343,14 @@
                 design neural models which better transfer to real world scenarios.
                 <br/><br/>
 
+                The dataset we are using in this work, is generated from a 3D scan of Theo's apartment. Then, we rely
+                on Matterport 3D <a onclick="focusRef('ref5')" class="focus">[5]</a>, and Habitat<a
+                    onclick="focusRef('ref3')" class="focus">[3]</a> to build a simulator from this scan in which walls
+                and
+                obstacles such as
+                furniture cannot be seen or walked through. We then sample the simulator using habitat API, to generates
+                training and validation images while insuring that they are different enough (orientation and location)
+
                 <!--
                                 But first, are you (as a human) able to solve this task?
 
@@ -963,12 +971,23 @@
                 </li>
 
 
+                <li style="color: rgba(0,0,0,0.9);" id="ref5">
+                    Matterport3D:
+                    learning from RGB-D data in indoor environments. [<a
+                        href="https://arxiv.org/abs/1505.07427">URL</a>]
+                    <div style="color: rgba(0,0,0,0.5);margin-left: 15px">
+                        Angel Chang, Angela Dai, Thomas Funkhouser, Maciej Halber, Matthias Nießner, Manolis Savva,
+                        Shuran Song, Andy Zeng, Yinda Zhang<br/>
+                        International
+                        Conference on 3D Vision (3DV), 2017
+                    </div>
+                </li>
+
             </ol>
         </div>
 
     </div>
 </div>
-
 
 <style>
 
@@ -977,7 +996,7 @@
 
 
 <div id="def"
-     style="">
+     style=" display: none">
 
     <div>
         <p id="defText">Some Text Some Text Some Text Some Text</p>
