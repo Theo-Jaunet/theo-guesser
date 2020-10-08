@@ -208,6 +208,14 @@
 
         }
 
+
+        .realShow {
+
+            width: 126px;
+
+
+        }
+
         #def p {
 
 
@@ -223,7 +231,7 @@
 <div class="container" style="margin-bottom: 5%; width: 1100px;max-width: 1100px">
     <div class="row">
         <div class="twelve column" style="margin-top: 10%">
-            <h4 style="text-align: center"><span style="text-decoration:line-through rgba(0,0,0,0.4) ">Geo</span> Theo
+            <h4 style="text-align: center"><span style="text-decoration:line-through rgba(0,0,0,0.4) ">Geo</span> Théo
                 Guesser </h4>
             <h5 style="font-size: 2.2rem;color: rgba(0,0,0,0.5);text-align: center">
                 Could you beat an IA guessing where you are in Theo’s apartment?
@@ -332,6 +340,20 @@
                 <br/><br/>
 
 
+                Simulation is a promising direction, which enables training to proceed significantly faster than
+                physical
+                time on fast modern hardware, easily distributing multiple simulated environments over a large number of
+                cores and machines. However, neural networks trained in simulated environments generally perform poorly
+                when deployed on real robots and environments, mainly to the <span class="hoverable"
+                                                                                   onmouseenter="hoverDisp(this,1)"
+                                                                                   onmouseleave="hideDef()">sim2real gap</span>,
+                i.e. the lack of accuracy
+                in simulating real environment conditions, for instance, changing luminosity through the day. The exact
+                nature of the gap is often difficult to
+                pinpoint, and modelling this gap and a successful transfer from simulation to physical environments has
+                become a major subfield between machine learning and robotics.
+
+                <br/><br/>
                 This work is at the crossroads of three different fields and explores techniques of data visualization
                 to advance machine learning for robotics applications. We propose new techniques for the visualization
                 of the <span class="hoverable" onmouseenter="hoverDisp(this,1)"
@@ -344,13 +366,14 @@
                 design neural models which better transfer to real world scenarios.
                 <br/><br/>
 
-                The dataset we are using in this work, is generated from a 3D scan of Theo's apartment. Then, we rely
-                on Matterport 3D <a onclick="focusRef('ref5')" class="focus">[5]</a>, and Habitat<a
-                    onclick="focusRef('ref3')" class="focus">[3]</a> to build a simulator from this scan in which walls
-                and
-                obstacles such as
-                furniture cannot be seen or walked through. We then sample the simulator using habitat API, to generates
-                training and validation images while insuring that they are different enough (orientation and location)
+                The dataset we are using in this work, is generated from a 3D scan of Theo's apartment which results in
+                a point cloud. This cloud is then converted into a Matterport 3D <a onclick="focusRef('ref5')"
+                                                                                    class="focus">[5]</a> environment
+                with meshes i.e. objects that cannot be walked through. Then, we use habitat sim<a
+                    onclick="focusRef('ref3')" class="focus">[3]</a> to build a simulator in which a virtual robot can
+                move. The dataset(images) used in this work is sampled from this simulator with habitat API while
+                insuring that each of them is different enough in term of
+                orientation and location.
 
                 <!--
                                 But first, are you (as a human) able to solve this task?
@@ -793,7 +816,65 @@
 
 
     <div class="row">
+
         <div class="twelve column" style="margin-top: -2%">
+
+            <div>
+                <h4 style="text-align: left"> What about Real Images?</h4>
+            </div>
+
+            <div> image band</div>
+
+        </div>
+
+    </div>
+
+
+    <div class="row">
+
+        <div class="three columns" style="">
+
+            <div>
+                <input type="range" min="0" max="1" step="">
+                Controls
+
+
+            </div>
+
+        </div>
+
+        <div class="nine columns" style="display: inline-block">
+            <img src="assets/images/real/real31/rgb31.jpg" class="realShow">
+            <img src="assets/images/real/real31/depth31.jpg" class="realShow">
+            <img src="assets/images/real/real31/ptha_4.jpg" class="realShow">
+            <img src="assets/images/real/real31/ptha_3.jpg" class="realShow">
+            <img src="assets/images/real/real31/ptha_2.jpg" class="realShow">
+            <img src="assets/images/real/real31/ptha_1.jpg" class="realShow">
+        </div>
+
+
+        <div class="twelve columns">
+
+            <div class="six columns" style="margin-top: 3%">
+                <div style="width: 100%;height: 532px;background-image: url('assets/bg.png');background-size: cover;">
+                    <div style="width: 100%;height: 532px;background-color:rgba(254,254,254,0.4);">
+                        <!--                        <img style="border: none;width: 24px;position: absolute;" src="assets/images/icons/inter.png">-->
+                        <svg id="projReal" style="width: 100%;height: 530px;border: #555555 solid 1px"></svg>
+                    </div>
+                </div>
+            </div>
+            <div class="six columns" style="margin-top: 3%;height: 100%;vertical-align: center;position: relative">
+                <!--                <img style="border: none;width: 24px;position: absolute;top:30%" src="assets/images/icons/inter.png">-->
+                <svg id="locReal" style="width: 100%;height: 370px;     border: none;margin-top: 160px"></svg>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="row">
+        <div class="twelve column" style="">
             <!--            <h4 style="text-align: left"> Using real-images</h4>-->
             <!-- <p>
                  Using backprogation of predictions, one can extract the gradient and build saliency maps which depicts
@@ -1064,32 +1145,29 @@
 
     let definitions = [
         {
-
-            text: "In our case, an ego-centric image is an image sampled from the robot's point of view",
+            text: "In our case, an ego-centric image is an image sampled from the robot's point of view.",
             source: ""
 
         },
         {
-            text: " The sim2real transfer consists in ...",
+            text: " The sim2real gap consists in the difference between a simulator and reality. This gap, also referred to as reality-gap, occurs when a model trained in simulation is deployed into real-world environments",
             source: ""
 
         }
         , {
-
-            text: "In machine learning, 'out of Distribution', indicates that a given sample (input) was not seen during the model's training. In addition, this type of input is not what the model is used to.",
+            text: "In machine learning, 'out of distribution', indicates that a given sample (input) was not seen during the model's training. In addition, this type of input often is not what the model is used to.",
             source: ""
 
         }, {
-            text: "In sim2sim ....",
+            text: "In sim2sim, we use a model trained in a simulator in another context. In our case, this is the same simulator with unseen images.",
             source: ""
 
         }, {
-            text: "Umap is a multi-dimensional projection method that ...",
+            text: "Umap is a dimensionality reduction method used to visualize high dimensional datasets on a 2D or 3D space. One particularity of umap, is that it preserves the parametric space of a projection, thus we can add new data elements without changing its layout or having to compute a new projection. ",
             source: ""
 
         }
-
-    ]
+    ];
 
 
     let seldat = [
@@ -1745,7 +1823,7 @@
                 .attr("cy", coords[1] - 31)
                 .attr("r", 4)
                 .style("cursor", "grab")
-                .attr("fill", "#333333")
+                .attr("fill", "#333333");
 
 
             /*            .attr("stroke", 'red')
@@ -2316,7 +2394,6 @@
         $("#contguessimg").css("background-image", "url(" + ("data:image/jpeg;base64," + tref[guessid].imgR) + " )");
         im.attr("src", "data:image/jpeg;base64," + tref[guessid].salR);
 
-
     })
 
     /*    getDatatry("datasets/try_gaussian.json").then(function () {
@@ -2438,8 +2515,9 @@
 
     // getData2("datasets/traj" + curTraj + "/" + curTraj + "_" + curNoise + ".json").then(function () {
     getData2("datasets/good/try2" + "_" + curNoise2 + ".json").then(function () {
+        // getData2("datasets/good/more" + "_" + curNoise2 + ".json").then(function () {
 
-        $("#timeline3").attr("max", dato3.length - 1)
+        $("#timeline3").attr("max", dato3.length - 1);
         dato3.sort((a, b) => {
 
             if (a.id > b.id) {
@@ -2611,6 +2689,7 @@
          }
      });
  */
+
 
     function loadmap(svg, map) {
 

@@ -16,6 +16,7 @@ d3.selection.prototype.moveToBack = function () {
 
 function drawElementsBad(data, svg) {
 
+    loadmap(d3.select("#locReal"), 'assets/images/map.jpg');
 
     loc_xscacle = d3.scaleLinear(simW, [10, 500]);
     loc_yscacle = d3.scaleLinear(simH, [10, 350]);
