@@ -32,8 +32,7 @@
     <style>
 
 
-
-        #descDepth{
+        #descDepth {
             text-align: center;
         }
 
@@ -631,9 +630,9 @@
             <div style="display: inline-block;text-align: center;width: 100%">
             </div>
             <div style="position: relative;margin-top: 5%;text-decoration: #555555 underline">
-                <p style="position: absolute;left: 20%;top:-50px;width: 100px;">
+                <p style="position: absolute;left: 20%;top:-50px;width: 100px;font-weight: 600;">
                     Simulator</p>
-                <p style="position: absolute;right: 17.7%;top:-50px;width: 100px;">
+                <p style="position: absolute;right: 17.7%;top:-50px;width: 100px;font-weight: 600;">
                     Real</p>
             </div>
             <div style="display: inline;text-align: center">
@@ -909,7 +908,9 @@
                 icons on the left side of the screen. We can see that without domain randomization, the model predicted
                 impossible positions i.e. in dark gray colors. With domain randomization, the model is slightly more
                 accurate than before, the model is able to avoid any prediction in impossible areas. Despite such
-                results, those predictions are still not close enough to ground truth (represented in green), and in the
+                results, those predictions are still not close enough to ground truth arrows (<img
+                    style="border: none;width: 15px;margin: -8px -0.5px;" src="assets/images/icons/arrow.png">), and in
+                the
                 case of the bedroom (bottom left image), even the best prediction is in the wrong room.
 
                 <br><br>
@@ -954,7 +955,12 @@
         <div class="ten columns" style="display: inline-block">
             <div style="width: 100%;height: 20px"></div>
             <div id="depthCont" style="margin-top: 40px">
-                <div id="descDepth"><p> Real RGB</p> <p> Real Depth</p> <p> 80% of Depth</p> <p> 60% of Depth</p><p> 40% of Depth</p><p> 20% of Depth</p></div>
+                <div id="descDepth"><p> Real RGB</p>
+                    <p> Real Depth</p>
+                    <p> 80% of Depth</p>
+                    <p> 60% of Depth</p>
+                    <p> 40% of Depth</p>
+                    <p> 20% of Depth</p></div>
                 <img id="realRGB" src="assets/images/real/real31/rgb31.jpg" class="realShow"
                      style="border: solid red 3px; opacity: 1!important;">
                 <img src="assets/images/real/real31/depth31.jpg" class="realShow realdepth selectedDepth" num="0">
