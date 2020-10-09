@@ -32,10 +32,26 @@
     <style>
 
 
+        .selectedSimFlat {
+            border: solid red 2px !important;
+            opacity: 1 !important;
+
+        }
+
+        .simFlatImg {
+
+
+            width: 40px;
+            opacity: 0.6;
+            border: solid 2px #fff;
+        }
+
+
         .selectedDepth {
 
+            opacity: 1 !important;
 
-            border: solid steelblue 3px !important;
+            border: solid red 3px !important;
         }
 
 
@@ -293,8 +309,8 @@
                     style="border: none;width: 35px;margin-top: -4px;margin-bottom: -9px"
                     src="assets/images/icons/green.png">, and a neural
                 network prediction as: <img style="border: none;width: 35px;margin-top: -4px;margin-bottom: -9px"
-                                            src="assets/images/icons/purple.png">. You can click on the saliency button
-                to display/hide the AI's vision.
+                                            src="assets/images/icons/purple.png">.
+                <!--                You can click on the saliency button to display/hide the AI's vision.-->
             </div>
         </div>
     </div>
@@ -316,7 +332,7 @@
             <div style="text-align: center;width: 256px">
                 <div style="margin: auto">
                     <button id="guesser" class="button-primary" style="margin-top: 20px;padding: 0 26px"> Guess</button>
-                    <button class="button salbt" style="margin-top: 20px;;padding: 0 26px"> Saliency</button>
+                    <!--                    <button class="button salbt" style="margin-top: 20px;;padding: 0 26px"> Saliency</button>-->
                 </div>
             </div>
             <div style="text-align: left;margin-top: 60px;margin-left: 15px;font-size: 14pt">
@@ -381,16 +397,18 @@
 
 
                 Simulation is a promising direction, which enables training to proceed significantly faster than
-                physical
-                time on fast modern hardware, easily distributing multiple simulated environments over a large number of
+                physical time. Thanks to fast modern hardware, we can easily distribute multiple simulated environments
+                over a large number of
                 cores and machines. However, neural networks trained in simulated environments generally perform poorly
                 when deployed on real robots and environments, mainly to the <span class="hoverable"
                                                                                    onmouseenter="hoverDisp(this,1)"
                                                                                    onmouseleave="hideDef()">sim2real gap</span>,
                 i.e. the lack of accuracy
-                in simulating real environment conditions, for instance, changing luminosity through the day. The exact
+                in simulating real environment conditions, for instance, a changing luminosity through the day. The
+                exact
                 nature of the gap is often difficult to
-                pinpoint, and modelling this gap and a successful transfer from simulation to physical environments has
+                pinpoint. Thus, modelling this gap and designing a successful transfer from simulation to physical
+                environments has
                 become a major subfield between machine learning and robotics.
 
                 <br/><br/>
@@ -406,14 +424,14 @@
                 design neural models which better transfer to real world scenarios.
                 <br/><br/>
 
-                The dataset we are using in this work, is generated from a 3D scan of Theo's apartment which results in
+                The dataset we are using is generated from a 3D scan of Theo's apartment which results in
                 a point cloud. This cloud is then converted into a Matterport 3D <a onclick="focusRef('ref5')"
                                                                                     class="focus">[5]</a> environment
                 with meshes i.e. objects that cannot be walked through. Then, we use habitat sim<a
                     onclick="focusRef('ref3')" class="focus">[3]</a> to build a simulator in which a virtual robot can
-                move. The dataset(images) used in this work is sampled from this simulator with habitat API while
-                insuring that each of them is different enough in term of
-                orientation and location.
+                move. The training dataset used in this work is made of 25000 images sampled from this simulator with
+                habitat API while
+                ensuring that each of them is different enough in terms of orientation and location.
 
                 <!--
                                 But first, are you (as a human) able to solve this task?
@@ -433,12 +451,10 @@
             <h4 style="text-align: left"> Let's see how a model performs </h4>
             <p>
                 Inspired by PoseNet <a onclick="focusRef('ref4')" class="focus">[4]</a>, we designed and trained a
-                convolutional deep learning model
-                able to regress
-                the coordinates and
-                orientation of a given RGB (color) & depth image. This model contains five CNN layers used to process
+                convolutional deep learning model able to regress the coordinates and orientation of a given RGB (color)
+                & depth image. This model contains five CNN layers used to process
                 the given images and extract features from them. Those extracted features are then given to three fully
-                connected layers which use these features to decide the location (x and y coordinates) and orientation
+                connected layers that use these features to decide the location (x and y coordinates) and orientation
                 angle.
 
             </p>
@@ -493,7 +509,7 @@
                 room this image
                 has been taken from based on predicted coordinates (the mapping from locations to rooms has been
                 determined manually). We can observe that the model is
-                quite able to distinguish rooms, with the exception of some ambiguities at the intersection of clusters.
+                quite able to distinguish rooms, except for some ambiguities at the intersection of clusters.
                 We can
                 conclude that the model properly learned to identify rooms, as long as we stay in the same simulated
                 environment.
@@ -514,7 +530,8 @@
                 <div class="salcon" style="position: absolute;left:140px;top: -2px" id="depthc">
                     <img src="" height="128" width="128" id="depthr">
 
-                    <button class="button salbt" style="margin-top: 20px;position: absolute;left:184px;top: 18%">
+                    <button class="button salbt"
+                            style="margin-top: 20px;position: absolute;left:184px;top: 18%;z-index: 999">
                         Saliency
                     </button>
                 </div>
@@ -578,8 +595,9 @@
                 Let us recall that the main objective of such a neural model is to deploy it to a real environment
                 involving observations from a real physical robot. This will result in differences with respect to the
                 simulated training environment, for instance, displaced, removed or additional objects, opened or
-                closed doors, but also low level changes like different luminosity and lighting, different focal lengths
-                and geometry of the camera and other disparities due to different physical conditions. Those differences
+                closed doors, but also low-level changes like different luminosity and lighting, different focal lengths
+                and geometry of the camera, and other disparities due to different physical conditions. Those
+                differences
                 called the reality-gap, may have a huge impact on the model's prediction despite not being particularly
                 difficult for humans.
                 As an illustration, the figure below shows two different observations
@@ -588,7 +606,7 @@
                 tend to be more yellowish and are shaded a bit differently. In addition, the
                 real camera does not have the same focal length. The two depth sensor does not have the same dynamic
                 range. This results in an important shift of values (light gray) which, if taken literally without
-                adaptation, could can be
+                adaptation, could be
                 interpreted as free navigational space ahead although obstacles are present in the scene.
 
 
@@ -640,13 +658,14 @@
                 input#1</a>, have a room shift between the kitchen and the living room in both Umap and regression.
                 However, with the same input, and a <a
                     class="interlink" onclick="selCur([-4.599999904632568,3.0999999046325684,42],'gaussian')"> gaussian
-                blur</a>, the model predicts a location closer to furniture ahead. This may be due the fact that in the
+                blur</a>, the model predicts a location closer to furniture ahead. This may be due to the fact that in
+                the
                 noisy saliency map, the focus of the model seems to be on the chair and the table as opposed to the
                 floor in the noiseless input.
                 Overvall, the biggest disturbancies are caused by the <a class="interlink"
                                                                          onclick="selCur([-2.799999952316284,4.5,94],'pepper')">
                 pepper</a>, or
-                <a class="interlink" onclick="selCur([2,-0.699999988079071,57],'edge')"> edge-enhancing </a>. ne
+                <a class="interlink" onclick="selCur([2,-0.699999988079071,57],'edge')"> edge-enhancing </a>. The
                 hypothesis we came up with is that the model heavily relies on the depth channel, which is most impacted
                 by those noises, for its decisions.
                 As we can see below, most of the model's predictions are far from where they were sampled.
@@ -745,13 +764,13 @@
             <h4 style="text-align: left"> Domain Randomization to the rescue</h4>
 
             <p>
-                A standard technique to tackle these an issues, is Domain Randomization <a onclick="focusRef('ref2')"
-                                                                                           class="focus">[2]</a>.
-                It consist in modifying high level parameters of the simulator in order to force the agent to adapt to
+                A standard technique to tackle these issues is Domain Randomization <a onclick="focusRef('ref2')"
+                                                                                       class="focus">[2]</a>.
+                It consists of modifying high-level parameters of the simulator in order to force the agent to adapt to
                 those changes and thus learn invariant
                 features. The changes in the simulator can take many forms, such as visual data augmentation (e.g.
-                gaussian noise, lighting, textures, colors balance) or changes on the simulator itself (e.g. camera
-                position, orientation or field of view). Those
+                Gaussian noise, lighting, textures, colors balance) or changes on the simulator itself (e.g. camera
+                position, orientation, or field of view). Those
                 changes are applied during the training phase of the agent, and as we observe below this improves the
                 performances of the neural model on unseen simulated images and "real" images.
             </p>
@@ -793,8 +812,8 @@
                     <!--                                        <img class="play" id="play3" style="width: 29px;position: absolute;left: 290px;top:40px"-->
                     <!--                                             src="assets/play-sign.svg">-->
 
-                    <div style="position: absolute;left: 20%;top:52px;">
-                        <div style="display: inline-block;margin-right: 20px;text-align: center">
+                    <div style="position: absolute;left: 5%;top:52px; text-align: center">
+                        <div style="display: inline-block;margin-right: 20px;margin-top: -20px;text-align: center">
                             <label for="noisel3">Noise</label>
                             <select class="" id="noisel3">
                                 <option value="gaussian">Gaussian</option>
@@ -807,10 +826,15 @@
                         </div>
 
                         <div style="display: inline-block;text-align: center">
-                            <label for="timeline3"> Selection of Input</label>
-                            <input id="timeline3" type="range" min="0" max="57" step="1" value="0"
-                                   style="width: 450px">
-                            <p id="timelineTxt3" style="display: inline-block;margin-left: 10px"> 0 </p>
+                            <label> Selection of Input</label>
+                            <div id="simFlat">
+
+                            </div>
+
+
+                            <!--                            <input id="timeline3" type="range" min="0" max="57" step="1" value="0"-->
+                            <!--                                   style="width: 450px">-->
+                            <!--                            <p id="timelineTxt3" style="display: inline-block;margin-left: 10px"> 0 </p>-->
                         </div>
                     </div>
                 </div>
@@ -862,7 +886,29 @@
                 <h4 style="text-align: left"> What about Real Images?</h4>
             </div>
 
-            <div> image band</div>
+            <div style="margin-bottom: 60px">
+                In the figure below, we can explore how the two models handle real data. We
+                selected four real images in different rooms. Those images can be selected by hovering their respective
+                icons on the left side of the screen. We can see that without domain randomization, the model predicted
+                impossible positions i.e. in dark gray colors. With domain randomization, the model is slightly more
+                accurate than before, the model is able to avoid any prediction in impossible areas. Despite such
+                results, those predictions are still not close enough to ground truth (represented in green), and in the
+                case of the bedroom (bottom left image), even the best prediction is in the wrong room.
+
+                <br><br>
+                As mentioned earlier, the two depth sensors (from simulation and reality) does not have the same
+                dynamic
+                range. As a result, real
+                images have important value shifts that can be interpreted as free navigational space. And as we
+                observed during sim2sim transfer, the initial model heavily relies on the depth sensor for its
+                predictions. To tackle such an issue, in the following we adapt real images from the depth sensor, and
+                linearly re-scale its values from left (untouched) to right (20% of original values). We can explore the
+                different re-scaling by hovering the corresponding images in the figure below. Even without domain
+                randomization, the best results are achieved while the real depth sensor range is shifted down to 60% of
+                its values.
+
+
+            </div>
 
         </div>
 
@@ -873,7 +919,7 @@
 
         <div class="two columns" style="">
 
-            <div>
+            <div style="margin-top: -20px">
                 <label for="switchgb">Domain Randomization</label>
                 <input type="range" min="0" max="1" step="" id="switchgb" style="width: 70px" value="0">
             </div>
@@ -889,9 +935,10 @@
         </div>
 
         <div class="ten columns" style="display: inline-block">
-            <div id="depthCont">
+            <div style="width: 100%;height: 20px"></div>
+            <div id="depthCont" style="margin-top: 40px">
                 <img id="realRGB" src="assets/images/real/real31/rgb31.jpg" class="realShow"
-                     style="border: solid steelblue 3px">
+                     style="border: solid red 3px">
                 <img src="assets/images/real/real31/depth31.jpg" class="realShow realdepth selectedDepth" num="0">
                 <img src="assets/images/real/real31/ptha_4.jpg" class="realShow realdepth" num="1">
                 <img src="assets/images/real/real31/ptha_3.jpg" class="realShow realdepth" num="2">
@@ -1286,25 +1333,95 @@
         hacl = !hacl
     }
 
+    // .attr("fill", (d) => colscale(euclidian_dist([loc_xscacle(d.lx1), loc_yscacle(d.ly1)], [loc_xscacle(d.lx2), loc_yscacle(d.ly2)])))
 
     function drawRealDots(data, id) {
 
         loc_xscacle = d3.scaleLinear(simW, [10, 500]);
         loc_yscacle = d3.scaleLinear(simH, [10, 350]);
         let sv = d3.select("#locReal")
+        let sv2 = d3.select("#projReal")
 
-        sv.selectAll(".realDots").remove();
+        sv.selectAll("path").remove();
+        sv2.selectAll("circle").remove();
 
         sv.selectAll(".realDots")
-            .data(data)
+            .data(data.filter(d => d.id < 5))
+            .enter()
+            .append("path")
+            .attr("fill", "red")
+            .attr("class", "realDots")
+            .attr("id", d => d.id)
+            .attr("d", "m 20 20 a -6 6 7 0 1 14 0 l -7 23 l -7 -23")
+            .attr("stroke", "#555555")
+            .style("stroke-width", "1px")
+            .style("opacity", c => c.id == id ? 1 : 0.3)
+            .attr("transform", d => {
+                const orr2 = (-180 + d.lorr)
+                return "rotate(" + (orr2) + " " + (loc_xscacle(d.lx) - 2) + " " + (loc_yscacle(d.ly) - 2) + ") translate(" + (loc_xscacle(d.lx) - 21.5) + "," + (loc_yscacle(d.ly) - 24.5) + ")  scale(0.8) "
+            })
+
+
+        let gt = data.filter(d => d.id == 5)[0]
+
+
+        sv.append("path")
+            .attr("fill", "green")
+            .attr("d", "m 20 20 a -6 6 7 0 1 14 0 l -7 23 l -7 -23")
+            .attr("stroke", "#555555")
+            .style("stroke-width", "1px")
+            .attr("transform", d => {
+                const orr2 = (-180 + gt.lorr)
+                return "rotate(" + (orr2) + " " + (loc_xscacle(gt.lx) - 2) + " " + (loc_yscacle(gt.ly) - 2) + ") translate(" + (loc_xscacle(gt.lx) - 21.5) + "," + (loc_yscacle(gt.ly) - 24.5) + ")  scale(0.8) "
+            })
+
+
+        sv2.selectAll(".realDots")
+            .data(data.filter(d => d.id < 5))
             .enter()
             .append("circle")
+            .attr("fill", "red")
             .attr("class", "realDots")
-            .attr("cx", c => loc_xscacle(c.lx))
-            .attr("cy", c => loc_yscacle(c.ly))
+            .attr("cx", d => proj_xscacle(d.px))
+            .attr("cy", d => proj_yscacle(d.py))
+            .attr("stroke", "#555555")
+            .style("stroke-width", "1px")
             .style("opacity", c => c.id == id ? 1 : 0.3)
             .attr("r", 8)
-            .attr("fill", "red")
+    }
+
+
+    fillFlat(16);
+
+
+    $("#simFlat").on("mouseover", "img", function () {
+
+        $(".selectedSimFlat").toggleClass("selectedSimFlat");
+
+        $(this).toggleClass("selectedSimFlat");
+        curStep2 = $(this).attr("num");
+        curNoise2 = $("#noisel3").val();
+        selCur2(seldat[curStep2], curNoise2)
+
+
+    });
+
+
+    function fillFlat(nb) {
+
+        let elem = $("#simFlat")
+
+        for (let i = 0; i < nb; i++) {
+
+            if (i === 0) {
+                elem.append("<img src='assets/images/sim/sim" + i + ".jpeg' class='simFlatImg selectedSimFlat' num='" + i + "' >")
+            } else {
+                elem.append("<img src='assets/images/sim/sim" + i + ".jpeg' class='simFlatImg' num='" + i + "'>")
+            }
+
+        }
+
+
     }
 
     $("#switchgb").on("input", function f() {
@@ -1421,12 +1538,53 @@
     $("#realRgbFlat").on("mouseover", "img", function (e) {
 
 
-        $(".rgbFlatSel").toggleClass("rgbFlatSel")
-        let elem = $(this);
-        elem.toggleClass("rgbFlatSel")
+            $(".rgbFlatSel").toggleClass("rgbFlatSel")
+            let elem = $(this);
+            elem.toggleClass("rgbFlatSel")
 
-        updateImgs(elem.attr("num"))
-    });
+            updateImgs(elem.attr("num"))
+
+
+            realSel = elem.attr("num")
+
+
+            if (gb_switch) {
+
+                if (good_real[realSel] === undefined) {
+                    d3.json("datasets/nreal/good_real" + realSel + ".json").then(function (d) {
+
+
+                        good_real[realSel] = d
+
+                        drawRealDots(d, $(".selectedDepth").attr("num"))
+
+
+                    })
+                } else {
+                    drawRealDots(good_real[realSel], $(".selectedDepth").attr("num"))
+                }
+
+
+            } else {
+
+
+                if (bad_real[realSel] === undefined) {
+                    d3.json("datasets/nreal/bad_real" + realSel + ".json").then(function (d) {
+
+
+                        bad_real[realSel] = d
+
+                        drawRealDots(d, $(".selectedDepth").attr("num"))
+
+
+                    })
+                } else {
+                    drawRealDots(bad_real[realSel], $(".selectedDepth").attr("num"))
+                }
+
+            }
+        }
+    );
 
 
     function updateImgs(id) {
@@ -1444,7 +1602,7 @@
                 if (nb == 0) {
                     img.attr("src", "assets/images/real/real" + id + "/depth" + id + ".jpg")
                 } else {
-                    img.attr("src", "assets/images/real/real" + id + "/ptha_" + (5-nb) + ".jpg")
+                    img.attr("src", "assets/images/real/real" + id + "/ptha_" + (5 - nb) + ".jpg")
                 }
             }
         })
@@ -1466,8 +1624,8 @@
         let svg = d3.select("#locReal")
 
 
-        svg.selectAll(".realDots").style("opacity", 0.3);
-        svg.selectAll(".realDots").filter(d => d.id == celeri).style("opacity", 1);
+        d3.selectAll(".realDots").style("opacity", 0.3);
+        d3.selectAll(".realDots").filter(d => d.id == celeri).style("opacity", 1);
 
 
         // svg.append("circle")
@@ -1536,8 +1694,8 @@
             avgDist2 += scScale(900 - euclidian_dist([tx, ty], [pred_tx, pred_ty])) + aiAngle
 
 
-            $("#avgDist").html(Math.round(avgDist / nguess));
-            $("#avgDist2").html(Math.round(avgDist2 / nguess));
+            $("#avgDist").html(Math.round(avgDist / nguess) + " / 100");
+            $("#avgDist2").html(Math.round(avgDist2 / nguess) + " / 100");
 
             ty -= 33;
             tsvg.append("path")
