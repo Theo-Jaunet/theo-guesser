@@ -30,6 +30,22 @@
     <script src="assets/js/projector.js"></script>
     <script src="assets/js/local.js"></script>
     <style>
+
+
+        .selectedDepth {
+
+
+            border: solid steelblue 3px !important;
+        }
+
+
+        .realShow {
+
+
+            border: solid #fff 3px;
+        }
+
+
         path {
 
             /*opacity: 0.8;*/
@@ -211,13 +227,37 @@
 
         .realShow {
 
-            width: 126px;
+            width: 142px;
+            margin: 0;
 
 
         }
 
         #def p {
 
+
+        }
+
+        #realRgbFlat {
+            padding: 3px;
+            /*width: fit-content;*/
+
+
+            width: 112px;
+            height: 112px;
+        }
+
+        #realRgbFlat img {
+
+            border: solid 2px #fff;
+            width: 45px;
+            opacity: 0.6;
+        }
+
+        .rgbFlatSel {
+
+            opacity: 1 !important;
+            border: solid 2px red !important;
 
         }
 
@@ -535,7 +575,6 @@
         <div class="twelve column" style="margin-top: 10%">
             <h4 style="text-align: left"> Such a model is quite noise sensitive.. </h4>
             <p>
-
                 Let us recall that the main objective of such a neural model is to deploy it to a real environment
                 involving observations from a real physical robot. This will result in differences with respect to the
                 simulated training environment, for instance, displaced, removed or additional objects, opened or
@@ -832,24 +871,36 @@
 
     <div class="row">
 
-        <div class="three columns" style="">
+        <div class="two columns" style="">
 
             <div>
-                <input type="range" min="0" max="1" step="">
-                Controls
+                <label for="switchgb">Domain Randomization</label>
+                <input type="range" min="0" max="1" step="" id="switchgb" style="width: 70px" value="0">
+            </div>
 
+            <div style="border: solid 1px #555555" id="realRgbFlat">
+                <img src="assets/images/real/real31/rgb31.jpg" class="rgbFlatSel" num="31">
+                <img src="assets/images/real/real34/rgb34.jpg" num="34">
+                <img src="assets/images/real/real8/rgb8.jpg" num="8">
+                <img src="assets/images/real/real46/rgb46.jpg" num="46">
 
             </div>
 
         </div>
 
-        <div class="nine columns" style="display: inline-block">
-            <img src="assets/images/real/real31/rgb31.jpg" class="realShow">
-            <img src="assets/images/real/real31/depth31.jpg" class="realShow">
-            <img src="assets/images/real/real31/ptha_4.jpg" class="realShow">
-            <img src="assets/images/real/real31/ptha_3.jpg" class="realShow">
-            <img src="assets/images/real/real31/ptha_2.jpg" class="realShow">
-            <img src="assets/images/real/real31/ptha_1.jpg" class="realShow">
+        <div class="ten columns" style="display: inline-block">
+            <div id="depthCont">
+                <img id="realRGB" src="assets/images/real/real31/rgb31.jpg" class="realShow"
+                     style="border: solid steelblue 3px">
+                <img src="assets/images/real/real31/depth31.jpg" class="realShow realdepth selectedDepth" num="0">
+                <img src="assets/images/real/real31/ptha_4.jpg" class="realShow realdepth" num="1">
+                <img src="assets/images/real/real31/ptha_3.jpg" class="realShow realdepth" num="2">
+                <img src="assets/images/real/real31/ptha_2.jpg" class="realShow realdepth" num="3">
+                <img src="assets/images/real/real31/ptha_1.jpg" class="realShow realdepth" num="4">
+            </div>
+            <svg style="display: block;width: 100%;height: 10px">
+
+            </svg>
         </div>
 
 
@@ -865,7 +916,7 @@
             </div>
             <div class="six columns" style="margin-top: 3%;height: 100%;vertical-align: center;position: relative">
                 <!--                <img style="border: none;width: 24px;position: absolute;top:30%" src="assets/images/icons/inter.png">-->
-                <svg id="locReal" style="width: 100%;height: 370px;     border: none;margin-top: 160px"></svg>
+                <svg id="locReal" style="width: 100%;height: 370px;  border: none;margin-top: 160px"></svg>
             </div>
 
         </div>
@@ -1143,6 +1194,13 @@
     let endOrr = 0
 
 
+    let celeri = 0;
+
+    let realSel = 31
+
+    let gb_switch = false;
+
+
     let definitions = [
         {
             text: "In our case, an ego-centric image is an image sampled from the robot's point of view.",
@@ -1195,6 +1253,9 @@
 
     let salop = false;
 
+    let bad_real = {};
+    let good_real = {};
+
     const proj = d3.select("#proj");
     const loc = d3.select("#loc");
 
@@ -1226,9 +1287,86 @@
     }
 
 
+    function drawRealDots(data, id) {
+
+        loc_xscacle = d3.scaleLinear(simW, [10, 500]);
+        loc_yscacle = d3.scaleLinear(simH, [10, 350]);
+        let sv = d3.select("#locReal")
+
+        sv.selectAll(".realDots").remove();
+
+        sv.selectAll(".realDots")
+            .data(data)
+            .enter()
+            .append("circle")
+            .attr("class", "realDots")
+            .attr("cx", c => loc_xscacle(c.lx))
+            .attr("cy", c => loc_yscacle(c.ly))
+            .style("opacity", c => c.id == id ? 1 : 0.3)
+            .attr("r", 8)
+            .attr("fill", "red")
+    }
+
+    $("#switchgb").on("input", function f() {
+
+
+        let elem = $(this)
+
+
+        gb_switch = (elem.val() == 1)
+
+        if (gb_switch) {
+
+            if (good_real[realSel] === undefined) {
+                d3.json("datasets/nreal/good_real" + realSel + ".json").then(function (d) {
+
+
+                    good_real[realSel] = d
+
+                    drawRealDots(d, $(".selectedDepth").attr("num"))
+
+
+                })
+            } else {
+                drawRealDots(good_real[realSel], $(".selectedDepth").attr("num"))
+            }
+
+            elem.css('background-image',
+                '-webkit-gradient(linear, left top, right top, '
+                + 'color-stop(' + 1 + ', #233E34), '
+                + 'color-stop(' + 1 + ', #C5C5C5)'
+                + ')'
+            );
+
+        } else {
+
+
+            if (bad_real[realSel] === undefined) {
+                d3.json("datasets/nreal/bad_real" + realSel + ".json").then(function (d) {
+
+
+                    bad_real[realSel] = d
+
+                    drawRealDots(d, $(".selectedDepth").attr("num"))
+
+
+                })
+            } else {
+                drawRealDots(bad_real[realSel], $(".selectedDepth").attr("num"))
+            }
+
+            elem.css('background-image',
+                '-webkit-gradient(linear, left top, right top, '
+                + 'color-stop(' + 0 + ', #233E34), '
+                + 'color-stop(' + 0 + ', #C5C5C5)'
+                + ')'
+            );
+        }
+    })
+
     $(".salbt").on("click", function () {
 
-        salop = !salop
+        salop = !salop;
 
         if (!salop) {
 
@@ -1278,6 +1416,69 @@
         }
         return {top: _y, left: _x};
     }
+
+
+    $("#realRgbFlat").on("mouseover", "img", function (e) {
+
+
+        $(".rgbFlatSel").toggleClass("rgbFlatSel")
+        let elem = $(this);
+        elem.toggleClass("rgbFlatSel")
+
+        updateImgs(elem.attr("num"))
+    });
+
+
+    function updateImgs(id) {
+
+
+        $("#realRGB").attr("src", "assets/images/real/real" + id + "/rgb" + id + ".jpg")
+
+        let cont = $("#depthCont img")
+
+        cont.each(function (d) {
+            let img = $(this);
+            let nb = img.attr("num")
+            if (nb !== undefined) {
+
+                if (nb == 0) {
+                    img.attr("src", "assets/images/real/real" + id + "/depth" + id + ".jpg")
+                } else {
+                    img.attr("src", "assets/images/real/real" + id + "/ptha_" + (5-nb) + ".jpg")
+                }
+            }
+        })
+
+
+    }
+
+    $(".realdepth").on("mouseover", function (e) {
+
+
+        $(".selectedDepth").toggleClass("selectedDepth")
+
+        let elem = $(this);
+
+        celeri = $(this).attr("num")
+        elem.toggleClass("selectedDepth")
+
+
+        let svg = d3.select("#locReal")
+
+
+        svg.selectAll(".realDots").style("opacity", 0.3);
+        svg.selectAll(".realDots").filter(d => d.id == celeri).style("opacity", 1);
+
+
+        // svg.append("circle")
+        //     .data(bad_real.filter(c => c.id == celeri))
+        //     .attr("cx", c => loc_xscacle(c.lx))
+        //     .attr("cy", c => loc_yscacle(c.ly))
+        //     .attr("r", 8)
+        //     .attr("fill", "red")
+
+
+    })
 
 
     $("#guesser").on("click", function () {
@@ -2329,7 +2530,7 @@
                 elements5 = proj3.selectAll(".projDot");
                 elements6 = loc3.selectAll(".locDot");
 
-                selit2(id)
+                selit2(id);
 
                 $("#timeline3").attr("max", dato3.length - 1)
 
@@ -2548,6 +2749,16 @@
 
 
     });
+
+    d3.json("datasets/nreal/bad_real" + realSel + ".json").then(function (d) {
+
+
+        bad_real[realSel] = d;
+
+
+        drawRealDots(d, 0)
+
+    })
 
 
     // debugInit();

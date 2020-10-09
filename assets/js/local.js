@@ -75,6 +75,9 @@ function drawElementsBad(data, svg) {
     */
 
 
+
+
+
     loadmap(svg, 'assets/images/map.jpg');
 
 }
