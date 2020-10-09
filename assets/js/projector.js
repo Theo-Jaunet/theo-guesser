@@ -55,22 +55,35 @@ function drawPoints(data, svg) {
     // console.log(d3.extent(data.map(d => d.py1)));
     // console.log(data.map(d => d.py1));
 
+
     svg.selectAll(".projDot")
         .data(data)
         .enter()
-        .append("path")
+        .append("circle")
         .attr("class", "projDot")
-        .attr("num", d => d.id)
-        .attr("fill", (d) => colscale(euclidian_dist([proj_xscacle(d.px1), proj_yscacle(d.py1)], [proj_xscacle(d.px2), proj_yscacle(d.py2)])))
-        .attr("d", "m 20 20 a -6 6 7 0 1 14 0 l -7 23 l -7 -23")
-        .attr("stroke", "#555555")
+        .attr("cx", d => proj_xscacle(d.px1))
+        .attr("cy", d => proj_yscacle(d.py1))
+        .attr("r", "8")
+        .attr("fill", (d) => colscale(euclidian_dist([loc_xscacle(d.lx1), loc_yscacle(d.ly1)], [loc_xscacle(d.lx2), loc_yscacle(d.ly2)])))
+        .attr("stroke", "black")
         .style("stroke-width", "1px")
-        .attr("transform", d => {
-            const orr = -90 + (Math.atan2(proj_yscacle(d.py2) - proj_yscacle(d.py1), proj_xscacle(d.px2) - proj_xscacle(d.px1)) * (180 / Math.PI));
-            return "rotate(" + (orr) + " " + (proj_xscacle(d.px1) - 2.5) + " " + (proj_yscacle(d.py1) - 2.5) + ") translate(" + (proj_xscacle(d.px1) - 24.5) + "," + (proj_yscacle(d.py1) - 21.5) + ")  scale(0.8)"
 
-            // return "rotate(" + (orr2) + " " + (loc_xscacle(d.lx1) - 2.5) + " " + (loc_yscacle(d.ly1) - 2.5) + ") translate(" + (loc_xscacle(d.lx1) - 24.5) + "," + (loc_yscacle(d.ly1) - 21.5) + ")  scale(0.8) "
-        })
+    /*   svg.selectAll(".projDot")
+           .data(data)
+           .enter()
+           .append("path")
+           .attr("class", "projDot")
+           .attr("num", d => d.id)
+           .attr("fill", (d) => colscale(euclidian_dist([proj_xscacle(d.px1), proj_yscacle(d.py1)], [proj_xscacle(d.px2), proj_yscacle(d.py2)])))
+           .attr("d", "m 20 20 a -6 6 7 0 1 14 0 l -7 23 l -7 -23")
+           .attr("stroke", "#555555")
+           .style("stroke-width", "1px")
+           .attr("transform", d => {
+               const orr = -90 + (Math.atan2(proj_yscacle(d.py2) - proj_yscacle(d.py1), proj_xscacle(d.px2) - proj_xscacle(d.px1)) * (180 / Math.PI));
+               return "rotate(" + (orr) + " " + (proj_xscacle(d.px1) - 2.5) + " " + (proj_yscacle(d.py1) - 2.5) + ") translate(" + (proj_xscacle(d.px1) - 24.5) + "," + (proj_yscacle(d.py1) - 21.5) + ")  scale(0.8)"
+
+               // return "rotate(" + (orr2) + " " + (loc_xscacle(d.lx1) - 2.5) + " " + (loc_yscacle(d.ly1) - 2.5) + ") translate(" + (loc_xscacle(d.lx1) - 24.5) + "," + (loc_yscacle(d.ly1) - 21.5) + ")  scale(0.8) "
+           })*/
 
 
     /*  svg.selectAll("rect")

@@ -3133,13 +3133,26 @@
                     const orr = -90 + (Math.atan2(proj_yscacle(d.py1) - proj_yscacle(d.py2), proj_xscacle(d.px1) - proj_xscacle(d.px2)) * (180 / Math.PI));
                     const orr2 = -180 + d.lorr2
 
-                    proj.append("path")
+
+                    proj.append("circle")
                         .attr("class", "tbrm")
-                        // .style("transform-origin", "50% 50%")
+                        .attr("cx", proj_xscacle(d.px2))
+                        .attr("cy", proj_yscacle(d.py2))
                         .attr("num", d.id)
                         .attr("fill", "steelblue")
-                        .attr("d", "m 20 20 a -6 6 7 0 1 14 0 l -7 23 l -7 -23")
-                        .attr("transform", "rotate(" + (orr) + " " + (proj_xscacle(d.px2) - 2.5) + " " + (proj_yscacle(d.py2) - 2.5) + ") translate(" + (proj_xscacle(d.px2) - 24.5) + "," + (proj_yscacle(d.py2) - 21.5) + ")  scale(0.8) ")
+                        .attr("r", "8")
+                        .attr("stroke", "black")
+                        .style("stroke-width", "1px")
+
+                    /*
+                                        proj.append("path")
+                                            .attr("class", "tbrm")
+                                            // .style("transform-origin", "50% 50%")
+                                            .attr("num", d.id)
+                                            .attr("fill", "steelblue")
+                                            .attr("d", "m 20 20 a -6 6 7 0 1 14 0 l -7 23 l -7 -23")
+                                            .attr("transform", "rotate(" + (orr) + " " + (proj_xscacle(d.px2) - 2.5) + " " + (proj_yscacle(d.py2) - 2.5) + ") translate(" + (proj_xscacle(d.px2) - 24.5) + "," + (proj_yscacle(d.py2) - 21.5) + ")  scale(0.8) ")
+                    */
 
                     loc.append("path")
                         .attr("class", "tbrm")
@@ -3161,7 +3174,7 @@
                         .attr("x2", proj_xscacle(d.px2))
                         .attr("y2", proj_yscacle(d.py2))
                         .attr('stroke', 'steelblue')
-                        .style('stroke-width', '3px')
+                        .style('stroke-width', '4px')
 
                     let totalLength = tpath.node().getTotalLength();
 
@@ -3180,7 +3193,7 @@
                         .attr("x2", loc_xscacle(d.lx2))
                         .attr("y2", loc_yscacle(d.ly2))
                         .attr('stroke', 'steelblue')
-                        .style('stroke-width', '3px')
+                        .style('stroke-width', '4px')
 
                     let totalLength2 = tpath2.node().getTotalLength();
 
@@ -3344,7 +3357,7 @@
 
         elements.filter(d => {
             return euclidian_dist([proj_xscacle(d.px1), proj_yscacle(d.py1)], coords) > 24
-        }).transition().attr("fill", (d) => colscale(euclidian_dist([proj_xscacle(d.px1), proj_yscacle(d.py1)], [proj_xscacle(d.px2), proj_yscacle(d.py2)])))
+        }).transition().duration(5).attr("fill", (d) => colscale(euclidian_dist([loc_xscacle(d.lx1), loc_yscacle(d.ly1)], [loc_xscacle(d.lx2), loc_yscacle(d.ly2)])))
 
 
         elements.each((d) => {
@@ -3359,13 +3372,26 @@
 
                     // proj.append("rect").attr("x",proj_xscacle(d.px2)).attr("y",proj_yscacle(d.py2)).attr("width",10).attr("height",10)
 
-                    proj.append("path")
+
+                    proj.append("circle")
                         .attr("class", "tbrm")
-                        // .style("transform-origin", "50% 50%")
+                        .attr("cx", proj_xscacle(d.px2))
+                        .attr("cy", proj_yscacle(d.py2))
                         .attr("num", d.id)
                         .attr("fill", "steelblue")
-                        .attr("d", "m 20 20 a -6 6 7 0 1 14 0 l -7 23 l -7 -23")
-                        .attr("transform", "rotate(" + (orr) + " " + (proj_xscacle(d.px2) - 2.5) + " " + (proj_yscacle(d.py2) - 2.5) + ") translate(" + (proj_xscacle(d.px2) - 24.5) + "," + (proj_yscacle(d.py2) - 21.5) + ")  scale(0.8) ")
+                        .attr("r", "8")
+                        .attr("stroke", "black")
+                        .style("stroke-width", "1px")
+
+                    /*
+                                        proj.append("path")
+                                            .attr("class", "tbrm")
+                                            // .style("transform-origin", "50% 50%")
+                                            .attr("num", d.id)
+                                            .attr("fill", "steelblue")
+                                            .attr("d", "m 20 20 a -6 6 7 0 1 14 0 l -7 23 l -7 -23")
+                                            .attr("transform", "rotate(" + (orr) + " " + (proj_xscacle(d.px2) - 2.5) + " " + (proj_yscacle(d.py2) - 2.5) + ") translate(" + (proj_xscacle(d.px2) - 24.5) + "," + (proj_yscacle(d.py2) - 21.5) + ")  scale(0.8) ")
+                    */
 
                     loc.append("path")
                         .attr("class", "tbrm")
@@ -3388,7 +3414,7 @@
                         .attr("x2", proj_xscacle(d.px2))
                         .attr("y2", proj_yscacle(d.py2))
                         .attr('stroke', 'steelblue')
-                        .style('stroke-width', '3px');
+                        .style('stroke-width', '4px');
 
                     let totalLength = tpath.node().getTotalLength();
 
@@ -3407,7 +3433,7 @@
                         .attr("x2", loc_xscacle(d.lx2))
                         .attr("y2", loc_yscacle(d.ly2))
                         .attr('stroke', 'steelblue')
-                        .style('stroke-width', '3px')
+                        .style('stroke-width', '4px')
 
                     let totalLength2 = tpath2.node().getTotalLength();
 
