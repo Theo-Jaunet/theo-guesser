@@ -1379,7 +1379,8 @@
             .attr("d", "m 20 20 a -6 6 7 0 1 14 0 l -7 23 l -7 -23")
             .attr("stroke", "black")
             .style("stroke-width", "1px")
-            .style("opacity", c => c.id == id ? 1 : 0.3)
+            .style("opacity", c => c.id == id ? 1 : 0.6)
+            .attr("fill", c => c.id == id ? "purple" : "red")
             .attr("transform", d => {
                 const orr2 = (-180 + d.lorr)
                 return "rotate(" + (orr2) + " " + (loc_xscacle(d.lx) - 2) + " " + (loc_yscacle(d.ly) - 2) + ") translate(" + (loc_xscacle(d.lx) - 21.5) + "," + (loc_yscacle(d.ly) - 24.5) + ")  scale(0.8) "
@@ -1404,13 +1405,13 @@
             .data(data.filter(d => d.id < 5))
             .enter()
             .append("circle")
-            .attr("fill", "red")
             .attr("class", "realDots")
             .attr("cx", d => proj_xscacle(d.px))
             .attr("cy", d => proj_yscacle(d.py))
             .attr("stroke", "black")
             .style("stroke-width", "1px")
-            .style("opacity", c => c.id == id ? 1 : 0.3)
+            .style("opacity", c => c.id == id ? 1 : 0.6)
+            .attr("fill", c => c.id == id ? "purple" : "red")
             .attr("r", 8)
     }
 
@@ -1648,8 +1649,8 @@
         let svg = d3.select("#locReal")
 
 
-        d3.selectAll(".realDots").style("opacity", 0.3);
-        d3.selectAll(".realDots").filter(d => d.id == celeri).style("opacity", 1);
+        d3.selectAll(".realDots").style("opacity", 0.6).attr("fill", "red");
+        d3.selectAll(".realDots").filter(d => d.id == celeri).style("opacity", 1).attr("fill", "purple");
 
 
         // svg.append("circle")
@@ -2251,9 +2252,10 @@
             .attr("stroke-width", "1px").attr('fill', 'purple')
 
 
-        pelem.attr("transform", d => {
-            const orr = -90 + (Math.atan2(proj_yscacle(d.py2) - proj_yscacle(d.py1), proj_xscacle(d.px2) - proj_xscacle(d.px1)) * (180 / Math.PI));
-            return "rotate(" + (orr) + " " + (proj_xscacle(d.px2) - 2) + " " + (proj_yscacle(d.py2) - 2) + ") translate(" + (proj_xscacle(d.px2) - 16) + "," + (proj_yscacle(d.py2) - 16) + ")  scale(0.5) "
+        pelem.attr("r", d => {
+            // const orr = -90 + (Math.atan2(proj_yscacle(d.py2) - proj_yscacle(d.py1), proj_xscacle(d.px2) - proj_xscacle(d.px1)) * (180 / Math.PI));
+            // return "rotate(" + (orr) + " " + (proj_xscacle(d.px2) - 2) + " " + (proj_yscacle(d.py2) - 2) + ") translate(" + (proj_xscacle(d.px2) - 16) + "," + (proj_yscacle(d.py2) - 16) + ")  scale(1) "
+        return "12"
         })
     }
 
@@ -2262,7 +2264,7 @@
         if (noise === curNoise) {
 
 
-            proj2.selectAll("path").remove();
+            proj2.selectAll(".projDot").remove();
             proj2.selectAll("line").remove();
             loc2.selectAll("path").remove();
             loc2.selectAll("line").remove();
@@ -2283,7 +2285,7 @@
             getData1("datasets/bad/try" + "_" + curNoise + ".json").then(function () {
 
 
-                proj2.selectAll("path").remove();
+                proj2.selectAll(".projDot").remove();
                 proj2.selectAll("line").remove();
                 loc2.selectAll("path").remove();
                 loc2.selectAll("line").remove();
@@ -2673,16 +2675,17 @@
             .attr("stroke-width", "1px").attr('fill', 'purple')
 
 
-        pelem.attr("transform", d => {
-            const orr = -90 + (Math.atan2(proj_yscacle(d.py2) - proj_yscacle(d.py1), proj_xscacle(d.px2) - proj_xscacle(d.px1)) * (180 / Math.PI));
-            return "rotate(" + (orr) + " " + (proj_xscacle(d.px2) - 2) + " " + (proj_yscacle(d.py2) - 2) + ") translate(" + (proj_xscacle(d.px2) - 16) + "," + (proj_yscacle(d.py2) - 16) + ")  scale(0.5) "
+        pelem.attr("r", d => {
+            // const orr = -90 + (Math.atan2(proj_yscacle(d.py2) - proj_yscacle(d.py1), proj_xscacle(d.px2) - proj_xscacle(d.px1)) * (180 / Math.PI));
+            // return "rotate(" + (orr) + " " + (proj_xscacle(d.px2) - 2) + " " + (proj_yscacle(d.py2) - 2) + ") translate(" + (proj_xscacle(d.px2) - 16) + "," + (proj_yscacle(d.py2) - 16) + ")  scale(1) "
+            return "12"
         })
     }
 
     function selCur2(id, noise) {
 
         if (noise === curNoise2) {
-            proj3.selectAll("path").remove();
+            proj3.selectAll(".projDot").remove();
             proj3.selectAll("line").remove();
             loc3.selectAll("path").remove();
             loc3.selectAll("line").remove();
@@ -2700,7 +2703,7 @@
             getData2("datasets/good/try2" + "_" + curNoise2 + ".json").then(function () {
 
 
-                proj3.selectAll("path").remove();
+                proj3.selectAll(".projDot").remove();
                 proj3.selectAll("line").remove();
                 loc3.selectAll("path").remove();
                 loc3.selectAll("line").remove();
