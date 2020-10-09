@@ -32,6 +32,10 @@
     <style>
 
 
+        .realdepth {
+            opacity: 0.7;
+        }
+
         .selectedSimFlat {
             border: solid red 2px !important;
             opacity: 1 !important;
@@ -782,7 +786,7 @@
             </p>
 
             <div class="row">
-                <div class="twelve columns" style="margin-top: -5.5%;position: relative;height: 130px">
+                <div class="twelve columns" style="margin-top: -2.5%;position: relative;height: 130px">
                     <div style="position: relative;margin-top: 2%;text-decoration: #555555 underline;text-align: center;margin-bottom: -10px">
                         <p style="position: absolute;right:348px ;top:120px;width: 100px;text-anchor: middle">
                             Simulator</p>
@@ -812,8 +816,8 @@
                     <!--                                        <img class="play" id="play3" style="width: 29px;position: absolute;left: 290px;top:40px"-->
                     <!--                                             src="assets/play-sign.svg">-->
 
-                    <div style="position: absolute;left: 5%;top:52px; text-align: center">
-                        <div style="display: inline-block;margin-right: 20px;margin-top: -20px;text-align: center">
+                    <div style="position: absolute;left: 5%;top:16px; text-align: center;margin-bottom: 20px">
+                        <div style="display: inline-block;margin-right: 20px;margin-top: -20px;text-align: center;position: relative;top:-18px">
                             <label for="noisel3">Noise</label>
                             <select class="" id="noisel3">
                                 <option value="gaussian">Gaussian</option>
@@ -844,7 +848,7 @@
     </div>
 
 
-    <div class="row">
+    <div class="row" >
         <div class="six columns" style="margin-top: 3%">
             <div style="width: 100%;height: 532px;background-image: url('assets/bg.png');background-size: cover;">
                 <div style="width: 100%;height: 532px;background-color:rgba(254,254,254,0.4);">
@@ -938,7 +942,7 @@
             <div style="width: 100%;height: 20px"></div>
             <div id="depthCont" style="margin-top: 40px">
                 <img id="realRGB" src="assets/images/real/real31/rgb31.jpg" class="realShow"
-                     style="border: solid red 3px">
+                     style="border: solid red 3px; opacity: 1!important;">
                 <img src="assets/images/real/real31/depth31.jpg" class="realShow realdepth selectedDepth" num="0">
                 <img src="assets/images/real/real31/ptha_4.jpg" class="realShow realdepth" num="1">
                 <img src="assets/images/real/real31/ptha_3.jpg" class="realShow realdepth" num="2">
@@ -971,7 +975,7 @@
     </div>
 
 
-    <div class="row">
+    <div class="row" style="margin-top: 10%;">
         <div class="twelve column" style="">
             <!--            <h4 style="text-align: left"> Using real-images</h4>-->
             <!-- <p>
@@ -2627,7 +2631,7 @@
         let pelem = elements5.filter(d => d.torr === id[2] && d.tx === id[0] && d.ty === id[1])
         let lelem = elements6.filter(d => d.torr === id[2] && d.tx === id[0] && d.ty === id[1])
 
-        console.log(lelem);
+        // console.log(lelem);
 
         // lelem.attr("fill", "purple")
 
