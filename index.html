@@ -293,6 +293,24 @@
 
         }
 
+
+        input[type=checkbox] {
+            /* Double-sized Checkboxes */
+            -ms-transform: scale(2); /* IE */
+            -moz-transform: scale(2); /* FF */
+            -webkit-transform: scale(2); /* Safari and Chrome */
+            -o-transform: scale(2); /* Opera */
+            transform: scale(2);
+            padding: 10px;
+        }
+
+        /* Might want to wrap a span around your checkbox text */
+        .checkboxtext {
+            /* Checkbox text */
+            font-size: 110%;
+            display: inline;
+        }
+
     </style>
 
 </head>
@@ -546,10 +564,16 @@
                 <div class="salcon" style="position: absolute;left:140px;top: -2px" id="depthc">
                     <img src="" height="128" width="128" id="depthr">
 
-                    <button class="button salbt"
-                            style="margin-top: 20px;position: absolute;left:184px;top: 18%;z-index: 999">
-                        Saliency
-                    </button>
+                    <!--                    <button class="button salbt"-->
+                    <!--                            style="margin-top: 20px;position: absolute;left:184px;top: 18%;z-index: 999">-->
+                    <!--                        Saliency-->
+                    <!--                    </button>-->
+
+                    <div style="margin-top: 8px;position: absolute;right: -130px;top:26px;z-index: 999;text-align: center">
+                        <label>Saliency</label>
+                        <input type="checkbox" class="salbt" style="cursor: pointer;display: inline-block ">
+                    </div>
+
                 </div>
 
 
@@ -702,9 +726,13 @@
             <div style="position: relative;margin-top: 2%;text-decoration: #555555 underline;text-align: center;">
                 <p style="position: absolute;right:348px ;top:10px;width: 100px;text-anchor: middle">
                     Simulator</p>
-                <button class="button salbt" style="margin-top: 20px;position: absolute;right: 205px;top:-25px">
-                    Saliency
-                </button>
+                <!--                <button class="button salbt" style="margin-top: 20px;position: absolute;right: 205px;top:-25px">
+                                    Saliency
+                                </button>-->
+                <div style="margin-top: 8px;position: absolute;right: 232px;top:-25px;z-index: 999">
+                    <label>Saliency</label>
+                    <input type="checkbox" class="salbt" style="cursor: pointer">
+                </div>
                 <p style="position: absolute;right: 90px;top:10px;width: 100px;text-anchor: middle">
                     Noise</p>
             </div>
@@ -802,9 +830,10 @@
                     <div style="position: relative;margin-top: 2%;text-decoration: #555555 underline;text-align: center;margin-bottom: -10px">
                         <p style="position: absolute;right:348px ;top:120px;width: 100px;text-anchor: middle">
                             Simulator</p>
-                        <button class="button salbt" style="margin-top: 20px;position: absolute;right: 205px;top:85px">
-                            Saliency
-                        </button>
+                        <div style="margin-top: 8px;position: absolute;right: 232px;top:83px;z-index: 999">
+                            <label>Saliency</label>
+                            <input type="checkbox" class="salbt" style="cursor: pointer">
+                        </div>
                         <p style="position: absolute;right:90px ;top:120px;width: 100px;text-anchor: middle">
                             Noise</p>
                     </div>
@@ -1513,7 +1542,9 @@
         if (!salop) {
 
             $(".salon").css("opacity", "0")
+            $(".salbt").prop('checked', false);
         } else {
+            $(".salbt").prop('checked', true);
             $(".salon").css("opacity", "0.5")
         }
     })
@@ -2255,7 +2286,7 @@
         pelem.attr("r", d => {
             // const orr = -90 + (Math.atan2(proj_yscacle(d.py2) - proj_yscacle(d.py1), proj_xscacle(d.px2) - proj_xscacle(d.px1)) * (180 / Math.PI));
             // return "rotate(" + (orr) + " " + (proj_xscacle(d.px2) - 2) + " " + (proj_yscacle(d.py2) - 2) + ") translate(" + (proj_xscacle(d.px2) - 16) + "," + (proj_yscacle(d.py2) - 16) + ")  scale(1) "
-        return "12"
+            return "12"
         })
     }
 
