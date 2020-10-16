@@ -3155,8 +3155,7 @@
 
         elements.filter(d => {
             return euclidian_dist([loc_xscacle(d.px1), loc_yscacle(d.py1)], coords) > 24
-        }).transition().duration(5).attr("fill", (d) => colscale(euclidian_dist([proj_xscacle(d.px1), proj_yscacle(d.py1)], [proj_xscacle(d.px2), proj_yscacle(d.py2)])))
-
+        }).transition().duration(5).attr("fill", (d) => colscale(euclidian_dist([loc_xscacle(d.lx1), loc_yscacle(d.ly1)], [loc_xscacle(d.lx2), loc_yscacle(d.ly2)])))
 
         elements.each((d) => {
 
